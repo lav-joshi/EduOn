@@ -1,0 +1,69 @@
+<%- include('partials/header'); -%>
+<div class="container">
+    <div class="jumbotron">
+        <h3>Hello Everyone I am <%=currentUser.name%></h3>
+    </div>
+</div>
+<div class="container">
+    <div class="jumbotron">
+       <h2>Add Teachers Here</h2>
+        <form action="/superuser/teacher/add" method="POST">
+            <div class="form-group">
+            <label>Name:</label><br />
+            <input
+                type="text"
+                name="main[name]"
+            />
+            </div>
+
+            <div class="form-group">
+            <label>Email:</label><br />
+            <input
+                type="text"
+                name="main[email]"
+            />
+            </div>
+
+            <div class="form-group">
+                <br />
+                <button class="btn btn-primary blue-grey darken-1">Submit!</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="jumbotron">
+       <h2>Add Students Here</h2>
+        <form action="/superuser/student/add" method="POST">
+            <div class="form-group">
+            <label>Name:</label><br />
+            <input
+                type="text"
+                name="mains[name]"
+            />
+            </div>
+
+            <div class="form-group">
+            <label>Email:</label><br />
+            <input
+                type="text"
+                name="mains[email]"
+            />
+            </div>
+
+            <div class="form-group">
+                <br />
+                <button class="btn btn-primary blue-grey darken-1">Submit!</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+
+
+<%- include('partials/footer'); -%>

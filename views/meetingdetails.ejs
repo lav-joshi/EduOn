@@ -1,0 +1,41 @@
+<%- include('partials/header'); -%>
+<div class="container">
+    <div class="jumbotron">
+        <div>Room Id : <%=meeting.roomId%></div>
+        <div> Scheduled time : <%=moment(meeting.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%></div><br><br>
+        <h3>Allowed students</h3><br>
+        <% meeting.students.forEach(function(studentemail){%>
+           <%=studentemail%>
+           <%students.forEach(function(student){%>
+                <%if(student.email===studentemail){%>
+                    <div><%=student.name%></div>
+                <%}%>
+           <%})%>
+        <%})%>
+        <br><br>
+        
+        <p>Allow student to participate from below</p>
+        <form action="/teacher/dashboard/<%=meeting.roomId%>" method="POST">
+            <%students.forEach(function(student){%>
+                <%if(meeting.students.indexOf(student.email)===-1){%>
+                    <input type="checkbox" value="<%=student.email%>" name=main>
+                    <div>
+                        <%=student.name%>
+                    </div>
+                    <div>
+                        <%=student.email%>
+                    </div>
+                <%}%>
+            <%})%>
+            <input type="submit">
+        </form>
+    </div>
+</div>
+<script>
+    function my(hi) {
+        console.log(hi);
+        document.getElementsByClassName()
+   }
+</script>
+
+<%- include('partials/footer'); -%>

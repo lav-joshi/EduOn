@@ -1,0 +1,54 @@
+<%- include('partials/header'); -%>
+<div class="container">
+    <div class="jumbotron">
+        <h3>Hello <%=currentUser.name%></h3>
+    </div>
+</div>
+<div>
+    <form action="/teacher/meeting/add" method="POST">
+        <div>
+            <label>Name:</label><br />
+                <input
+                type="text"
+                name="meeting[admin]"
+                value="<%=currentUser.name%>"
+                readonly
+            />
+        </div>
+        <div class="form-group">
+            <label>Email:</label><br />
+            <input
+              type="text"
+              name="meeting[email]"
+              value="<%=currentUser.email%>"
+              readonly
+            />
+        </div>
+        <div class="form-group">
+            <label>Create you personalised Room ID</label><br />
+            <input
+              type="text"
+              name="meeting[roomId]"
+            />
+        </div>
+        <div class="form-group">
+          <label for="meeting">Schedule a Meeting</label>
+          <input type="datetime-local" id="birthdaytime" name="meeting[scheduledTime]">
+        </div>
+
+        <div class="form-group">
+          <input type="submit">
+        </div>
+    </form>
+</div>
+<div>
+    <h2>Your meetings</h2>
+    <%meetings.forEach(function(meeting){%>
+      <div>
+          Scheduled time : <%=moment(meeting.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
+          Room id : <%=meeting.roomId%><br>
+          <a href="/teacher/dashboard/<%=meeting.roomId%>">Click for settings</a>
+      </div>
+    <%})%>
+</div>
+<%- include('partials/footer'); -%>

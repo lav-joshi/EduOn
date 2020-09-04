@@ -1,0 +1,49 @@
+<%- include('partials/header'); -%>
+
+
+<div class="container">
+    <div class="jumbotron">
+        <h3>Hello <%=currentUser.name%></h3>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="jumbotron">
+        <%msg.forEach(function(err){%>
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              <%=err%>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+        <%})%>   
+        <div>
+            <form action="/student/dashboard/enter" method="POST">
+                <input type="text" required placeholder="Enter roomid to Join" name="room">
+                <input type="submit">
+            </form>
+        </div>     
+    </div>
+</div>
+<!-- <div id="container">
+    <div id="start">Start Quiz!</div>
+    <div id="quiz" style="display: none">
+        <div id="question"></div>
+        <div id="qImg"></div>
+        <div id="choices">
+            <div class="choice" id="A" onclick="checkAnswer('A')"></div>
+            <div class="choice" id="B" onclick="checkAnswer('B')"></div>
+            <div class="choice" id="C" onclick="checkAnswer('C')"></div>
+        </div>
+        <div id="timer">
+            <div id="counter"></div>
+            <div id="btimeGauge"></div>
+            <div id="timeGauge"></div>
+        </div>
+        <div id="progress"></div>
+    </div>
+    <div id="scoreContainer" style="display: none"></div>
+</div> -->
+
+<%- include('partials/footer'); -%>

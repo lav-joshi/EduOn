@@ -1,1 +1,2 @@
-# EduOn
+# EDUTHON
+Education Portal
