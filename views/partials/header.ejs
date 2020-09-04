@@ -8,7 +8,12 @@
       integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
       crossorigin="anonymous"
     />
-
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
     <!-- JS, Popper.js, and jQuery -->
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -37,9 +42,15 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
     <link rel="stylesheet" href="/header.css" />
+    <link rel="stylesheet" href="/su.css" />
+    <div class="preloader">
+      <%- include('../../assets/svg/eduon-logo.svg') %>
+    </div>
   </head>
+  
   <div class="bg-images">
     <div class="shade"></div>
     <div class="logo-cont">
@@ -53,12 +64,21 @@
   </div>
   <nav>
     <ul class="nav-links">
+      <div class="m-3">
+        EduOn
+      </div>
       <li class="active"><a href="#">Home</a></li>
       <li><a href="#">About</a></li>
       <li><a href="#">Contact</a></li>
       <li><a href="#room">Room</a></li>
+      <div>
+        <%if(!currentUser){%>
+        <a style="color: black;" href="/auth/google">Sign Up/Login with G+</a>
+        <%}else{%>
+        <a style="color: black;" href="/auth/logout">LogOut</a>
+        <%}%>
+      </div>
     </ul>
-    <span class="icon-facebook"></span>
   </nav>
 
   <div class="log-sign">
@@ -69,4 +89,12 @@
     <a href="/auth/logout">LogOut</a>
     <%}%>
   </div>
+  <script>
+    window.addEventListener('load', () => {
+      var preloader = document.querySelector('.preloader');
+      setTimeout(() => {
+        preloader.classList.add('preload-finish');
+      }, 1000)
+    });
+  </script>
 </html>

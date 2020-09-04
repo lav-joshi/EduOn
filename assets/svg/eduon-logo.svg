@@ -1,0 +1,57 @@
+<svg
+      id="eduon-logo"
+      width="310"
+      height="107"
+      viewBox="0 0 410 107"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        stroke="url(#paint0_linear)"
+        stroke-width="5"
+        d="M15.36 60.64V93.04H58.416V106H0.959961V5.2H58.416V18.16H15.36V47.68H49.776V60.64H15.36Z"
+      />
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        stroke="url(#paint0_linear)"
+        stroke-width="5"
+        d="M93.849 33.28H115.593L125.817 39.184V0.880005H139.785V106.72H129.273L125.817 100.816L115.593 106.72H93.849L77.145 97.072V42.928L93.849 33.28ZM125.817 94.192V45.808H91.113V94.192H125.817Z"
+      />
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        stroke="url(#paint0_linear)"
+        stroke-width="5"
+        d="M162.786 97.072V34H176.754V94.192H210.018V34H223.986V106.72H213.474L210.018 100.816L199.794 106.72H179.49L162.786 97.072Z"
+      />
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        stroke="url(#paint0_linear)"
+        stroke-width="5"
+        d="M324.06 97.072L307.356 106.72H265.164L248.46 97.072V14.128L265.164 4.48H307.356L324.06 14.128V97.072ZM262.86 17.44V93.76H309.66V17.44H262.86Z"
+      />
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        stroke="url(#paint0_linear)"
+        stroke-width="5"
+        d="M409.751 42.928V106H395.783V45.808H362.519V106H348.551V33.28H359.063L362.519 39.184L372.743 33.28H393.047L409.751 42.928Z"
+      />
+      <defs>
+        <linearGradient
+          id="paint0_linear"
+          x1="215"
+          y1="-10.5"
+          x2="215"
+          y2="131"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop offset="0.00520833" stop-color="#009FC2" />
+          <stop offset="1" stop-opacity="0" />
+        </linearGradient>
+      </defs>
+    </svg>

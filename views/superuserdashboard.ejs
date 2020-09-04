@@ -1,23 +1,67 @@
-<%- include('partials/header'); -%> 
-<div class="svg-SU">
-    <h3>WELCOME!</h3>
-<%- include('../assets/svg/superUsergrant.svg'); -%>
+<%- include('partials/header'); -%>
+<div class="svg-SU mb-5 p-5">
+  <h3>WELCOME!</h3>
+  <div class="aBtns p-3 mb-5">
+    <a
+      class="waves-effect waves-light btn white-text"
+      style="background-color: #0e9aa7 !important;"
+      href="#aT"
+      >Add Teachers</a
+    ><a
+      class="waves-effect waves-light btn"
+      style="background-color: #ffcb74 !important;"
+      href="#aS"
+      >Add students</a
+    >
+  </div>
 
+  <%- include('../assets/svg/superUsergrant.svg'); -%>
 </div>
 <div class="card-container">
-  <div class="each-card">
+  <div class="each-card text-center" id="aT">
     <div class="col s12 m6">
-      <div class="card blue-grey darken-1">
+      <div class="card" style="background-color: #0e9aa7 !important;">
         <div class="card-content white-text">
-          <h2>Add Teachers Here</h2>
+          <h2>Add Teachers</h2>
+          <div class="frm-icn"><i class="fas fa-chalkboard-teacher"></i></div>
           <form action="/superuser/teacher/add" method="POST">
-            <div class="form-group">
-              <label>Name:</label><br />
-              <input type="text" name="main[name]" />
-              <label>Email:</label><br />
-              <input type="text" name="main[email]" />
-              <br />
-              <button class="btn btn-primary blue-grey darken-1">
+            <div class="form-group white-text">
+              <div class="input-field col s6">
+                <input
+                  id="last_name"
+                  type="text"
+                  class="validate white-text"
+                  style="border-color: white;"
+                  name="main[name]"
+                  required
+                />
+                <label
+                  for="last_name"
+                  class="white-text"
+                  style="pointer-events: none;"
+                  >Name:</label
+                >
+              </div>
+              <div class="input-field col s6">
+                <input
+                  id="last_name"
+                  type="text"
+                  class="validate white-text"
+                  style="border-color: white;"
+                  name="main[email]"
+                  required
+                />
+                <label
+                  for="last_name"
+                  class="white-text"
+                  style="pointer-events: none;"
+                  >Email:</label
+                >
+              </div>
+              <button
+                class="btn btn-primary white darken-1"
+                style="color: #07031a;"
+              >
                 Submit!
               </button>
             </div>
@@ -26,32 +70,81 @@
       </div>
     </div>
   </div>
-    <div class="each-card">
-      <div class="col s12 m6">
-        <div class="card blue-grey darken-1">
-          <div class="card-content white-text">
-            <h2>Add Students Here</h2>
-            <form action="/superuser/student/add" method="POST">
-                <div class="form-group">
-                <label>Name:</label><br />
-                <input type="text" name="mains[name]" />
-                <label>Email:</label><br />
-                <input type="text" name="mains[email]" />
-                <br />
-                <button class="btn btn-primary blue-grey darken-1">Submit!</button>
-                </div>
-            </form>
+  <div class="each-card text-center" id="aS">
+    <div class="col s12 m6">
+      <div class="card" style="background-color: #ffcb74 !important;">
+        <div class="card-content white-text">
+          <h2>Add Students</h2>
+          <div class="frm-icn" style="background-color: #ffcb74;">
+            <i class="fas fa-user-graduate"></i>
           </div>
+          <form action="/superuser/student/add" method="POST">
+            <div class="form-group white-text">
+              <div class="input-field col s6">
+                <input
+                  id="last_name"
+                  type="text"
+                  class="validate white-text"
+                  style="border-color: white;"
+                  name="main[name]"
+                  required
+                />
+                <label
+                  for="last_name"
+                  class="white-text"
+                  style="pointer-events: none;"
+                  >Name:</label
+                >
+              </div>
+              <div class="input-field col s6">
+                <input
+                  id="last_name"
+                  type="text"
+                  class="validate white-text"
+                  style="border-color: white;"
+                  name="main[email]"
+                  required
+                />
+                <label
+                  for="last_name"
+                  class="white-text"
+                  style="pointer-events: none;"
+                  >Email:</label
+                >
+              </div>
+              <button
+                class="btn btn-primary white darken-1"
+                style="color: #07031a;"
+              >
+                Submit!
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
-
 </div>
-  <%- include('partials/footer'); -%>
+
+<%- include('partials/footer'); -%>
 <script defer>
-    var plant  = document.querySelectorAll('#plant path');
-    plant.forEach(path => {
-        path.style.fill= '#62760c'
-    })
+  var plant = document.querySelectorAll('#plant path');
+  plant.forEach((path) => {
+    path.style.fill = '#62760c';
+  });
+  var navbar = document.querySelector('nav');
+  var sticky = navbar.offsetTop;
+  var logo = document.querySelectorAll('.nav-links div');
+  window.addEventListener('scroll', () => {
+    if (window.pageYOffset >= sticky) {
+      navbar.classList.add('sticky');
+      logo[0].classList.add('logo-nav');
+      logo[1].classList.add('logo-nav');
+    } else {
+      navbar.classList.remove('sticky');
+      logo[0].classList.remove('logo-nav');
+      logo[1].classList.remove('logo-nav');
+
+    }
+  });
 </script>
