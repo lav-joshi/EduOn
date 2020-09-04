@@ -1,0 +1,107 @@
+<%- include('partials/header'); -%>
+
+
+<div class="container">
+    <div class="jumbotron">
+        Welcome <%=currentUser.name%> 
+        <h5>Organized by <%=discussion.admin%></h5>
+        <h5>Room Id:- <%=discussion.roomId%></h5>
+    </div>
+</div>
+<div class="container">
+    <h4>Chatbox</h4> 
+        <div>
+            <div id="sidebar" class="chat__sidebar">
+    
+            </div>
+    
+            <div>
+                <div id="messages"> 
+                    <%texts.forEach((per)=>{%>
+                      <div>
+                          <%=per.username%><%=moment(per.createdAt).format('D-M-YYYY h:mm a')%>
+                          <br/>
+                          <%=per.message%>
+                      </div>
+                    <%})%>
+                </div>
+    
+                <div>
+                    <form id="message-form">
+                        <input type="hidden" id="roomId" value="<%=discussion.roomId%>" name="roomId" type="text">
+                        <input type="hidden" id="username" value="<%=currentUser.name%>" name="username" type="text">
+
+                        <input name="message" id="ip" type="text" placeholder="Message" required autocomplete="off">
+                        <button id="but">Send</button>
+                    </form>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+<script id="message-template" type="text/html">
+    <div>
+        {{username}}  {{createdAt}}
+        <br/>
+        {{message}}
+    </div>
+</script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
+
+<script>
+
+    const socket=io();
+    const $messageForm=document.querySelector("#message-form");
+    const $messageFormInput = $messageForm.querySelector('#ip');
+    const $messageFormButton = $messageForm.querySelector('#but');
+    const $messages=document.querySelector('#messages');
+    const x= Qs.parse(location.search,{ignoreQueryPrefix:true});
+    const useremail=x.user;
+    const room=x.room;
+    console.log(useremail);
+    console.log(room);
+    const messageTemplate=document.querySelector('#message-template').innerHTML;
+
+    socket.emit('join',{useremail,room},(error)=>{
+        if(error){
+            alert(error);
+            location.href="/student/dashboard";
+        }
+    });
+
+    socket.on('message',(msg)=>{
+        const html = Mustache.render(messageTemplate,{
+            message:msg.message,
+            username:msg.username,
+            roomId : msg.roomId,
+            createdAt:moment(msg.createdAt).format('D-M-YYYY h:mm a')
+        });
+        $messages.insertAdjacentHTML('beforeend',html);
+    });
+
+    $messageForm.addEventListener('submit',(e)=>{
+       e.preventDefault();
+       const message = e.target.elements.message.value;
+       const roomId = e.target.elements.roomId.value;
+       const username = e.target.elements.username.value;
+
+       socket.emit('sendMessage',{
+           message,
+           roomId,
+           username
+       },(error)=>{
+            $messageFormButton.removeAttribute('disabled');
+            $messageFormInput.value="";
+            $messageFormInput.focus();
+            if(error){
+                return console.log(error);
+            }
+            console.log("Message delivered");
+        });
+});
+  
+</script>
+
+
+<%- include('partials/footer'); -%>

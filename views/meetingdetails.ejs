@@ -18,7 +18,7 @@
         <form action="/teacher/dashboard/<%=meeting.roomId%>" method="POST">
             <%students.forEach(function(student){%>
                 <%if(meeting.students.indexOf(student.email)===-1){%>
-                    <input type="checkbox" value="<%=student.email%>" name=main>
+                    <input type="checkbox" style="opacity:1;pointer-events:auto;position: relative;" value="<%=student.email%>" name=main>
                     <div>
                         <%=student.name%>
                     </div>

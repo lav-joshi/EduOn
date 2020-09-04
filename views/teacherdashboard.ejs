@@ -5,6 +5,7 @@
     </div>
 </div>
 <div>
+  <h2>Schedule Test</h2>
     <form action="/teacher/meeting/add" method="POST">
         <div>
             <label>Name:</label><br />
@@ -25,14 +26,15 @@
             />
         </div>
         <div class="form-group">
-            <label>Create you personalised Room ID</label><br />
+            <label>Create you personalised Room for Test</label><br />
             <input
               type="text"
               name="meeting[roomId]"
+              placeholder="RoomId"
             />
         </div>
         <div class="form-group">
-          <label for="meeting">Schedule a Meeting</label>
+          <label for="meeting">Schedule a Test</label>
           <input type="datetime-local" id="birthdaytime" name="meeting[scheduledTime]">
         </div>
 
@@ -42,7 +44,7 @@
     </form>
 </div>
 <div>
-    <h2>Your meetings</h2>
+    <h2>Your Scheduled Tests</h2>
     <%meetings.forEach(function(meeting){%>
       <div>
           Scheduled time : <%=moment(meeting.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
@@ -50,5 +52,65 @@
           <a href="/teacher/dashboard/<%=meeting.roomId%>">Click for settings</a>
       </div>
     <%})%>
+</div>
+
+
+
+<div>
+  <h2>Schedule Discussion</h2>
+  <form action="/teacher/discussion/add" method="POST">
+      <div>
+          <label>Name:</label><br />
+              <input
+              type="text"
+              name="discussion[admin]"
+              value="<%=currentUser.name%>"
+              readonly
+          />
+      </div>
+      <div class="form-group">
+          <label>Email:</label><br />
+          <input
+            type="text"
+            name="discussion[email]"
+            value="<%=currentUser.email%>"
+            readonly
+          />
+      </div>
+      <div class="form-group">
+          <label>Create you personalised Room for Discussion</label><br />
+          <input
+            type="text"
+            name="discussion[roomId]"
+            placeholder="RoomId"
+          />
+      </div>
+      <div class="form-group">
+        <label for="meeting">Schedule a Discussion</label>
+        <input type="datetime-local" id="birthdaytime" name="discussion[scheduledTime]">
+      </div>
+
+      <div class="form-group">
+        <input type="submit">
+      </div>
+  </form>
+
+</div>
+
+<div>
+  <h2>Your Scheduled Discussions</h2>
+  <%discussions.forEach(function(discussion){%>
+    <div>
+        Scheduled time : <%=moment(discussion.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
+        Room id : <%=discussion.roomId%><br>
+        <a href="/teacher/dashboard/enter/discussion?room=<%=discussion.roomId%>&user=<%=currentUser.email%>">Click for settings</a>
+    </div>
+  <%})%>
+</div>
+
+
+
+<div>
+
 </div>
 <%- include('partials/footer'); -%>
