@@ -25,7 +25,7 @@ router.post("/dashboard/enter",auth,async (req,res)=>{
             // Issue number 1
             res.redirect("/student/dashboard");
         }else{
-            res.render("studentroom",{currentUser:req.user,clientType:req.session.client});
+            res.render("studentroom",{currentUser:req.user,clientType:req.session.client,meeting:meeting});
         }
     });
 });

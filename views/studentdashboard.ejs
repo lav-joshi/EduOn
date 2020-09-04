@@ -10,14 +10,7 @@
 
 <div class="container">
     <div class="jumbotron">
-        <%msg.forEach(function(err){%>
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-              <%=err%>
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-        <%})%>   
+    
         <div>
             <form action="/student/dashboard/enter" method="POST">
                 <input type="text" required placeholder="Enter roomid to Join" name="room">
