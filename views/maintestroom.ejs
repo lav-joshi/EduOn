@@ -1,0 +1,124 @@
+<%- include('partials/header'); -%>
+<div class="container">
+    <div class="jumbotron">
+        <p id="length" hidden><%=length%></p>
+        <div id="container">
+            
+            <div id="repl"><%=repl%></div>
+            <%if(repl!="Test Over . LeaderBoard will be generated after all participants will finish the test"){%>
+                <div id="quiz">
+                    <div>
+                        <p>Question <span id="runningquestion"><%=runningquestion%></span></p> 
+                        <div id="question"><%=question1.question%></div>
+                    </div>
+                    <div id="options">
+                        <form>
+                            <input type="radio" id="A" name="one" value="<%=question1.option1%>" style="position: relative;opacity:1;pointer-events: auto;">
+                            <label id="AA"><%=question1.option1%></label><br>
+                            <input type="radio" id="B" name="one" value="<%=question1.option2%>" style="position: relative;opacity:1;pointer-events: auto;">
+                            <label id="BB"><%=question1.option2%></label><br>
+                            <input type="radio" id="C" name="one" value="<%=question1.option3%>" style="position: relative;opacity:1;pointer-events: auto;">
+                            <label id="CC"><%=question1.option3%></label><br>
+                            <input type="radio" id="D" name="one" value="<%=question1.option4%>" style="position: relative;opacity:1;pointer-events: auto;">
+                            <label id="DD"><%=question1.option4%></label>
+                        </form>
+                    </div>
+                </div>
+            <%}%>
+            
+        </div>
+    </div>
+</div>
+
+<script>
+  
+    const start = document.getElementById("start");
+    const quiz = document.getElementById("quiz");
+    const question = document.getElementById("question");
+    const optionA = document.getElementById("A");
+    const optionB = document.getElementById("B");
+    const optionC = document.getElementById("C");
+    const optionD = document.getElementById("D");
+    const optionAA = document.getElementById("AA");
+    const optionBB = document.getElementById("BB");
+    const optionCC = document.getElementById("CC");
+    const optionDD = document.getElementById("DD");
+    const counter = document.getElementById("counter");
+    const timeGauge = document.getElementById("timeGauge"); 
+    const progress = document.getElementById("progress");
+    const length = document.getElementById("length");
+    const time = document.getElementById("time");
+    const repl=document.getElementById("repl");
+    const currentQuestion = document.getElementById("runningquestion");
+
+    const questionTime=50000;
+
+    const main=()=>{
+         
+        if(document.getElementById('A').checked){
+            fetch(`/student/dashboard/updatemarks/<%=meeting.roomId%>/<%=currentUser.email%>/`+question.textContent+`/`+optionAA.textContent)
+            .then((response)=>{
+                response.json().then((data)=>{
+                    
+                });
+            });
+            document.getElementById('A').checked=false;
+        }else if(document.getElementById('B').checked){
+            fetch(`/student/dashboard/updatemarks/<%=meeting.roomId%>/<%=currentUser.email%>/`+question.textContent+`/`+optionBB.textContent)
+            .then((response)=>{
+                response.json().then((data)=>{
+                   
+                });
+            });
+            document.getElementById('B').checked=false;
+        }else if(document.getElementById('C').checked){
+            fetch(`/student/dashboard/updatemarks/<%=meeting.roomId%>/<%=currentUser.email%>/`+question.textContent+`/`+optionCC.textContent)
+            .then((response)=>{
+                response.json().then((data)=>{
+                    
+                });
+            });
+            document.getElementById('C').checked=false;
+
+        }else if(document.getElementById('D').checked){
+            fetch(`/student/dashboard/updatemarks/<%=meeting.roomId%>/<%=currentUser.email%>/`+question.textContent+`/`+optionDD.textContent)
+            .then((response)=>{ 
+                response.json().then((data)=>{
+                    
+                });
+            });            
+            document.getElementById('D').checked=false;
+        }
+        
+
+        if(Number(currentQuestion.textContent)<Number(length.textContent)){
+            currentQuestion.textContent++;
+            //Updating Question Number
+            fetch(`/student/dashboard/updatequestionnumber/<%=meeting.roomId%>/<%=currentUser.email%>/${currentQuestion.textContent}`)
+            .then(response=>{
+             
+            });
+            //Updating Question DOM
+            fetch(`/student/dashboard/getquestion/<%=meeting.roomId%>/<%=currentUser.email%>/${currentQuestion.textContent}`).then(response=>{
+                response.json().then((data)=>{
+                        console.log(data);
+                        question.innerHTML = data.questionname
+                        optionAA.innerHTML = data.optionA;
+                        optionBB.innerHTML = data.optionB;
+                        optionCC.innerHTML = data.optionC;
+                        optionDD.innerHTML = data.optionD;
+                });
+            });
+        }else{
+            repl.innerHTML="Test Over . LeaderBoard will be generated after all participants will finish the test";
+            quiz.style.display="none";
+        }
+        
+      
+}
+
+    setInterval(main,5000);  
+
+</script>
+
+<%- include('partials/footer'); -%>

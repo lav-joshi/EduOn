@@ -71,7 +71,7 @@ io.on('connection',(socket)=>{
           discussion.socketids.forEach((id)=>{
             io.to(id).emit('message',msg);
           });
-        })
+        });
       callback();
     });
 

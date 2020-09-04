@@ -1,6 +1,5 @@
 <%- include('partials/header'); -%>
 
-
 <div class="container">
     <div class="jumbotron">
         <h3>Hello <%=currentUser.name%></h3>
@@ -8,11 +7,16 @@
 </div>
 
 
+<%errors.forEach((err)=>{%>
+    <p><%=err%></p>
+<%})%>
+
 <div class="container">
     <div class="jumbotron">
         <h5>Enter Room Id for Scheduled Test</h5>
         <div>
-            <form action="/student/dashboard/test/enter" method="POST">
+            <form action="/student/dashboard/test/enter" method="GET">
+                <input type="text" required hidden value="1" name="f">
                 <input type="text" required placeholder="Enter roomid to Join" name="room">
                 <input type="submit">
             </form>
@@ -33,24 +37,17 @@
         </div>     
     </div>
 </div>
-<!-- <div id="container">
-    <div id="start">Start Quiz!</div>
-    <div id="quiz" style="display: none">
-        <div id="question"></div>
-        <div id="qImg"></div>
-        <div id="choices">
-            <div class="choice" id="A" onclick="checkAnswer('A')"></div>
-            <div class="choice" id="B" onclick="checkAnswer('B')"></div>
-            <div class="choice" id="C" onclick="checkAnswer('C')"></div>
-        </div>
-        <div id="timer">
-            <div id="counter"></div>
-            <div id="btimeGauge"></div>
-            <div id="timeGauge"></div>
-        </div>
-        <div id="progress"></div>
-    </div>
-    <div id="scoreContainer" style="display: none"></div>
-</div> -->
+
+<script>
+    if (window.performance) {
+        
+        }
+        if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+        location.href="http://localhost:3000/student/dashboard?f=1"
+        } else {
+    }
+</script>
+
+
 
 <%- include('partials/footer'); -%>

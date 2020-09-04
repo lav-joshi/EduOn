@@ -46,11 +46,7 @@
 
     <link rel="stylesheet" href="/header.css" />
     <link rel="stylesheet" href="/su.css" />
-    <div class="preloader">
-      <%- include('../../assets/svg/eduon-logo.svg') %>
-    </div>
   </head>
-  
   <div class="bg-images">
     <div class="shade"></div>
     <div class="logo-cont">
@@ -73,7 +69,7 @@
       <li><a href="#room">Room</a></li>
       <div>
         <%if(!currentUser){%>
-        <a style="color: black;" href="/auth/google">Sign Up/Login with G+</a>
+        <a style="color: black; " href="/auth/google">Sign Up/Login with G+</a>
         <%}else{%>
         <a style="color: black;" href="/auth/logout">LogOut</a>
         <%}%>
@@ -89,12 +85,4 @@
     <a href="/auth/logout">LogOut</a>
     <%}%>
   </div>
-  <script>
-    window.addEventListener('load', () => {
-      var preloader = document.querySelector('.preloader');
-      setTimeout(() => {
-        preloader.classList.add('preload-finish');
-      }, 1000)
-    });
-  </script>
 </html>

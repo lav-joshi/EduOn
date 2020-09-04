@@ -1,5 +1,5 @@
 # Education Portal
-Education Prtal based on **Node.js**  with custom **Student and Teacher Dashboard** with many functionalities .
+Education Portal based on **Node.js**  with custom **Student and Teacher Dashboard** with many functionalities .
 ## Instructions for Setup:
 1. Download the zip file and extract it to a New Folder.
 2. Open terminal and navigate to the folder.

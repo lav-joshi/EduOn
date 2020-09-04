@@ -6,7 +6,7 @@ const Teacher = require("../../models/Teacher");
 const SuperUser = require("../../models/SuperUser");
 const Meeting = require("../../models/Meeting");
 const Discussion= require("../../models/Discussion");
-
+const schedule = require("node-schedule");
 const nodemailer=require("nodemailer");
 const router = express.Router();
 
@@ -14,8 +14,8 @@ const transporter = nodemailer.createTransport({
     service:'gmail',
     auth:{
         user:'joshilav18032002@gmail.com',
-        pass:'lav@joshi10566'
-    }
+        pass:'Lavjoshi@1056'
+    }  
 });
 
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -43,17 +43,64 @@ router.post("/meeting/add",auth,(req,res)=>{
     });
 });
 
+
+router.post("/meeting/updatetiming/:roomid",auth,(req,res)=>{
+    console.log(req.body.editscheduledtime);
+    Meeting.findOne({roomId:req.params.roomid},async(err,meeting)=>{
+      if(meeting.email == req.user.email){
+          console.log("fuck");
+        meeting.scheduledTime=req.body.editscheduledtime;
+        await meeting.save();
+      }
+    });
+
+    res.redirect("/teacher/dashboard/"+req.params.roomid);
+});
+
+router.get("/dashboard/delete/student/:roomid/:email",auth,async (req,res)=>{
+  Meeting.findOne({roomId:req.params.roomid},async(err,meeting)=>{
+      if(err || !meeting){
+         res.redirect("/teacher/dashboard/"+req.params.roomid)
+      }else if(meeting.email == req.user.email){
+          let x=meeting.students.indexOf(req.params.email);
+          if(x!==-1){
+              meeting.students.splice(x,1);
+              await meeting.save();
+          }
+          res.redirect("/teacher/dashboard/"+req.params.roomid)
+      }
+  })
+})
+
 router.get("/dashboard/:roomId",auth,(req,res)=>{
-    Meeting.findOne({roomId:req.params.roomId},async (err,meeting)=>{
-      Student.find({},async (err,students)=>{
+    Meeting.findOne({roomId:req.params.roomId},async(err,meeting)=>{
+      Student.find({},async(err,students)=>{
         res.render("meetingdetails",{currentUser:req.user,
                                      clientType:req.session.client,
                                      meeting:meeting,
-                                     students:students});
+                                     students:students,
+                                     questions:meeting.questions});
       });
-    });
+    });  
 });
 
+router.post("/dashboard/question/:roomId",auth,(req,res)=>{
+   
+    Meeting.findOne({roomId:req.params.roomId},async(err,meeting)=>{
+        meeting.questions.push(req.body);
+        await meeting.save();
+    })
+    res.redirect("/teacher/dashboard/"+req.params.roomId);
+});
+
+router.get("/dashboard/question/delete/:ques/:roomId",auth,async(req,res)=>{
+  Meeting.findOne({roomId:req.params.roomId},async (err,meeting)=>{
+    const index = meeting.questions.findIndex(x => x.question === req.params.question);
+    meeting.questions.splice(index,1);
+    await meeting.save();
+  });
+  res.redirect("/teacher/dashboard/"+req.params.roomId);
+});
 
 router.post("/dashboard/:roomId",auth,async (req,res)=>{
 
@@ -62,10 +109,57 @@ router.post("/dashboard/:roomId",auth,async (req,res)=>{
         if(Array.isArray(req.body.main)){
             meeting.students=await meeting.students.concat(req.body.main);
             await meeting.save();
-            req.body.main.forEach(student => {
+            // req.body.main.forEach(student => {
+            //     var mailOptions ={
+            //         from:'joshilav18032002@gmail.com',
+            //         to:student,
+            //         subject:"Hi , testing purpose",
+            //         text: meeting.admin+" invites youto give the scheduled exam with roomId "+meeting.roomId+" at timings "
+            //     };
+            //     transporter.sendMail(mailOptions,function(err,info){
+            //         if(err){
+            //             console.log(err)
+            //         }else{
+            //             console.log("Email Sent");
+            //         }
+            //     });
+            // });
+        }
+        else{
+            await meeting.students.push(req.body.main);
+            await meeting.save();
+            // var mailOptions ={
+            //     from:'joshilav18032002@gmail.com',
+            //     to:req.body.main,
+            //     subject:"Hi , testing purpose",
+            //     text: meeting.admin+" invites youto give the scheduled exam with roomId "+meeting.roomId+" at timings "
+            // };
+            // transporter.sendMail(mailOptions,function(err,info){
+            //     if(err){
+            //         console.log(err)
+            //     }else{
+            //         console.log("Email Sent");
+            //     }
+            // });
+        }
+       }catch(e){
+           console.log(e);
+       } 
+     
+   });
+   res.redirect("/teacher/dashboard/"+req.params.roomId);
+});
+
+
+router.get("/dashboard/meeting/sendmail/:roomid/:email",auth,(req,res)=>{
+    Meeting.findOne({roomId:req.params.roomid},(err,meeting)=>{
+        if(err){
+            res.redirect("/teacher/dashboard/"+req.params.roomid);
+        }else if(req.params.email == meeting.email){
+            meeting.students.forEach((stud)=>{
                 var mailOptions ={
                     from:'joshilav18032002@gmail.com',
-                    to:student,
+                    to:stud,
                     subject:"Hi , testing purpose",
                     text: meeting.admin+" invites youto give the scheduled exam with roomId "+meeting.roomId+" at timings "
                 };
@@ -77,31 +171,52 @@ router.post("/dashboard/:roomId",auth,async (req,res)=>{
                     }
                 });
             });
+            res.redirect("/teacher/dashboard/"+req.params.roomid);
         }
-        else{
-            await meeting.students.push(req.body.main);
-            await meeting.save();
-            var mailOptions ={
-                from:'joshilav18032002@gmail.com',
-                to:req.body.main,
-                subject:"Hi , testing purpose",
-                text: meeting.admin+" invites youto give the scheduled exam with roomId "+meeting.roomId+" at timings "
-            };
-            transporter.sendMail(mailOptions,function(err,info){
-                if(err){
-                    console.log(err)
-                }else{
-                    console.log("Email Sent");
-                }
-            });
-        }
-       }catch(e){
-           console.log(e);
-       } 
-     
-   });
-   res.redirect("/teacher/dashboard/"+req.params.roomId);
+    });
 });
+
+router.get("/dashboard/leaderboard/:roomid",auth,(req,res)=>{
+    Meeting.findOne({roomId:req.params.roomid},async(err,meeting)=>{
+        let students=meeting.students;
+        let totalmarks=[];
+        for(var i=0;i<students.length;i++){
+          totalmarks.push(0);
+        }
+        let arr=[];
+         meeting.questions.forEach((p,i)=>{
+           let x=[];
+           meeting.intestdetails.forEach((q,j)=>{
+             q.ques.forEach((r,k)=>{
+                 if(r.question == p.question && q.correct[k]==1){
+                    x.push(q.email);
+                 }
+             });
+           });
+
+           x.forEach((y)=>{
+               students.forEach((st,p)=>{
+                   if(st==y){
+                       totalmarks[p]=totalmarks[p]+1;
+                   }
+               })
+           });
+           arr.push(x);
+         });
+       
+
+       res.send({students:students,totalmarks:totalmarks,arr:arr});
+   });
+})
+
+
+
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+  //Discussion Routes
+/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 
 
 router.post("/discussion/add",auth,(req,res)=>{
@@ -114,6 +229,7 @@ router.post("/discussion/add",auth,(req,res)=>{
     });
 })
 
+
 router.get("/dashboard/enter/discussion",auth,(req,res)=>{
     Discussion.findOne({roomId:req.query.room},async (err,discussion)=>{
         Student.find({},async (err,students)=>{
@@ -125,8 +241,6 @@ router.get("/dashboard/enter/discussion",auth,(req,res)=>{
         });
       });
 });
-
-
 
 
 router.post("/dashboard/discussion/:roomId",auth,async(req,res)=>{
