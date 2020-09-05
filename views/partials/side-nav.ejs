@@ -5,7 +5,7 @@
     <title>EduOn</title>
     <link rel="stylesheet" href="/side-nav.css" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <!-- <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" /> -->
     <meta http-equiv="X-UA-Compatible" content="IE=7" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
@@ -53,6 +53,7 @@
       rel="stylesheet"
     />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 
     <link rel="stylesheet" href="/header.css" />
     <link rel="stylesheet" href="/su.css" />
@@ -95,31 +96,31 @@
       </center>
       <% if( clientType === 'teacher') { %>
       <div id="teacher-nav"></div>
-      <% } else if (clientType === 'admin'){ %>
-      <div id="admin-nav"></div>
+      <% } else if (clientType === 'student'){ %>
+      <div id="student-nav"></div>
 
       <% } else{ %>
-      <div id="student-nav"></div>
+      <div id="admin-nav"></div>
       <% } %>
     </div>
+    <button class="navbar-toggler first-button" type="button">
+      <div class="animated-icon1">
+        <span></span><span></span><span></span>
+      </div>
+    </button>
     <div class="mobile-sidebar">
-      <button class="navbar-toggler first-button" type="button">
-        <div class="animated-icon1">
-          <span></span><span></span><span></span>
-        </div>
-      </button>
       <div class="mob-sidebar">
-        <center style="margin-left: -50px;">
+        <center>
           <i class="material-icons" style="font-size: 40px;">account_circle</i>
-          <h5><%=currentUser.name%></h5>
+          <h5><%=currentUser.name%></h5>  
         </center>
         <% if( clientType === 'teacher') { %>
         <div id="teacher-nav"></div>
-        <% } else if (clientType === 'admin'){ %>
-        <div id="admin-nav"></div>
+        <% } else if (clientType === 'student'){ %>
+        <div id="student-nav"></div>
 
         <% } else{ %>
-        <div id="student-nav"></div>
+        <div id="admin-nav"></div>
         <% } %>
         <a href="/auth/logout"
           ><i class="fas fa-sign-out-alt"></i><span>Logout</span></a

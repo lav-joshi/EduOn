@@ -1,14 +1,33 @@
 <%- include('partials/side-nav'); -%>
 
-<div class="side-nav-content">
+<div class="side-nav-content p-3">
   <div class="container">
     <div class="jumbotron">
       <h2>My Profile</h2>
       <%=currentUser.email%> <%=present%> <%=test%>
-      <%totalpercentagepresentinclass%>
+    </div>
+  </div>
+  <canvas id="stat"></canvas>
+  <canvas id="attendance"></canvas>
+  <div style="display: none;">
+    <div class="test-lables">
+      <% test.forEach((t)=>{%>
+      <p><%= t.roomId %></p>
+      <% }) %>
+    </div>
+    <div class="test-data">
+      <% test.forEach((t)=>{%>
+      <p><%= t.percentage %></p>
+      <% }) %>
+    </div>
+    <div class="percent-total">
+      <p>
+        <%=totalpercentagepresentinclass%>
+      </p>
     </div>
   </div>
 </div>
+
 <script>
   var teacherNav = document.querySelectorAll('#student-nav');
   teacherNav.forEach((teacherNav) => {
@@ -19,6 +38,102 @@
       <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
       <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>`;
     teacherNav.innerHTML = navLinks;
+  });
+</script>
+<script>
+  var testLables = document.querySelectorAll('.test-lables p');
+  var testData = document.querySelectorAll('.test-data p');
+  var lables = [];
+  var data = [];
+  testLables.forEach((lab) => {
+    lables.push(lab.textContent);
+  });
+  testData.forEach((lab) => {
+    data.push(lab.textContent);
+  });
+
+  var ctx = document.getElementById('stat').getContext('2d');
+  Chart.defaults.global.defaultFontSize = 12;
+  Chart.defaults.global.defaultFontFamily = 'Lato';
+  var statistics = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: lables,
+      datasets: [
+        {
+          label: 'Percentage',
+          data: data,
+          // backgroundColor : 'rgba(0,0,0,0)',
+          backgroundColor: [
+            'rgba(75, 192, 192, 0.2)',
+          ],
+          borderColor: [
+            'rgba(75, 192, 192, 1)',
+          ],
+          borderWidth: 1,
+          hoverBorderWidth: 5,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+            },
+          },
+        ],
+      },
+      title: {
+        display: true,
+        text: 'Test Statistics',
+        fontSize: 30,
+      },
+      elements: {
+        line: {
+          tension: 0,
+        },
+      },
+    },
+  });
+
+  var pie = document.getElementById('attendance').getContext('2d');
+  var percent = document.querySelector('.percent-total p').textContent.trim();
+  var attendance = new Chart(pie, {
+    type: 'pie',
+    data: {
+      labels: ['Present', 'Absent'],
+      datasets: [
+        {
+          label: 'Attendance',
+          data: [percent, 100 - percent],
+          backgroundColor: [
+            'rgba(0,128,0,0.65)',
+            'rgba(255,0,0,0.65)'
+          ],
+          borderColor: [
+            'grey',
+          ],
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {title: {
+        display: true,
+        text: 'Attendance',
+        fontSize: 30,
+      },
+      scales: {
+        yAxes: [
+          {
+            gridLines: {
+              display: false,
+            },
+          },
+        ],
+      },
+    },
   });
 </script>
 

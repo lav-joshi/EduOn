@@ -1,4 +1,3 @@
-
 /* #svg-teacher {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07),
     0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07),
@@ -30,9 +29,8 @@ input:focus {
 .datepicker-container {
   display: inline-block !important;
   opacity: 1 !important;
-
 }
-#svg-teacher{
+#svg-teacher {
   position: relative;
   padding: 2rem;
   max-width: 60vw;
@@ -40,90 +38,103 @@ input:focus {
   left: 50%;
   transform: translateX(-50%);
 }
-#blueBalls path:nth-child(1){
+#blueBalls path:nth-child(1) {
   animation: fadeballs 1.5s linear alternate infinite;
-}#svg-teacher #blueBalls path:nth-child(2){
-  animation: fadeballs 1.5s linear alternate infinite .5s;
 }
-#Outline-ball{
-  animation: bounce .5s ease-in alternate infinite;
+#svg-teacher #blueBalls path:nth-child(2) {
+  animation: fadeballs 1.5s linear alternate infinite 0.5s;
 }
-#board-lines path{
+#Outline-ball {
+  animation: bounce 0.5s ease-in alternate infinite;
+}
+#board-lines path {
   stroke-dasharray: 1000px;
   stroke-dashoffset: 100px;
 }
-@keyframes bounce{
-  from{
+@keyframes bounce {
+  from {
     transform: translateY(-3%);
   }
-  to{
+  to {
     transform: translateY(8%);
   }
 }
 @keyframes fadeballs {
-  from{
+  from {
     opacity: 1;
   }
-  to{
+  to {
     opacity: 0;
   }
 }
-.sche-dash{
-  background-color: #F2F4FA;
-  padding: .5rem;
+.sche-dash {
+  background-color: #f2f4fa;
+  padding: 0.5rem;
   padding: 1rem;
   min-width: 700px;
   border-radius: 15px;
 }
-.sche-dash h2 , .sche-dash div{
+.sche-dash h2,
+.sche-dash div {
   margin: auto;
   background-color: #fff;
   margin-bottom: 9px;
-  padding:.5rem;
+  padding: 0.5rem;
   border-radius: 10px;
 }
-.sche-dash div span{
+.sche-dash div span {
   font-size: larger;
   font-weight: 400;
 }
-.sche-dash div a i{
+.sche-dash div a i {
   font-size: 1rem;
   margin-right: 3px;
 }
-.sche-dash h2{
+.sche-dash h2 {
   padding: 1rem;
   font-family: Georgia, 'Times New Roman', Times, serif;
   color: #0e9aa7;
 }
-.scheduled{
+.scheduled {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
 }
-@media screen and (max-width: 1280px){
-  .sche-dash{
+
+.stud-row {
+  position: relative;
+  width: 100%;
+  left: 15%;
+}
+
+#chart {
+  position: relative;
+  left: 5%;
+  width: 90% !important;
+}
+@media screen and (max-width: 1280px) {
+  .sche-dash {
     min-width: 90%;
     font-size: small;
   }
-  .sche-dash h2{
+  .sche-dash h2 {
     font-size: 35px;
   }
 }
 @media screen and (max-width: 750px) {
-  body{
+  body {
     font-size: smaller;
-
   }
-  .sche-dash h2{
+  .sche-dash h2 {
     font-size: 28px;
   }
-  .sche-dash div a{
+  .sche-dash div a {
     font-size: 10px !important;
-    padding: 5px !important; 
+    padding: 5px !important;
     padding-top: 0px !important;
   }
-  .sche-dash{
+  .sche-dash {
     min-width: 90%;
     font-size: smaller;
   }
