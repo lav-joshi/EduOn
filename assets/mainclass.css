@@ -1,107 +1,157 @@
-body{
-    padding:0;
-    margin: 0;
+body {
+  padding: 0;
+  margin: 0;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 .main {
-    height: 100vh;
-    display: flex;
+  display: grid;
+  grid-template-columns: 2fr 2fr 2fr 1.5fr;
+  grid-auto-rows: repeat(4, 1fr);
 }
+#video-grid {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  max-height: 90vh;
+  overflow: scroll;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+#video-grid::-webkit-scrollbar {
+  display: none;
+}
+#video-screen {
+  margin: auto;
+}
+video {
+  flex-grow: 0.58;
+  margin: 5px;
+  width: 30%;
+  transform: scaleX(-1);
+  /* height: 300px; */
+  background: #343434;
 
+  z-index: 0;
+  /* margin: auto; */
+}
+.overlay {
+  position: absolute;
+  color: white;
+  transform: translateY(-50%);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.822), #9c9c9c00);
+  z-index: 1;
+}
 .main__left {
-    flex: 0.8;
-    display: flex;
-    flex-direction: column;
+  height: 100vh;
+  background: #1c1e20;
+  grid-column: 1/4;
+  grid-row: 1/5;
+  width: auto;
 }
-
-.main__right {
-    flex: 0.2
-}
-
-.main__videos {
-    flex-grow: 1;
-    background-color: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px;
-}
-
 .main__controls {
-    background-color: #1C1E20;
+  box-shadow: hsla(0, 0%, 0%, 0.8) -13px -7px 8px 0px;
+  color: #1c1e20;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+  background: #fff;
+  z-index: 0;
+  position: fixed;
+  bottom: 0;
+  width: 80%;
 }
-
-.main__right {
-    background-color: #242324;
-    border-left: 1px solid #3D3D42;
+.details {
+  align-self: center;
+  transform: translateX(-20px);
 }
-
-.main__controls {
-    color: #D2D2D2;
-    display: flex;
-    justify-content: space-between;
-    padding: 5px;
-}
-
 .main__controls__block {
-    display: flex;
+  display: flex;
 }
 
 .main__controls__button {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 8px 10px;
-    min-width: 80px;
-    cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 10px;
+  min-width: 80px;
+  cursor: pointer;
 }
 
 .main__controls__button:hover {
-    background-color: #343434;
-    border-radius: 5px;
+  background-color: #cecece;
+  border-radius: 5px;
 }
 
 .main__controls__button i {
-    font-size: 24px;
+  font-size: 24px;
 }
-
 .main__right {
-    display: flex;
-    flex-direction: column;
+  box-shadow: hsla(0, 0%, 0%, 0.8) -6px 1px 8px 0px;
+  transition: 0.3s;
+  z-index: 999;
+  grid-column: 4/5;
+  grid-row: 1/5;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
 }
-
-.main__header {
-    padding-top: 5px;
-    color: #F5F5F5;
-    text-align: center;
-}
-
 .main__chat_window {
-    flex-grow: 1;
-    overflow-y: auto;
+  flex-grow: 1;
+  overflow-y: auto;
 }
 
-.messages{
-    color: white;
-    list-style: none;
+.messages {
+  color: rgb(90, 90, 90);
+  list-style: none;
 }
-
+.message {
+  transform: translateX(-20px);
+  /* background: rgb(240, 240, 240); */
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 15px;
+  /* box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2); */
+  transition: 0.3s;
+  margin-top: 2px;
+}
+.message b {
+  color: #1a1a2e;
+}
+.main__header {
+  text-align: center;
+  background: #58a193;
+  color: #fff;
+  box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);
+  padding: -4px;
+}
 .main__message_container {
-    padding: 22px 12px;
-    display: flex;
+  display: flex;
 }
 
 .main__message_container input {
-    flex-grow: 1;
-    background-color: transparent;
-    border: none;
-    color: #F5F5F5;
+  flex-grow: 1;
+  color: #353535;
+  width: 100%;
+  padding: 12px 20px;
+  margin: 10px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  box-shadow: inset 0 0 5px #505050;
+  outline: none;
 }
 
 .leave_meeting {
-    color: #EB534B;
+  color: #eb534b;
 }
 
-.unmute, .stop {
-    color: #CC3B33;
+.unmute,
+.stop {
+  color: #cc3b33;
 }

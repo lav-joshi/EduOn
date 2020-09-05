@@ -3,7 +3,7 @@
     <title>Education Portal</title>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <!-- <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" /> -->
     <meta http-equiv="X-UA-Compatible" content="IE=7" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- CSS only -->
@@ -51,11 +51,7 @@
 
     <link rel="stylesheet" href="/header.css" />
     <link rel="stylesheet" href="/su.css" />
-    <link
-      rel="stylesheet"
-      media="screen and (min-width:420px)"
-      href="/mobile.css"
-    />
+    <link rel="stylesheet" href="/home.css">
 
     <div class="preloader">
       <%- include('../../assets/svg/eduon-logo.svg') %>
@@ -108,12 +104,14 @@
     window.addEventListener('resize', () => {
       if (window.screen.width < '994') {
         navWrap.classList.remove('ml-5');
-        console.log('hogaya');
       } else {
         if (window.screen.width >= '994') {
           navWrap.classList.add('ml-5');
         }
       }
     });
+    if (window.screen.width < '994') {
+        navWrap.classList.remove('ml-5');
+      } 
   </script>
 </html>

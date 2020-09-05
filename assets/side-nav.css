@@ -242,6 +242,7 @@ label #sidebar_btn:hover {
   width: 250px;
   z-index: 1001;
   pointer-events: none;
+  display: none;
 }
 .animated-icon1,
 .animated-icon2,
