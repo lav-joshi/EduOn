@@ -19,7 +19,15 @@ const DiscussionSchema = new mongoose.Schema({
     },
     texts:[],
     socketids:[String],
-    students:[String]
+    students:[{
+        email:{
+            type:String
+        },
+        present:{
+            type:Boolean
+        }
+    }],
+    files:[]
 },
 { timestamps: true });
 module.exports = mongoose.model("discussion", DiscussionSchema);

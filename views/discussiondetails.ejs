@@ -3,11 +3,18 @@
     <div class="jumbotron">
         <div>Room Id : <%=discussion.roomId%></div>
         <div> Scheduled time : <%=moment(discussion.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%></div><br><br>
+        <form action="/teacher/discussion/updatetiming/<%=discussion.roomId%>/<%=currentUser.email%>" method="POST" >
+            <label>Edit Scheduled Time</label>
+            <input type="datetime-local" value="<%=moment(discussion.scheduledTime).format('YYYY-MM-DD')%>T<%=moment(discussion.scheduledTime).format('hh:mm')%>" name="editscheduledtime">
+            <button>Change</button>
+        </form>
+        <br/>
+        <a href="/teacher/dashboard/enter/discussion/classroom/<%=discussion.roomId%>?email=<%=currentUser.email%>&room=<%=discussion.roomId%>"><h6>Enter Main Class Room</h6></a>
         <h3>Allowed students</h3><br>
-        <% discussion.students.forEach(function(studentemail){%>
-           <%=studentemail%>
+        <% discussion.students.forEach(function(stud){%>
+           <%=stud.email%>
            <%students.forEach(function(student){%>
-                <%if(student.email===studentemail){%>
+                <%if(student.email===stud.email){%>
                     <div><%=student.name%></div>
                 <%}%>
            <%})%>
@@ -17,7 +24,7 @@
         <p>Allow student to participate from below</p>
         <form action="/teacher/dashboard/discussion/<%=discussion.roomId%>" method="POST">
             <%students.forEach(function(student){%>
-                <%if(discussion.students.indexOf(student.email)===-1){%>
+                <%if(discussion.students.findIndex(x=>x.email === student.email)===-1){%>
                     <input type="checkbox" style="opacity:1;pointer-events:auto;position: relative;"  value="<%=student.email%>" name=main>
                     <div>
                         <%=student.name%>
@@ -31,16 +38,62 @@
         </form>
     </div>
 </div>
+<div class="container">
+    <div class="row">
+      <div class="col-md-6 m-auto">
+          <h1 class="text-center display-4 my-4">Upload Notes or Pre-requisites for Class</h1>
+              <form action="/teacher/dashboard/adddoc/toroom" method="POST" enctype="multipart/form-data">
+                  <input type="text" name="roomid" id="roomid" value="<%=discussion.roomId%>" hidden>
+                  <input type="text" name="email" id="email" value="<%=discussion.email%>" hidden>
+                  <input type="text" name="filename" id="filename" placeholder="File name" required>
+                  <div class="file-field input-field">
+                    <div class="btn grey">
+                      <span>Browse File</span>
+                      <input type="file" name="file" id="file" class="custom-file-input" required>
+                    </div>
+                    <div class="file-path-wrapper">
+                      <input class="file-path validate" type="text">
+                    </div>
+                  </div>
+
+                  <input type="submit" value="Submit" class="btn btn-primary btn-block">
+              </form>
+          <hr>
+      </div>
+    </div>
+</div>
 
 <div class="container">
-<h2>Chatbox</h2> 
+    <h4>Uploaded Ones</h4>
+    <% if(discussion.files.length!==0){ %>
+        <% discussion.files.forEach(function(file) { %>
+          <div class="card card-body mb-3">
+            <h5><%= file.filename %></h5>
+            <%if( file.contentType === 'image/jpeg' || file.contentType === 'image/png'){%>
+                <img src="/teacher/dashboard/getfile/file/<%= file.filename %>" style="height:200px;width:40%;"alt="">
+            <%}else if(file.contentType === "application/pdf" || file.contentType === "application/pdf"){%>
+                <img src="" style="height:200px;width:40%;"alt="Any pdf logo">                
+            <%}%>
+            <a href="/teacher/dashboard/getfile/file/<%= file.filename %>" download><button class="btn"><i class="fa fa-download"></i> Download</button></a>
+            <form method="POST" action="/teacher/dashboard/files/doc/delete/<%=file.id%>/<%=discussion.roomId%>/<%=discussion.email%>?_method=DELETE">
+                <button class="btn btn-danger btn-block mt-4">Delete</button>
+            </form>
+          </div>
+          <% }) %>
+            <% } else { %>
+              <p>No files to show</p>
+              <% } %>
+</div>
+
+<div class="container">
+<h4>Important Points and Notes</h4> 
     <div>
         <div id="sidebar" class="chat__sidebar">
 
         </div>
 
         <div>
-            <div id="messages"> </div>
+            <div id="messages"> 
              <%texts.forEach((per)=>{%>
                 <div>
                     <%=per.username%><%=moment(per.createdAt).format('D-M-YYYY h:mm a')%>
@@ -48,6 +101,7 @@
                     <%=per.message%>
                 </div>
               <%})%>
+            </div>
             <div>
                 <form id="message-form">
                     <input type="hidden" id="roomId" value="<%=discussion.roomId%>" name="roomId" type="text">
@@ -57,10 +111,11 @@
                     <button id="but">Send</button>
                 </form>
             </div>
-            
         </div>
     </div>
 </div>
+
+
 <script id="message-template" type="text/html">
     <div>
         {{username}}  {{createdAt}}
@@ -119,7 +174,7 @@
         $messageFormInput.focus();
         if(error){
             return console.log(error);
-        }
+        } 
         console.log("Message delivered");
     });
 });
