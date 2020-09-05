@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
 /* #svg-teacher {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07),
     0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07),
@@ -108,10 +109,64 @@ input:focus {
   left: 15%;
 }
 
-#chart {
+#stat {
   position: relative;
   left: 5%;
   width: 90% !important;
+}
+#attendance {
+  width: 60% !important ;
+  height: 50% !important;
+}
+.at-cont {
+  width: 70%;
+  position: relative;
+  margin: auto;
+}
+.attend-target {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-around;
+}
+.attend-target div p {
+  margin-bottom: 0.75rem !important;
+}
+.countDown {
+  font-family: 'Russo One', sans-serif;
+  justify-content: center;
+  background: rgba(87, 214, 190, 1);
+  background: -webkit-linear-gradient(
+    90deg,
+    rgba(87, 214, 190, 1) 0%,
+    rgba(28, 150, 175, 1) 100%
+  );
+  background: -moz-linear-gradient(
+    90deg,
+    rgba(87, 214, 190, 1) 0%,
+    rgba(28, 150, 175, 1) 100%
+  );
+  background: linear-gradient(
+    90deg,
+    rgba(87, 214, 190, 1) 0%,
+    rgba(28, 150, 175, 1) 100%
+  );
+  border-radius: 20px;
+}
+.countDown p {
+  font-size: 3rem;
+}
+#dd p{
+  font-size: larger;
+}
+.theme-heading {
+  color: #58a193;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+    'Lucida Sans Unicode';
+  font-size: 30px !important;
+}
+.card-title {
+  text-transform: capitalize;
 }
 @media screen and (max-width: 1280px) {
   .sche-dash {
@@ -120,6 +175,9 @@ input:focus {
   }
   .sche-dash h2 {
     font-size: 35px;
+  }
+  .at-cont {
+    width: 100%;
   }
 }
 @media screen and (max-width: 750px) {

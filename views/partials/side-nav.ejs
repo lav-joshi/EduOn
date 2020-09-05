@@ -184,6 +184,8 @@
           });
           document.querySelector('.shade-layer').style.opacity = '0.7';
           document.querySelector('.shade-layer').style.pointerEvents = 'all';
+          document.querySelector('.side-nav-content').style.overflow = 'hidden';
+          document.querySelector('.side-nav-content').style.height = 'calc(100vh - 100px)';
           navFlag = 1;
         } else {
           mob.style.transform = 'translateX(100%)';
@@ -193,6 +195,9 @@
           });
           document.querySelector('.shade-layer').style.pointerEvents = 'none';
           document.querySelector('.shade-layer').style.opacity = '0';
+          document.querySelector('.side-nav-content').style.overflow = '';
+          document.querySelector('.side-nav-content').style.height = 'fit-content';
+
           navFlag = 0;
         }
       });

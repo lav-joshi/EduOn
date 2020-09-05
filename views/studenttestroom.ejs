@@ -1,6 +1,7 @@
 <%- include('partials/side-nav'); -%>
 <link rel="stylesheet" href="/leaderBoard.css">
 <div class="side-nav-content p-3">
+       <div id='dd' class="scheduled mb-3" style="justify-content: space-between;"><p></p><p></p></div>
   <div class="stud-row">
     <div class="row">
       <div class="col s12 m7">
@@ -14,14 +15,29 @@
           <form action="/student/dashboard/test/enter" method="GET">
             <input type="text" required hidden value="1" name="f" />
             <div class="card-content">
+              <p id="fuck" hidden><%=meeting.scheduledTime%></p>
+        <p id="length" hidden><%=meeting.questions.length%></p>
               <div class="scheduled">
                 <div>
-                  <h4>Test at:</h4><%=moment(meeting.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%>
+                  <h4>Test Time:</h4><%=moment(meeting.scheduledTime).format('Do-MM-YYYY, h:mm:ss a')%>
                 </div>
+              </div>
+              <div class="text-center">
+                <h4 id="count-down">Test Begins in</h4>
+                <div id="count-down" class="scheduled white-text p-1 countDown">
+                  <p id="days"></p>
+                  <p id="hours"></p>
+                  <p id="mins"></p>
+                  <p id="secs"></p>
+                </div>   
+                  <h4 id="end"></h4>
+                  <%errors.forEach((err)=>{%>
+                    <p><%=err%></p>
+                <%})%>
               </div>
           </div>
           <div class="card-action text-center">
-            <a class="btn btn-primary black darken-1" href="/student/dashboard/entertestroom/<%=meeting.roomId%>">Start Test</a>
+            <a class="btn btn-primary darken-1" href="/student/dashboard/entertestroom/<%=meeting.roomId%>">Start Test</a>
           </div>
         </form>
         </div>
@@ -29,24 +45,6 @@
     </div>
   </div>
   <div class="container">
-    <div class="jumbotron">
-        Welcome <%=currentUser.name%> 
-        <h2 id="admin">Organized by <%=meeting.admin%></h2>
-        <p id="fuck" hidden><%=meeting.scheduledTime%></p>
-        <p id="length" hidden><%=meeting.questions.length%></p>
-        <h2>Meeting at:</h2><%=moment(meeting.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br/><br/><br/>
-        <h5>current Date and Time</h5><p id="dd"></p>
-        <%errors.forEach((err)=>{%>
-            <p><%=err%></p>
-        <%})%>
-        <a href="/student/dashboard/entertestroom/<%=meeting.roomId%>">Enter Test Room</a>
-        <p id="days"></p>
-        <p id="hours"></p>
-        <p id="mins"></p>
-        <p id="secs"></p>
-        <h2 id="end"></h2>        
-    </div>
-
     <div class="leader-back">
         <div class="leader-header">LeaderBoard</div>
         <div id="leaderboard"></div>
@@ -80,7 +78,14 @@
   });
 
     function showTime(){
-    document.querySelector("#dd").textContent=moment(Date.now()).format('MMMM Do YYYY, h:mm:ss a');
+      var i = 0;
+    document.querySelectorAll("#dd p").forEach(d => {
+      if( i === 0){
+        d.textContent="Date: "+moment(Date.now()).format('Do-MM-YYYY');
+        i = 1
+      }
+      else {d.textContent="Time: "+ moment(Date.now()).format('hh.mm.ss a');i=0;}
+    });
     }
     setInterval(showTime,1);
 
@@ -100,9 +105,9 @@
     var seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
         
     // Result is output to the specific element
-    document.getElementById("days").innerHTML = days + "d "
-    document.getElementById("hours").innerHTML = hours + "h " 
-    document.getElementById("mins").innerHTML = minutes + "m " 
+    document.getElementById("days").innerHTML = days + "d :"
+    document.getElementById("hours").innerHTML = hours + "h :" 
+    document.getElementById("mins").innerHTML = minutes + "m :" 
     document.getElementById("secs").innerHTML = seconds + "s " 
         
     // Display the message when countdown is over
@@ -113,6 +118,9 @@
         document.getElementById("mins").innerHTML = ""
         document.getElementById("secs").innerHTML = ""
         document.getElementById("end").innerHTML = "Test started";
+        document.querySelectorAll('#count-down').forEach(elem => {
+          elem.style.display = 'none';
+        })
     }
     }, 1000);
 </script>

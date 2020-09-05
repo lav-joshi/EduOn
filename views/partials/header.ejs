@@ -62,50 +62,58 @@
     </div>
   </head>
 
-  <div class="bg-images">
-    <!-- <div class="shade"><%- include('../../assets/svg/main-bg.svg') %></div> -->
-    <div class="logo-cont">
-      <div class="logo">
-        EduOn
-      </div>
-      <div class="logo-caption">
-        join and Learn
-      </div>
-    </div>
-  </div>
   <nav>
-    <ul class="nav-links">
-      <div class="m-3">
-        EduOn
-      </div>
-      <li class="active"><a href="#">Home</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Contact</a></li>
-      <li><a href="#room">Room</a></li>
-      <div>
-        <%if(!currentUser){%>
-        <a style="color: black;" href="/auth/google">Sign Up/Login with G+</a>
-        <%}else{%>
-        <a style="color: black;" href="/auth/logout">LogOut</a>
-        <%}%>
-      </div>
-    </ul>
+    <div class="nav-wrapper">
+      <a href="#!" class="brand-logo ml-5">EduOn</a>
+      <a href="#" data-target="mobile-demo" class="sidenav-trigger"
+        ><i class="material-icons">menu</i></a
+      >
+      <ul class="right hide-on-med-and-down">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li>
+          <%if(!currentUser){%>
+          <a style="color: black" href="/auth/google">Sign Up/Login with G+</a>
+          <%}else{%>
+          <a style="color: black" href="/auth/logout">LogOut</a>
+          <%}%>
+        </li>
+      </ul>
+    </div>
   </nav>
 
-  <div class="log-sign">
-    <%if(!currentUser){%>
-    <a href="/auth/google">Sign Up/Login with G+</a>
-    <%}else{%>
-    <i class="material-icons">account_circle</i> <%=currentUser.name%>&nbsp;
-    <a href="/auth/logout">LogOut</a>
-    <%}%>
-  </div>
+  <ul class="sidenav" id="mobile-demo">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">About</a></li>
+    <li>
+      <%if(!currentUser){%>
+      <a style="color: black" href="/auth/google">Sign Up/Login with G+</a>
+      <%}else{%>
+      <a style="color: black" href="/auth/logout">LogOut</a>
+      <%}%>
+    </li>
+  </ul>
   <script>
     window.addEventListener('load', () => {
       var preloader = document.querySelector('.preloader');
       setTimeout(() => {
         preloader.classList.add('preload-finish');
       }, 1000);
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+      var homenav = document.querySelectorAll('.sidenav');
+      var instances = M.Sidenav.init(homenav, {});
+    });
+    var navWrap = document.querySelector('.brand-logo');
+    window.addEventListener('resize', () => {
+      if (window.screen.width < '994') {
+        navWrap.classList.remove('ml-5');
+        console.log('hogaya');
+      } else {
+        if (window.screen.width >= '994') {
+          navWrap.classList.add('ml-5');
+        }
+      }
     });
   </script>
 </html>

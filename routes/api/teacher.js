@@ -466,7 +466,7 @@ router.get("/profile",auth,(req,res)=>{
               await attendance.forEach((at)=>{
                   let x={
                       scheduledTime:at.scheduledTime,
-                      rooomId:at.roomId,
+                      roomId:at.roomId,
                   }
                   let y=at.students.findIndex(z => z.email ==req.query.email);
                   if(at.students[y].present ==true){

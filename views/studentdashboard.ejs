@@ -1,6 +1,8 @@
 <%- include('partials/side-nav'); -%>
 
-<div class="side-nav-content">
+<div class="side-nav-content p-3">
+  <div id='dd' class="scheduled mb-3" style="justify-content: space-between;"><p></p><div class="theme-heading" style="padding-top: 0%;">Welcome</div><p></p></div>
+
   <%errors.forEach((err)=>{%>
   <p><%=err%></p>
   <%})%>
@@ -25,7 +27,7 @@
             />
           </div>
           <div class="card-action text-center">
-            <button class="btn btn-primary black darken-1" type="submit" >Enter Test</button>
+            <button class="btn btn-primary darken-1" type="submit" >Enter Test</button>
           </div>
         </form>
         </div>
@@ -37,7 +39,7 @@
       <div class="col s12 m7">
         <div class="card" style="width: 70%;">
           <div class="card-title text-center p-3 blue-grey lighten-5">Discussion Room</div>
-          <div class="card-image p-3" style="height: 40vh; overflow: hidden;" >
+          <div class="card-image" style="height: 40vh; overflow: hidden;" >
             <img src="/images/discussion.svg" style="height: 100%;">
           </div>
           <form action="/student/dashboard/discussion/enter" method="GET">
@@ -54,13 +56,66 @@
             />
           </div>
           <div class="card-action text-center">
-            <button class="btn btn-primary black darken-1" type="submit" >Enter Class</button>
+            <button class="btn btn-primary darken-1" type="submit" >Enter Class</button>
           </div>
         </form>
         </div>
       </div>
     </div>
   </div>
+
+<div class="container">
+  <div class="jumbotron">
+    <h4>Schedule your Counselling Sessions</h4>
+    <%scheduledcounsells.forEach((x)=>{%>
+      <b>Name:- </b><%=x.name%><br>
+      <b>Email:- </b><%=x.email%><br>
+      <b>Phone Number- </b><%=x.phoneNumber%><br>
+      <b>Scheduled Time:- </b><%=moment(x.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
+      <b>Description:- </b><%=x.description%><br>
+      <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Book Session</button>
+
+      <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+        
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Are you sure you want to go for counselling session ?</h4>
+            </div>
+            <div class="modal-body">
+              <p>Click Done to proceed</p>
+            </div>
+            <div class="modal-footer">
+              <a href="/student/arrangecounsell/<%=x.id%>">Done</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br><br><br>
+    <%})%>
+  </div>
+</div>
+
+<div class="container">
+  <div class="jumbotron">
+    <h4>Your Counselling Sessions</h4>
+    <%yours.forEach((x)=>{%>
+      <%if((new Date()).getTime() <=x.scheduledTime.getTime()){%>
+        <h5>Upcoming</h5>
+      <%}else{%>
+        <h5>Done</h5>
+      <%}%>
+
+      <b>Name:- </b><%=x.name%><br>
+      <b>Email:- </b><%=x.email%><br>
+      <b>Phone Number- </b><%=x.phoneNumber%><br>
+      <b>Scheduled Time:- </b><%=moment(x.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
+      <b>Description:- </b><%=x.description%><br><br><br>
+    <%})%>
+  </div>
+</div>
+
 <script>
   var teacherNav = document.querySelectorAll('#student-nav');
   teacherNav.forEach((teacherNav) => {
@@ -81,6 +136,17 @@
     location.href = 'http://localhost:3000/student/dashboard?f=1';
   } else {
   }
+  function showTime(){
+      var i = 0;
+    document.querySelectorAll("#dd p").forEach(d => {
+      if( i === 0){
+        d.textContent="Date: "+moment(Date.now()).format('Do-MM-YYYY');
+        i = 1
+      }
+      else {d.textContent="Time: "+ moment(Date.now()).format('hh.mm.ss a');i=0;}
+    });
+    }
+    setInterval(showTime,1);
 </script>
 
 <%- include('partials/footer'); -%>

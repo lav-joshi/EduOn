@@ -1,7 +1,8 @@
 <%- include('partials/side-nav'); -%>
   
 
-<div class="side-nav-content p-5" >
+<div class="side-nav-content p-3" >
+  <div id='dd' class="scheduled mb-3" style="justify-content: space-between;"><p></p><div class="theme-heading" style="padding-top: 0%;">Welcome</div><p></p></div>
 
 
 <div class="content">
@@ -204,6 +205,17 @@
       <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
       <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>`;
     teacherNav.innerHTML = navLinks;});
+    function showTime(){
+      var i = 0;
+    document.querySelectorAll("#dd p").forEach(d => {
+      if( i === 0){
+        d.textContent="Date: "+moment(Date.now()).format('Do-MM-YYYY');
+        i = 1
+      }
+      else {d.textContent="Time: "+ moment(Date.now()).format('hh.mm.ss a');i=0;}
+    });
+    }
+    setInterval(showTime,1);
 </script>
 <script>
   function dateFunction(e){

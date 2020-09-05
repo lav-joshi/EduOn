@@ -1,14 +1,224 @@
-<%- include('partials/header'); -%>
+<%- include('partials/side-nav'); -%>
+<div class="side-nav-content p-3">
+  <div id="dd" class="scheduled mb-3" style="justify-content: space-between">
+    <p></p>
+    <p></p>
+  </div>
+  <div class="container">
+    <div class="card m-3">
+      <div class="card-title text-center theme-heading">Student Profile</div>
 
-<div class="container">
-    <div class="jumbotron">
-        <h2>My Profile</h2>
-        <%=student%>
-        <%=present%>
-        <%=test%>
-        <%totalpercentagepresentinclass%>
+      <div
+        class="card-image waves-effect waves-block waves-light"
+        style="width: 20%; margin: auto"
+      >
+        <img
+          class="activator"
+          src="https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png"
+        />
+      </div>
+      <div class="card-content">
+        <span class="card-title activator grey-text text-darken-4"
+          ><%=student.name%><i class="material-icons right"
+            >more_vert</i
+          ></span
+        >
+      </div>
+      <div class="card-reveal">
+        <span class="card-title grey-text text-darken-4"
+          >Details<i class="material-icons right">close</i></span
+        >
+        <p>Email: <%=student.email%></p>
+        <p>Phone: 99XXXXXXX</p>
+      </div>
     </div>
+  </div>
+  <canvas id="stat" class="mt-5 mb-5"></canvas>
+
+  <div id="attendance-detail">
+    <canvas id="attendance" style="margin: auto"></canvas>
+    <div class="card at-cont mt-5">
+      <div class="card-title text-center theme-heading">Attendance Sheet</div>
+      <div class="attend-target text-center">
+        <div class="a-class card-content">
+          <div class="card-title">Class</div>
+        </div>
+        <div class="a-date card-content">
+          <div class="card-title">Date</div>
+        </div>
+        <div class="a-present card-content">
+          <div class="card-title">Attendance</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="display: none">
+    <div class="test-lables">
+      <% test.forEach((t)=>{%>
+      <p><%= t.roomId %></p>
+      <% }) %>
+    </div>
+    <div class="test-data">
+      <% test.forEach((t)=>{%>
+      <p><%= t.percentage %></p>
+      <% }) %>
+    </div>
+    <div class="percent-total">
+      <p><%=totalpercentagepresentinclass%></p>
+    </div>
+    <div class="attend-data">
+      <% present.forEach((t)=>{%>
+      <h1><%= t.scheduledTime %></h1>
+      <h2><%= t.present %></h2>
+      <h3><%= t.roomId %></h3>
+
+      <% }) %>
+    </div>
+  </div>
 </div>
+
+<script>
+  var teacherNav = document.querySelectorAll('#teacher-nav');
+  teacherNav.forEach((teacherNav) => {
+    teacherNav.innerHTML = '';
+    const navLinks = `<a id="dshbrd" href="http://localhost:3000/teacher/dashboard" 
+        ><i class="fas fa-desktop"></i><span>Dashboard</span></a
+      >
+      <a href="#attendance-detail"><i class="far fa-check-circle"></i><span>Attendance</span></a>
+      <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
+      <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>`;
+    teacherNav.innerHTML = navLinks;
+  });
+  function showTime(){
+      var i = 0;
+    document.querySelectorAll("#dd p").forEach(d => {
+      if( i === 0){
+        d.textContent="Date: "+moment(Date.now()).format('Do-MM-YYYY');
+        i = 1
+      }
+      else {d.textContent="Time: "+ moment(Date.now()).format('hh.mm.ss a');i=0;}
+    });
+    }
+    setInterval(showTime,1);
+</script>
+<script>
+  var testLables = document.querySelectorAll('.test-lables p');
+  var testData = document.querySelectorAll('.test-data p');
+  var lables = [];
+  var data = [];
+  testLables.forEach((lab) => {
+    lables.push(lab.textContent);
+  });
+  testData.forEach((lab) => {
+    data.push(lab.textContent);
+  });
+  var attendTime = document.querySelectorAll('.attend-data h1');
+  var attendPresent = document.querySelectorAll('.attend-data h2');
+  var attendClass = document.querySelectorAll('.attend-data h3');
+  var targetAttend = document.querySelector('.attend-target');
+  attendTime.forEach((time) => {
+    var x = time.textContent.split(' ');
+    var y = '';
+    for (var i = 0; i < 4; i++) y += x[i] + ' ';
+    targetAttend.querySelector('.a-date').innerHTML += `<p>${y}</p>`;
+  });
+  attendPresent.forEach((a) => {
+    a = a.textContent;
+    if (a === 'true')
+      targetAttend.querySelector('.a-present').innerHTML += `<p>Present</p>`;
+    else targetAttend.querySelector('.a-present').innerHTML += `<p>Absent</p>`;
+  });
+  attendClass.forEach((a) => {
+    a = a.textContent;
+    console.log(a);
+    targetAttend.querySelector('.a-class').innerHTML += `<p>${a}</p>`;
+  });
+
+  var ctx = document.getElementById('stat').getContext('2d');
+  Chart.defaults.global.defaultFontSize = 18;
+  Chart.defaults.global.defaultFontFamily = 'Lato';
+  var statistics = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: lables,
+      datasets: [
+        {
+          label: 'Percentage',
+          data: data,
+          backgroundColor: ['rgba(75, 192, 192, 0.2)'],
+          borderColor: ['rgba(75, 192, 192, 1)'],
+          borderWidth: 1,
+          hoverBorderWidth: 5,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+            },
+          },
+        ],
+      },
+      title: {
+        display: true,
+        text: 'Test Statistics',
+        fontSize: 30,
+      },
+      elements: {
+        line: {
+          tension: 0,
+        },
+      },
+    },
+  });
+
+  var pie = document.getElementById('attendance').getContext('2d');
+  var percent = document.querySelector('.percent-total p').textContent.trim();
+  var attendance = new Chart(pie, {
+    type: 'pie',
+    data: {
+      labels: ['Present', 'Absent'],
+      datasets: [
+        {
+          label: 'Attendance',
+          data: [percent, 100 - percent],
+          backgroundColor: ['rgba(0,128,0,0.65)', 'rgba(255,0,0,0.65)'],
+          borderColor: ['grey'],
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      legend: {
+        labels: {
+          fontSize : 25,
+        },
+      },
+      title: {
+        display: true,
+        text: 'Attendance',
+        fontSize: 40,
+      },
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              fontSize: 0,
+            },
+            gridLines: {
+              display: false,
+            },
+          },
+        ],
+      },
+    },
+  });
+</script>
+
+<%- include('partials/footer'); -%>
 
 
 

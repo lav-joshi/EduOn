@@ -21,7 +21,7 @@ const CounsellSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    studentemail:{
+    studentname:{
        type:String,
     },
     studentemail:{

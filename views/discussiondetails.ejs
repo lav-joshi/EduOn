@@ -1,228 +1,339 @@
 <%- include('partials/side-nav'); -%>
 <div class="side-nav-content p-3">
-    <div class="stud-row">
-        <div class="row">
-          <div class="col s12 m7">
-            <div class="card" style="width: 70%;">
-              <div class="card-title text-center p-3 blue-grey lighten-5">Discussion Room</div>
-              <div class="card-image p-3" style="height: 40vh; overflow: hidden;" >
-                <img src="/images/discussion.svg" style="height: 100%;">
-              </div>
-                <div class="card-content">
-                    <div style="font-size: larger;">Room Id :  <%=discussion.roomId%></div>
-                    <div style="font-size: larger;"> Time : <%=moment(discussion.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%></div>
-                    <form class="mt-4" action="/teacher/discussion/updatetiming/<%=discussion.roomId%>/<%=currentUser.email%>" method="POST" >
-                        <label>Edit Scheduled Time</label>
-                        <input type="datetime-local" value="<%=moment(discussion.scheduledTime).format('YYYY-MM-DD')%>T<%=moment(discussion.scheduledTime).format('hh:mm')%>" name="editscheduledtime">
-                        <button class="btn btn-primary black darken-1" >Change</button>
-                    </form>
-              </div>
-              <div class="card-action text-center">
-                <a class="btn btn-primary black darken-1" href="/teacher/dashboard/enter/discussion/classroom/<%=discussion.roomId%>?email=<%=currentUser.email%>&room=<%=discussion.roomId%>" >Enter Class</a>
-              </div>
+  <div id="dd" class="scheduled mb-3" style="justify-content: space-between">
+    <p></p>
+    <p></p>
+  </div>
+
+  <div class="stud-row">
+    <div class="row">
+      <div class="col s12 m7">
+        <div class="card" style="width: 70%">
+          <div class="card-title text-center p-3 blue-grey lighten-5">
+            Discussion Room
+          </div>
+          <div class="card-image p-3" style="height: 40vh; overflow: hidden">
+            <img src="/images/discussion.svg" style="height: 100%" />
+          </div>
+          <div class="card-content">
+            <div style="font-size: larger">
+              Room Id : <%=discussion.roomId%>
             </div>
+            <div style="font-size: larger">
+              Time : <%=moment(discussion.scheduledTime).format('MMMM Do YYYY,
+              h:mm:ss a')%>
+            </div>
+            <form
+              class="mt-4"
+              action="/teacher/discussion/updatetiming/<%=discussion.roomId%>/<%=currentUser.email%>"
+              method="POST"
+            >
+              <label>Edit Scheduled Time</label>
+              <input
+                type="datetime-local"
+                value="<%=moment(discussion.scheduledTime).format('YYYY-MM-DD')%>T<%=moment(discussion.scheduledTime).format('hh:mm')%>"
+                name="editscheduledtime"
+              />
+              <button class="btn btn-primary black darken-1">Change</button>
+            </form>
+          </div>
+          <div class="card-action text-center">
+            <a
+              class="btn btn-primary black darken-1"
+              href="/teacher/dashboard/enter/discussion/classroom/<%=discussion.roomId%>?email=<%=currentUser.email%>&room=<%=discussion.roomId%>"
+              >Enter Class</a
+            >
           </div>
         </div>
       </div>
-    <div class="container">
-        <div class="jumbotron">
-            <div>Room Id : <%=discussion.roomId%></div>
-            <div> Scheduled time : <%=moment(discussion.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%></div><br><br>
-            <form action="/teacher/discussion/updatetiming/<%=discussion.roomId%>/<%=currentUser.email%>" method="POST" >
-                <label>Edit Scheduled Time</label>
-                <input type="datetime-local" value="<%=moment(discussion.scheduledTime).format('YYYY-MM-DD')%>T<%=moment(discussion.scheduledTime).format('hh:mm')%>" name="editscheduledtime">
-                <button>Change</button>
-            </form>
-            <br/>
-            <a href="/teacher/dashboard/enter/discussion/classroom/<%=discussion.roomId%>?email=<%=currentUser.email%>&room=<%=discussion.roomId%>"><h6>Enter Main Class Room</h6></a>
-            <h3>Allowed students</h3><br>
-            <% discussion.students.forEach(function(stud){%>
-               <%=stud.email%>
-               <%students.forEach(function(student){%>
-                    <%if(student.email===stud.email){%>
-                        <div><%=student.name%></div>
-                    <%}%>
-               <%})%>
-            <%})%>
-            <br><br>
-            
-            <p>Allow student to participate from below</p>
-            <form action="/teacher/dashboard/discussion/<%=discussion.roomId%>" method="POST">
-                <%students.forEach(function(student){%>
-                    <%if(discussion.students.findIndex(x=>x.email === student.email)===-1){%>
-                        <input type="checkbox" style="opacity:1;pointer-events:auto;position: relative;"  value="<%=student.email%>" name=main>
-                        <div>
-                            <%=student.name%>
-                        </div>
-                        <div>
-                            <%=student.email%>
-                        </div>
-                    <%}%>
-                <%})%>
-                <input type="submit">
-            </form>
-        </div>
     </div>
-    <div class="container">
-        <div class="row">
-          <div class="col-md-6 m-auto">
-              <h1 class="text-center display-4 my-4">Upload Notes or Pre-requisites for Class</h1>
-                  <form action="/teacher/dashboard/adddoc/toroom" method="POST" enctype="multipart/form-data">
-                      <input type="text" name="roomid" id="roomid" value="<%=discussion.roomId%>" hidden>
-                      <input type="text" name="email" id="email" value="<%=discussion.email%>" hidden>
-                      <input type="text" name="filename" id="filename" placeholder="File name" required>
-                      <div class="file-field input-field">
-                        <div class="btn grey">
-                          <span>Browse File</span>
-                          <input type="file" name="file" id="file" class="custom-file-input" required>
-                        </div>
-                        <div class="file-path-wrapper">
-                          <input class="file-path validate" type="text">
-                        </div>
-                      </div>
-    
-                      <input type="submit" value="Submit" class="btn btn-primary btn-block">
-                  </form>
-              <hr>
+  </div>
+  <div class="container">
+    <div class="jumbotron">
+      <div>Room Id : <%=discussion.roomId%></div>
+      <div>
+        Scheduled time : <%=moment(discussion.scheduledTime).format('MMMM Do
+        YYYY, h:mm:ss a')%>
+      </div>
+      <br /><br />
+      <form
+        action="/teacher/discussion/updatetiming/<%=discussion.roomId%>/<%=currentUser.email%>"
+        method="POST"
+      >
+        <label>Edit Scheduled Time</label>
+        <input
+          type="datetime-local"
+          value="<%=moment(discussion.scheduledTime).format('YYYY-MM-DD')%>T<%=moment(discussion.scheduledTime).format('hh:mm')%>"
+          name="editscheduledtime"
+        />
+        <button>Change</button>
+      </form>
+      <br />
+      <a
+        href="/teacher/dashboard/enter/discussion/classroom/<%=discussion.roomId%>?email=<%=currentUser.email%>&room=<%=discussion.roomId%>"
+        ><h6>Enter Main Class Room</h6></a
+      >
+      <h3>Allowed students</h3>
+      <br />
+      <% discussion.students.forEach(function(stud){%> <%=stud.email%>
+      <%students.forEach(function(student){%>
+      <%if(student.email===stud.email){%>
+      <div><%=student.name%></div>
+      <%}%> <%})%> <%})%>
+      <br /><br />
+
+      <p>Allow student to participate from below</p>
+      <form
+        action="/teacher/dashboard/discussion/<%=discussion.roomId%>"
+        method="POST"
+      >
+        <%students.forEach(function(student){%>
+        <%if(discussion.students.findIndex(x=>x.email ===
+        student.email)===-1){%>
+        <input
+          type="checkbox"
+          style="opacity: 1; pointer-events: auto; position: relative"
+          value="<%=student.email%>"
+          name="main"
+        />
+        <div><%=student.name%></div>
+        <div><%=student.email%></div>
+        <%}%> <%})%>
+        <input type="submit" />
+      </form>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 m-auto">
+        <h1 class="text-center display-4 my-4">
+          Upload Notes or Pre-requisites for Class
+        </h1>
+        <form
+          action="/teacher/dashboard/adddoc/toroom"
+          method="POST"
+          enctype="multipart/form-data"
+        >
+          <input
+            type="text"
+            name="roomid"
+            id="roomid"
+            value="<%=discussion.roomId%>"
+            hidden
+          />
+          <input
+            type="text"
+            name="email"
+            id="email"
+            value="<%=discussion.email%>"
+            hidden
+          />
+          <input
+            type="text"
+            name="filename"
+            id="filename"
+            placeholder="File name"
+            required
+          />
+          <div class="file-field input-field">
+            <div class="btn grey">
+              <span>Browse File</span>
+              <input
+                type="file"
+                name="file"
+                id="file"
+                class="custom-file-input"
+                required
+              />
+            </div>
+            <div class="file-path-wrapper">
+              <input class="file-path validate" type="text" />
+            </div>
           </div>
+
+          <input
+            type="submit"
+            value="Submit"
+            class="btn btn-primary btn-block"
+          />
+        </form>
+        <hr />
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <h4>Uploaded Ones</h4>
+    <% if(discussion.files.length!==0){ %> <%
+    discussion.files.forEach(function(file) { %>
+    <div class="card card-body mb-3">
+      <h5><%= file.filename %></h5>
+      <%if( file.contentType === 'image/jpeg' || file.contentType ===
+      'image/png'){%>
+      <img
+        src="/teacher/dashboard/getfile/file/<%= file.filename %>"
+        style="height: 200px; width: 40%"
+        alt=""
+      />
+      <%}else if(file.contentType === "application/pdf" || file.contentType ===
+      "application/pdf"){%>
+      <img src="" style="height: 200px; width: 40%" alt="Any pdf logo" />
+      <%}%>
+      <a href="/teacher/dashboard/getfile/file/<%= file.filename %>" download
+        ><button class="btn"><i class="fa fa-download"></i> Download</button></a
+      >
+      <form
+        method="POST"
+        action="/teacher/dashboard/files/doc/delete/<%=file.id%>/<%=discussion.roomId%>/<%=discussion.email%>?_method=DELETE"
+      >
+        <button class="btn btn-danger btn-block mt-4">Delete</button>
+      </form>
+    </div>
+    <% }) %> <% } else { %>
+    <p>No files to show</p>
+    <% } %>
+  </div>
+
+  <div class="container">
+    <h4>Important Points and Notes</h4>
+    <div>
+      <div id="sidebar" class="chat__sidebar"></div>
+
+      <div>
+        <div id="messages">
+          <%texts.forEach((per)=>{%>
+          <div>
+            <%=per.username%><%=moment(per.createdAt).format('D-M-YYYY h:mm
+            a')%>
+            <br />
+            <%=per.message%>
+          </div>
+          <%})%>
         </div>
-    </div>
-    
-    <div class="container">
-        <h4>Uploaded Ones</h4>
-        <% if(discussion.files.length!==0){ %>
-            <% discussion.files.forEach(function(file) { %>
-              <div class="card card-body mb-3">
-                <h5><%= file.filename %></h5>
-                <%if( file.contentType === 'image/jpeg' || file.contentType === 'image/png'){%>
-                    <img src="/teacher/dashboard/getfile/file/<%= file.filename %>" style="height:200px;width:40%;"alt="">
-                <%}else if(file.contentType === "application/pdf" || file.contentType === "application/pdf"){%>
-                    <img src="" style="height:200px;width:40%;"alt="Any pdf logo">                
-                <%}%>
-                <a href="/teacher/dashboard/getfile/file/<%= file.filename %>" download><button class="btn"><i class="fa fa-download"></i> Download</button></a>
-                <form method="POST" action="/teacher/dashboard/files/doc/delete/<%=file.id%>/<%=discussion.roomId%>/<%=discussion.email%>?_method=DELETE">
-                    <button class="btn btn-danger btn-block mt-4">Delete</button>
-                </form>
-              </div>
-              <% }) %>
-                <% } else { %>
-                  <p>No files to show</p>
-                  <% } %>
-    </div>
-    
-    <div class="container">
-    <h4>Important Points and Notes</h4> 
         <div>
-            <div id="sidebar" class="chat__sidebar">
-    
-            </div>
-    
-            <div>
-                <div id="messages"> 
-                 <%texts.forEach((per)=>{%>
-                    <div>
-                        <%=per.username%><%=moment(per.createdAt).format('D-M-YYYY h:mm a')%>
-                        <br/>
-                        <%=per.message%>
-                    </div>
-                  <%})%>
-                </div>
-                <div>
-                    <form id="message-form">
-                        <input type="hidden" id="roomId" value="<%=discussion.roomId%>" name="roomId" type="text">
-                        <input type="hidden" id="username" value="<%=currentUser.name%>" name="username" type="text">
-    
-                        <input name="message" id="ip" type="text" placeholder="Message" required autocomplete="off">
-                        <button id="but">Send</button>
-                    </form>
-                </div>
-            </div>
+          <form id="message-form">
+            <input
+              type="hidden"
+              id="roomId"
+              value="<%=discussion.roomId%>"
+              name="roomId"
+              type="text"
+            />
+            <input
+              type="hidden"
+              id="username"
+              value="<%=currentUser.name%>"
+              name="username"
+              type="text"
+            />
+
+            <input
+              name="message"
+              id="ip"
+              type="text"
+              placeholder="Message"
+              required
+              autocomplete="off"
+            />
+            <button id="but">Send</button>
+          </form>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <script>
-    var teacherNav = document.querySelectorAll('teacher-nav');
-    teacherNav.forEach((teacherNav) => {
-    teacherNav.innerHTML = '';
-    const navLinks = `<a id="dshbrd" href="http://localhost:3000/teacher/dashboard" onclick="dashboard()"
-          ><i class="fas fa-desktop"></i><span>Dashboard</span></a
-        >
-        <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
-        <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>`;
-      teacherNav.innerHTML = navLinks;});
-  </script>
+  function showTime() {
+    var i = 0;
+    document.querySelectorAll('#dd p').forEach((d) => {
+      if (i === 0) {
+        d.textContent = 'Date: ' + moment(Date.now()).format('Do-MM-YYYY');
+        i = 1;
+      } else {
+        d.textContent = 'Time: ' + moment(Date.now()).format('hh.mm.ss a');
+        i = 0;
+      }
+    });
+  }
+  setInterval(showTime, 1);
+</script>
 <script id="message-template" type="text/html">
-    <div>
-        {{username}}  {{createdAt}}
-        <br/>
-        {{message}}
-    </div>
+  <div>
+    {{username}} {{createdAt}}
+    <br />
+    {{message}}
+  </div>
 </script>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
 <script>
-    var teacherNav = document.querySelectorAll('#teacher-nav');
-    teacherNav.forEach((teacherNav) => {
+  var teacherNav = document.querySelectorAll('#teacher-nav');
+  teacherNav.forEach((teacherNav) => {
     teacherNav.innerHTML = '';
     const navLinks = `<a id="dshbrd" href="http://localhost:3000/teacher/dashboard/"
           ><i class="fas fa-desktop"></i><span>Dashboard</span></a
         >
         <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
         <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>`;
-      teacherNav.innerHTML = navLinks;});
-  </script>
+    teacherNav.innerHTML = navLinks;
+  });
+</script>
 <script>
-    const socket=io();
-    const $messageForm=document.querySelector("#message-form");
-    const $messageFormInput = $messageForm.querySelector('#ip');
-    const $messageFormButton = $messageForm.querySelector('#but');
-    const $messages=document.querySelector('#messages');
+  const socket = io();
+  const $messageForm = document.querySelector('#message-form');
+  const $messageFormInput = $messageForm.querySelector('#ip');
+  const $messageFormButton = $messageForm.querySelector('#but');
+  const $messages = document.querySelector('#messages');
 
-    const x= Qs.parse(location.search,{ignoreQueryPrefix:true});
-    const useremail=x.user;
-    const room=x.room;
-    console.log(useremail);console.log(room);
-    const messageTemplate=document.querySelector('#message-template').innerHTML;
+  const x = Qs.parse(location.search, { ignoreQueryPrefix: true });
+  const useremail = x.user;
+  const room = x.room;
+  console.log(useremail);
+  console.log(room);
+  const messageTemplate = document.querySelector('#message-template').innerHTML;
 
-    socket.emit('join',{useremail,room},(error)=>{
-        if(error){
-            alert(error);
-            location.href="/teacher/dashboard";
-        }
+  socket.emit('join', { useremail, room }, (error) => {
+    if (error) {
+      alert(error);
+      location.href = '/teacher/dashboard';
+    }
+  });
+
+  socket.on('message', (msg) => {
+    const html = Mustache.render(messageTemplate, {
+      message: msg.message,
+      username: msg.username,
+      roomId: msg.roomId,
+      createdAt: moment(msg.createdAt).format('D-M-YYYY h:mm a'),
     });
+    $messages.insertAdjacentHTML('beforeend', html);
+  });
 
-    socket.on('message',(msg)=>{
-        const html = Mustache.render(messageTemplate,{
-            message:msg.message,
-            username:msg.username,
-            roomId : msg.roomId,
-            createdAt:moment(msg.createdAt).format('D-M-YYYY h:mm a')
-        });
-        $messages.insertAdjacentHTML('beforeend',html);
-    });
+  $messageForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const message = e.target.elements.message.value;
+    const roomId = e.target.elements.roomId.value;
+    const username = e.target.elements.username.value;
 
-    $messageForm.addEventListener('submit',(e)=>{
-       e.preventDefault();
-       const message = e.target.elements.message.value;
-       const roomId = e.target.elements.roomId.value;
-       const username = e.target.elements.username.value;
-
-     
-       socket.emit('sendMessage',{
-           message,
-           roomId,
-           username
-       },(error)=>{
+    socket.emit(
+      'sendMessage',
+      {
+        message,
+        roomId,
+        username,
+      },
+      (error) => {
         $messageFormButton.removeAttribute('disabled');
-        $messageFormInput.value="";
+        $messageFormInput.value = '';
         $messageFormInput.focus();
-        if(error){
-            return console.log(error);
-        } 
-        console.log("Message delivered");
-    });
-});
+        if (error) {
+          return console.log(error);
+        }
+        console.log('Message delivered');
+      }
+    );
+  });
 </script>
 <%- include('partials/footer'); -%>

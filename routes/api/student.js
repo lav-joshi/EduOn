@@ -4,23 +4,55 @@ const auth = require("../../middleware/authstudent");
 const Student = require("../../models/Student");
 const Teacher = require("../../models/Teacher");
 const SuperUser = require("../../models/SuperUser");
+const Counsell = require("../../models/Counsell");
 const Meeting = require("../../models/Meeting");
 const Discussion = require("../../models/Discussion");
 const schedule = require("node-schedule");
 const { route } = require("./teacher");
-
+const nodemailer=require("nodemailer");
+const moment = require("moment");
 const router = express.Router();
 
 router.use(bodyParser.urlencoded({ extended: true }));
 
+const transporter = nodemailer.createTransport({
+    service:'gmail', 
+    auth:{
+        user:'joshilav18032002@gmail.com',
+        pass:'wefgrtry'
+    }  
+});
 
 router.get("/dashboard",auth,(req,res)=>{
+    const scheduledcounsells=[],pastcounsells=[];
+    Counsell.find({},async(err,arr)=>{
+        
+        const yours=[];
+        await arr.forEach((x)=>{
+            if((new Date()).getTime() <=x.scheduledTime.getTime() && x.reserved==false){
+               scheduledcounsells.push(x);
+            }else{
+               pastcounsells.push(x);
+            }
+        });
 
-    let errors=[];
-    if(req.query.f==0){
-        errors.push("You are not allowed to enter test/discussion room or room does not exist");
-    }
-    res.render("studentdashboard",{currentUser:req.user,clientType:req.session.client,errors:errors});
+        await arr.forEach((x)=>{
+          if(x.studentemail == req.user.email){
+              yours.push(x);
+          }
+        });
+        let errors=[];
+
+        if(req.query.f==0){
+            errors.push("You are not allowed to enter test/discussion room or room does not exist");
+        }
+        res.render("studentdashboard",{currentUser:req.user,
+                                       clientType:req.session.client,
+                                       errors:errors,
+                                       scheduledcounsells,
+                                       pastcounsells,
+                                       yours:yours});
+    });
 });  
 
 router.get("/dashboard/test/enter",auth,async (req,res)=>{
@@ -359,7 +391,7 @@ router.get("/profile/friend",auth,(req,res)=>{
                 await attendance.forEach((at)=>{
                     let x={
                         scheduledTime:at.scheduledTime,
-                        rooomId:at.roomId,
+                        roomId:at.roomId,
                     }
                     let y=at.students.findIndex(z => z.email ==req.query.email);
                     if(at.students[y].present ==true){
@@ -434,7 +466,7 @@ router.get("/profile/myprofile",auth,(req,res)=>{
                await attendance.forEach((at)=>{
                    let x={
                        scheduledTime:at.scheduledTime,
-                       rooomId:at.roomId,
+                       roomId:at.roomId,
                    }
                    let y=at.students.findIndex(z => z.email ==req.query.email);
                    if(at.students[y].present ==true){
@@ -446,6 +478,7 @@ router.get("/profile/myprofile",auth,(req,res)=>{
                });
             
             let totalpercentagepresent= (c/(attendance.length)*(1.0))*100;
+
             res.render("studentprofile",{
                     currentUser:req.user,
                     clientType:req.session.client,
@@ -458,4 +491,49 @@ router.get("/profile/myprofile",auth,(req,res)=>{
    
 });
 
+// Counselling 
+
+router.get("/arrangecounsell/:id",auth,(req,res)=>{
+     Counsell.findById(req.params.id,async(err,counsell)=>{
+
+        var mailOptions ={
+
+                    from:'joshilav18032002@gmail.com',
+                    to:req.user.email,
+                    subject:"Regarding your Counselling Session",
+                    html:"Your Counselling session has been scheduled at "+moment(counsell.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')+" with " + counsell.name+".<br>"+"<h4>Counsellor Details<h4> <b>Email:-</b>"+counsell.email+"<br><b>Contact Number:-</b>"+counsell.phoneNumber
+            };
+
+            transporter.sendMail(mailOptions,function(err,info){
+                if(err){
+                    console.log(err)
+                }else{
+                    console.log("Email Sent");
+                }
+            });
+
+        var mailOptions2 ={
+
+                from:'joshilav18032002@gmail.com',
+                to:counsell.email,
+                subject:"Regarding your Counselling Session",
+                html:"Your are requested to provide guidance that has been scheduled at "+moment(counsell.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')+" with " + req.user.name+".<br>"+"<h4>Student Details<h4> <b>Email:-</b>"+req.user.email
+        };
+
+        transporter.sendMail(mailOptions2,function(err,info){
+            if(err){
+                console.log(err)
+            }else{
+                console.log("Email Sent");
+            }
+        });
+          
+        counsell.reserved = true;
+        counsell.studentname = req.user.name;
+        counsell.studentemail = req.user.email;
+        await counsell.save();
+
+     res.redirect("/student/dashboard");
+   });
+});
 module.exports = router;
