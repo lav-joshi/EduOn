@@ -255,6 +255,16 @@
           'LeaderBoard will be generated once the Test is Finished.';
         leaderBoard.appendChild(item);
       }
+      function newQuestion(e){
+        const div = document.querySelector("#addQuestion")
+        if(e.areapressed == "false"){
+          div.style.display = "none";
+          e.areapressed = "true";
+        } else {
+          div.style.display = "block";
+          e.areapressed = "false";
+        }
+      }
 </script>
 
 <script>
@@ -273,6 +283,19 @@
       clked = 0;
     }
   })
+</script>
+
+<script>
+  function newQuestion(e){
+        const div = document.querySelector("#addQuestion")
+        if(e.areapressed == "false"){
+          div.style.display = "none";
+          e.areapressed = "true";
+        } else {
+          div.style.display = "block";
+          e.areapressed = "false";
+        }
+      }
 </script>
 
     <%- include('partials/footer'); -%>

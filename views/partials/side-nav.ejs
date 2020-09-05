@@ -179,8 +179,11 @@
         }
         if (zxx !== 0) {
           mobNavHam();
+        }try {
+          document.querySelector('.allDetails').style.display = 'none';
+        } catch (error) {
+          
         }
-        document.querySelector('.allDetails').style.display = 'none';
       }
       function test() {
         var x = document.querySelectorAll('section');

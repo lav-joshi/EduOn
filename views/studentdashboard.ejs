@@ -6,124 +6,151 @@
   <%errors.forEach((err)=>{%>
   <p><%=err%></p>
   <%})%>
-  <div class="stud-row">
+  <section class="dashboard">
+    <div class="stud-row">
+      <div class="row">
+        <div class="col s12 m7">
+          <div class="card" style="width: 70%;">
+            <div class="card-title text-center p-3 blue-grey lighten-5">Test Room</div>
+            <div class="card-image p-3" style="height: 40vh; overflow: hidden;" >
+              <img src="/images/exams.svg" style="height: 100%;">
+            </div>
+            <form action="/student/dashboard/test/enter" method="GET">
+              <input type="text" required hidden value="1" name="f" />
+              <div class="card-content">
+                <h5>Join Scheduled Test</h5>
+    
+              <input
+                type="text"
+                required
+                placeholder="Enter roomid to Join"
+                name="room"
+              />
+            </div>
+            <div class="card-action text-center">
+              <button class="btn btn-primary darken-1" type="submit" >Enter Test</button>
+            </div>
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="stud-row">
+      <div class="row">
+        <div class="col s12 m7">
+          <div class="card" style="width: 70%;">
+            <div class="card-title text-center p-3 blue-grey lighten-5">Discussion Room</div>
+            <div class="card-image" style="height: 40vh; overflow: hidden;" >
+              <img src="/images/discussion.svg" style="height: 100%;">
+            </div>
+            <form action="/student/dashboard/discussion/enter" method="GET">
+              <input type="text" required hidden value="1" name="f" />
+              <div class="card-content">
+                <h5>Join Scheduled Discussion</h5>
+                <input type="hidden" name="v" value="1" />
+              <input type="hidden" name="user" value="<%=currentUser.email%>" />
+              <input
+                type="text"
+                required
+                placeholder="Enter roomid to Join"
+                name="room"
+              />
+            </div>
+            <div class="card-action text-center">
+              <button class="btn btn-primary darken-1" type="submit" >Enter Class</button>
+            </div>
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>  
+  </section>
+<section class="counselling">
+  <div class="stud-row" >
     <div class="row">
       <div class="col s12 m7">
         <div class="card" style="width: 70%;">
-          <div class="card-title text-center p-3 blue-grey lighten-5">Test Room</div>
+          <div class="card-title text-center p-3 blue-grey lighten-5 theme-heading">Your Counselling Sessions</div>
           <div class="card-image p-3" style="height: 40vh; overflow: hidden;" >
-            <img src="/images/exams.svg" style="height: 100%;">
+            <img src="/images/counselling.svg" style="height: 100%;">
           </div>
-          <form action="/student/dashboard/test/enter" method="GET">
-            <input type="text" required hidden value="1" name="f" />
             <div class="card-content">
-              <h5>Join Scheduled Test</h5>
-  
-            <input
-              type="text"
-              required
-              placeholder="Enter roomid to Join"
-              name="room"
-            />
+                <div>
+                  <%yours.forEach((x)=>{%>
+                    <%if((new Date()).getTime() <=x.scheduledTime.getTime()){%>
+                      <h5>Upcoming</h5>
+                    <%}else{%>
+                      <h5>Finished</h5>
+                    <%}%>
+              
+                    <b>Name:- </b><%=x.name%><br>
+                    <b>Email:- </b><%=x.email%><br>
+                    <b>Phone Number- </b><%=x.phoneNumber%><br>
+                    <b>Scheduled Time:- </b><%=moment(x.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
+                    <b>Description:- </b><%=x.description%><br>
+                    <div class="seperator mt-3 mb-3"></div>
+                  <%})%>
+                </div>
           </div>
-          <div class="card-action text-center">
-            <button class="btn btn-primary darken-1" type="submit" >Enter Test</button>
-          </div>
-        </form>
         </div>
       </div>
     </div>
   </div>
-  <div class="stud-row">
+  <div class="seperator mt-3 mb-5"></div>
+
+  <div class="stud-row" >
     <div class="row">
       <div class="col s12 m7">
         <div class="card" style="width: 70%;">
-          <div class="card-title text-center p-3 blue-grey lighten-5">Discussion Room</div>
-          <div class="card-image" style="height: 40vh; overflow: hidden;" >
-            <img src="/images/discussion.svg" style="height: 100%;">
-          </div>
-          <form action="/student/dashboard/discussion/enter" method="GET">
-            <input type="text" required hidden value="1" name="f" />
+          <div class="card-title text-center p-3 blue-grey lighten-5 theme-heading">Schedule a Counselling Sessions</div>
             <div class="card-content">
-              <h5>Join Scheduled Discussion</h5>
-              <input type="hidden" name="v" value="1" />
-            <input type="hidden" name="user" value="<%=currentUser.email%>" />
-            <input
-              type="text"
-              required
-              placeholder="Enter roomid to Join"
-              name="room"
-            />
+                <div>
+                  <%scheduledcounsells.forEach((x)=>{%>
+                    <b>Name:- </b><%=x.name%><br>
+                    <b>Email:- </b><%=x.email%><br>
+                    <b>Phone Number- </b><%=x.phoneNumber%><br>
+                    <b>Scheduled Time:- </b><%=moment(x.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
+                    <b>Description:- </b><%=x.description%><br>
+                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Book Session</button>
+              
+                    <div class="modal fade" id="myModal" role="dialog" style="padding: 0px !important;">
+                      <div class="modal-dialog">
+                      
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <div class="theme-heading text-center">Confirmation</div>
+                            <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times red-text"></i></button>
+                          </div>
+                          <div class="modal-body text-center">
+                            <h4>
+                              Are you sure about attending this counselling session ?</h4>
+                          </div>
+                          <div class="modal-footer">
+                            <a class="green-text" href="/student/arrangecounsell/<%=x.id%>"><h5>Yes</h5></a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="seperator mt-3 mb-3"></div>
+                  <%})%>
+                </div>
           </div>
-          <div class="card-action text-center">
-            <button class="btn btn-primary darken-1" type="submit" >Enter Class</button>
-          </div>
-        </form>
         </div>
       </div>
     </div>
   </div>
-
-<div class="container">
-  <div class="jumbotron">
-    <h4>Schedule your Counselling Sessions</h4>
-    <%scheduledcounsells.forEach((x)=>{%>
-      <b>Name:- </b><%=x.name%><br>
-      <b>Email:- </b><%=x.email%><br>
-      <b>Phone Number- </b><%=x.phoneNumber%><br>
-      <b>Scheduled Time:- </b><%=moment(x.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
-      <b>Description:- </b><%=x.description%><br>
-      <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Book Session</button>
-
-      <div class="modal fade" id="myModal" role="dialog">
-        <div class="modal-dialog">
-        
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Are you sure you want to go for counselling session ?</h4>
-            </div>
-            <div class="modal-body">
-              <p>Click Done to proceed</p>
-            </div>
-            <div class="modal-footer">
-              <a href="/student/arrangecounsell/<%=x.id%>">Done</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <br><br><br>
-    <%})%>
-  </div>
-</div>
-
-<div class="container">
-  <div class="jumbotron">
-    <h4>Your Counselling Sessions</h4>
-    <%yours.forEach((x)=>{%>
-      <%if((new Date()).getTime() <=x.scheduledTime.getTime()){%>
-        <h5>Upcoming</h5>
-      <%}else{%>
-        <h5>Done</h5>
-      <%}%>
-
-      <b>Name:- </b><%=x.name%><br>
-      <b>Email:- </b><%=x.email%><br>
-      <b>Phone Number- </b><%=x.phoneNumber%><br>
-      <b>Scheduled Time:- </b><%=moment(x.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
-      <b>Description:- </b><%=x.description%><br><br><br>
-    <%})%>
-  </div>
-</div>
-
+</section>
 <script>
   var teacherNav = document.querySelectorAll('#student-nav');
   teacherNav.forEach((teacherNav) => {
     teacherNav.innerHTML = '';
-    const navLinks = `<a id="dshbrd" href="#" 
+    const navLinks = `<a id="dshbrd" href='#' onclick="dashboard()"
       ><i class="fas fa-desktop"></i><span>Dashboard</span></a
     >
     <a href="/student/profile/myprofile?email=<%=currentUser.email%>"><i class="fas fa-user"></i><span>My Profile</span></a>
+    <a href="#" onclick="counselling()"
+        ><i class="far fa-handshake"></i><span>Counselling</span></a
+      >
     <a class="hme" href="#"><i class="fas fa-info-circle"></i><span>Home</span></a>
     <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>`;
     teacherNav.innerHTML = navLinks;
