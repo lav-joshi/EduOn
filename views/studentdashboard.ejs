@@ -5,6 +5,8 @@
         <h3>Hello <%=currentUser.name%></h3>
     </div>
 </div>
+<a href="/student/profile/myprofile?email=<%=currentUser.email%>">My Profile</a>
+
 
 
 <%errors.forEach((err)=>{%>
@@ -13,6 +15,10 @@
 
 <div class="container">
     <div class="jumbotron">
+        <h5>Enter email to search for any student</h5>
+        <form action="/student/profile/friend" method="GET">
+            <input type="text" placeholder="Enter email to search student" name="email">
+        </form>
         <h5>Enter Room Id for Scheduled Test</h5>
         <div>
             <form action="/student/dashboard/test/enter" method="GET">
