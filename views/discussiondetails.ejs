@@ -56,12 +56,20 @@
                 <div class="col s12 m5">
                   <h4 class="theme-heading text-center">Allow Students to participate</h4>
                   <div class="card-panel" style="background-color: #58a193; font-size: medium;">
+                    <input type="checkbox" id="all" style="opacity: 1; pointer-events: auto; position: relative">
+                    Select All
+
                   <%students.forEach(function(student){%>
                     <%if(discussion.students.findIndex(x=>x.email === student.email)===-1){%>
-                              <span class="white-text mb-2">
-                                  <input type="checkbox" style="opacity:1;pointer-events:auto;position: relative;"  value="<%=student.email%>" name=main>
+                              <div class="card-content mb-2">
+                                  <input type="checkbox" 
+                                  style="opacity:1;pointer-events:auto;position: relative;"  
+                                  value="<%=student.email%>" 
+                                  name="main"
+                                  class="al"
+                                  >
                              Student :<%=student.name%>     ,     Mail: <%=student.email%>
-                              </span>
+                              </div>
                         <%}%>
                     <%})%>
                   </div>
@@ -71,6 +79,7 @@
               <input class="btn btn-primary" type="submit">
               </div>
             </form>
+            <a class="btn white black-text mt-5" href="/teacher/dashboard/discussion/sendemail/<%=discussion.roomId%>/<%=discussion.email%>"><i class="fas fa-envelope mr-2"></i>Send Invitation mail to all</a>
         </div>
     </div>
     <div class="seperator mt-5 "></div>
@@ -252,4 +261,24 @@
     });
 });
 </script>
+
+<script>
+  let all = document.getElementById("all");
+  var clked = 0;
+  all.addEventListener('click',()=>{
+    if(clked == 0){
+      document.querySelectorAll(".al").forEach((k)=>{
+         k.checked = true;
+      })
+      clked = 1;
+    }else{
+      document.querySelectorAll(".al").forEach((k)=>{
+         k.checked = false;
+      })
+      clked = 0;
+    }
+  })
+</script>
+
+
 <%- include('partials/footer'); -%>

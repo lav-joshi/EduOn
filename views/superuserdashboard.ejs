@@ -2,6 +2,10 @@
 <div class="side-nav-content p-3">
   <div id='dd' class="scheduled mb-3" style="justify-content: space-between;"><p></p><div class="theme-heading" style="padding-top: 0%;">Welcome</div><p></p></div>
 
+  <%errors.forEach((err)=>{%>
+    <p><%=err%></p>
+  <%})%>
+
 <div class="container mb-5 mt-5 allDetails">
   <h4 class="theme-heading text-center mb-5">Details of Staff and Students</h4>
   <div class="scheduled">
@@ -408,6 +412,16 @@
     setInterval(showTime,1);
     var popup = document.querySelectorAll('.modal');
     var instances = M.Modal.init(popup);
+</script>
+
+
+<script>
+  if (window.performance) {
+  }
+  if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+    location.href = 'http://localhost:3000/superuser/dashboard?f=1';
+  } else {
+  }
 </script>
 
 <%- include('partials/footer'); -%>

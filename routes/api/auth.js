@@ -40,8 +40,7 @@ passport.authenticate("google", { failureRedirect: "/" }),
              });
          }
        })
-    }
-);
+});
 
 router.get("/logout",async (req,res)=>{
     if(req.session.client==="student"){

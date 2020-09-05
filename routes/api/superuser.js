@@ -15,17 +15,22 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 
 router.get("/dashboard",auth,(req,res)=>{
+
     const scheduledcounsells=[],pastcounsells=[];
     const scheduleddiscussions=[],pastdiscussions=[];
     const scheduledtests=[],pasttests=[];
-
+    const errors=[];
     Counsell.find({},async(err,arr)=>{
       Teacher.find({},async(err,teachers)=>{
          Student.find({},async(err,students)=>{
             Discussion.find({},async(err,discussions)=>{
                Meeting.find({},async(err,meetings)=>{
 
+                  let errors=[];
 
+                  if(req.query.f==2){
+                      errors.push("User does not exist");
+                  }
 
                   await discussions.forEach((x)=>{
                      if((new Date()).getTime() <=x.scheduledTime.getTime()){
@@ -60,17 +65,19 @@ router.get("/dashboard",auth,(req,res)=>{
                                                    scheduledtests:scheduledtests,
                                                    pasttests:pasttests,
                                                    scheduleddiscussions:scheduleddiscussions,
-                                                   pastdiscussions:pastdiscussions
+                                                   pastdiscussions:pastdiscussions,
+                                                   errors:errors
                                                 });
                });
             });
          });
       });
     });
+
 });
 
 router.post("/teacher/add",auth,(req,res)=>{
-    console.log(req.body.main);
+   
     Teacher.create(req.body.main,(err,teacher)=>{
         if(err){
            console.log(err);
@@ -79,21 +86,25 @@ router.post("/teacher/add",auth,(req,res)=>{
            res.redirect("/superuser/dashboard");
         }
      });
+
 });
 
 router.get("/teacher/remove/:id",auth,(req,res)=>{
+
    Teacher.findByIdAndDelete(req.params.id,(err,counsell)=>{
-     if(err){
-        res.redirect("/superuser/dashboard");
-     }else{
-      res.redirect("/superuser/dashboard");
-     }
+      if(err){
+         res.redirect("/superuser/dashboard");
+      }else{
+         res.redirect("/superuser/dashboard");
+      }
    });
+
 });
 
 
 router.post("/student/add",auth,(req,res)=>{
-    console.log(req.body.mains);
+
+
     Student.create(req.body.mains,(err,student)=>{
         if(err){
             console.log(err);
@@ -102,37 +113,45 @@ router.post("/student/add",auth,(req,res)=>{
            res.redirect("/superuser/dashboard");
         }
      });
+
 });
 
 router.get("/student/remove/:id",auth,(req,res)=>{
+
    Student.findByIdAndDelete(req.params.id,(err,counsell)=>{
-     if(err){
-        res.redirect("/superuser/dashboard");
-     }else{
-      res.redirect("/superuser/dashboard");
-     }
+
+      if(err){
+         res.redirect("/superuser/dashboard");
+      }else{
+         res.redirect("/superuser/dashboard");
+      }
+
    });
+
 });
 
 router.post("/counsell/add",auth,(req,res)=>{
-   console.log(req.body.counsell);
+
    Counsell.create(req.body.counsell,(err,counsell)=>{
-      if(err){
-        res.redirect("/superuser/dashboard");
-       }else{
-        res.redirect("/superuser/dashboard");
-       }
+         if(err){
+         res.redirect("/superuser/dashboard");
+         }else{
+         res.redirect("/superuser/dashboard");
+         }
    });
+
 });
 
 router.get("/counsell/remove/:id",auth,(req,res)=>{
+
    Counsell.findByIdAndDelete(req.params.id,(err,counsell)=>{
-     if(err){
-        res.redirect("/superuser/dashboard");
-     }else{
-      res.redirect("/superuser/dashboard");
-     }
+      if(err){
+         res.redirect("/superuser/dashboard");
+      }else{
+         res.redirect("/superuser/dashboard");
+      }
    });
+
 });
 
 ///////////////////////
@@ -140,75 +159,81 @@ router.get("/counsell/remove/:id",auth,(req,res)=>{
 ///////////////////////
 
 router.get("/profile",auth,(req,res)=>{
-   Student.findOne({email:req.query.email},(err,student)=>{
-     Discussion.find({},async(err,discussions)=>{
-         Meeting.find({},async(err,meetings)=>{
-         let attendance=[],graph=[];
 
-             let c=0;
-             await discussions.forEach(async (discussion)=>{
-                 let y=discussion.students.findIndex(x => x.email == req.query.email);
-                 if(y!==-1){
-                     attendance.push(discussion);
-                     if(discussion.students[y].present === true){
-                         c=c+1;
-                     }
-                 }
-             });
-             
-             await meetings.forEach(async (meeting)=>{
-                 let y = meeting.students.indexOf(req.query.email);
-                 if(y!==-1){
-                     graph.push(meeting);
-                 }
-             });
-             
-             let test=[];
-             await graph.forEach(async(g)=>{
-                 let x={
-                   scheduledTime:g.scheduledTime,
-                   roomId:g.roomId,
-                   totalquestions:g.questions.length,
-                 }
-               let y= g.intestdetails.findIndex(z=> z.email == req.query.email);
-               let count =0;
-               await g.intestdetails[y].correct.forEach((ee)=>{
-                   if(ee==1){
-                       count++;
-                   }
-               });
-               x.correct = count;
-               x.percentage = (count/(x.totalquestions)*(1.0))*100;
-               test.push(x);
-             });
-             
+      Student.findOne({email:req.query.email},(err,student)=>{
+         if(student){
+            Discussion.find({},async(err,discussions)=>{
+                  Meeting.find({},async(err,meetings)=>{
+                  let attendance=[],graph=[];
 
-             let present=[];
-             await attendance.forEach((at)=>{
-                 let x={
-                     scheduledTime:at.scheduledTime,
-                     roomId:at.roomId,
-                 }
-                 let y=at.students.findIndex(z => z.email ==req.query.email);
-                 if(at.students[y].present ==true){
-                   x.present=true;
-                 }else{
-                   x.present=false;
-                 }
-                 present.push(x);
-             });
-         
-         let totalpercentagepresent= (c/(attendance.length)*(1.0))*100;
-         res.render("superuser-studentprofile",{
-                 currentUser:req.user,
-                 clientType:req.session.client,
-                 student:student,
-                 present:present,
-                 test:test,
-                 totalpercentagepresentinclass:totalpercentagepresent});
-         });
-     });
- });
+                     let c=0;
+                     await discussions.forEach(async (discussion)=>{
+                        let y=discussion.students.findIndex(x => x.email == req.query.email);
+                        if(y!==-1){
+                              attendance.push(discussion);
+                              if(discussion.students[y].present === true){
+                                 c=c+1;
+                              }
+                        }
+                     });
+                     
+                     await meetings.forEach(async (meeting)=>{
+                        let y = meeting.students.indexOf(req.query.email);
+                        if(y!==-1){
+                              graph.push(meeting);
+                        }
+                     });
+                     
+                     let test=[];
+                     await graph.forEach(async(g)=>{
+                        let x={
+                           scheduledTime:g.scheduledTime,
+                           roomId:g.roomId,
+                           totalquestions:g.questions.length,
+                        }
+                        let y= g.intestdetails.findIndex(z=> z.email == req.query.email);
+                        let count =0;
+                        await g.intestdetails[y].correct.forEach((ee)=>{
+                           if(ee==1){
+                              count++;
+                           }
+                        });
+                        x.correct = count;
+                        x.percentage = (count/(x.totalquestions)*(1.0))*100;
+                        test.push(x);
+                     });
+                     
+
+                     let present=[];
+                     await attendance.forEach((at)=>{
+                        let x={
+                              scheduledTime:at.scheduledTime,
+                              roomId:at.roomId,
+                        }
+                        let y=at.students.findIndex(z => z.email ==req.query.email);
+                        if(at.students[y].present ==true){
+                           x.present=true;
+                        }else{
+                           x.present=false;
+                        }
+                        present.push(x);
+                     });
+                  
+                  let totalpercentagepresent= (c/(attendance.length)*(1.0))*100;
+                  res.render("superuser-studentprofile",{
+                        currentUser:req.user,
+                        clientType:req.session.client,
+                        student:student,
+                        present:present,
+                        test:test,
+                        totalpercentagepresentinclass:totalpercentagepresent});
+                  });
+            });
+     }else{
+        res.redirect("/superuser/dashboard?f=2");
+     }
+   });
+
 })
 
 
