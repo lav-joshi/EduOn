@@ -3,11 +3,14 @@
     <div class="jumbotron">
         <div>Room Id : <%=discussion.roomId%></div>
         <div> Scheduled time : <%=moment(discussion.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%></div><br><br>
+
+
+        <a href="/teacher/dashboard/enter/discussion/classroom/<%=discussion.roomId%>?email=<%=currentUser.email%>&room=<%=discussion.roomId%>"><h6>Enter Main Class Room</h6></a>
         <h3>Allowed students</h3><br>
-        <% discussion.students.forEach(function(studentemail){%>
-           <%=studentemail%>
+        <% discussion.students.forEach(function(stud){%>
+           <%=stud.email%>
            <%students.forEach(function(student){%>
-                <%if(student.email===studentemail){%>
+                <%if(student.email===stud.email){%>
                     <div><%=student.name%></div>
                 <%}%>
            <%})%>
@@ -17,7 +20,7 @@
         <p>Allow student to participate from below</p>
         <form action="/teacher/dashboard/discussion/<%=discussion.roomId%>" method="POST">
             <%students.forEach(function(student){%>
-                <%if(discussion.students.indexOf(student.email)===-1){%>
+                <%if(discussion.students.findIndex(x=>x.email === student.email)===-1){%>
                     <input type="checkbox" style="opacity:1;pointer-events:auto;position: relative;"  value="<%=student.email%>" name=main>
                     <div>
                         <%=student.name%>
@@ -119,7 +122,7 @@
         $messageFormInput.focus();
         if(error){
             return console.log(error);
-        }
+        } 
         console.log("Message delivered");
     });
 });
