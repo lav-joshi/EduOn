@@ -48,31 +48,31 @@ router.post("/meeting/updatetiming/:roomid",auth,(req,res)=>{
     console.log(req.body.editscheduledtime);
     Meeting.findOne({roomId:req.params.roomid},async(err,meeting)=>{
       if(meeting.email == req.user.email){
-          console.log("fuck");
         meeting.scheduledTime=req.body.editscheduledtime;
         await meeting.save();
       }
     });
 
-    res.redirect("/teacher/dashboard/"+req.params.roomid);
+    res.redirect("/teacher/dashboard/meeting/"+req.params.roomid);
 });
 
 router.get("/dashboard/delete/student/:roomid/:email",auth,async (req,res)=>{
   Meeting.findOne({roomId:req.params.roomid},async(err,meeting)=>{
       if(err || !meeting){
-         res.redirect("/teacher/dashboard/"+req.params.roomid)
+         res.redirect("/teacher/dashboard/meeting/"+req.params.roomid)
       }else if(meeting.email == req.user.email){
           let x=meeting.students.indexOf(req.params.email);
           if(x!==-1){
               meeting.students.splice(x,1);
               await meeting.save();
           }
-          res.redirect("/teacher/dashboard/"+req.params.roomid)
+          res.redirect("/teacher/dashboard/meeting/"+req.params.roomid)
       }
   })
 })
 
-router.get("/dashboard/:roomId",auth,(req,res)=>{
+router.get("/dashboard/meeting/:roomId",auth,(req,res)=>{ ///////////////////////////////////
+    console.log("fuck hard");
     Meeting.findOne({roomId:req.params.roomId},async(err,meeting)=>{
       Student.find({},async(err,students)=>{
         res.render("meetingdetails",{currentUser:req.user,
@@ -90,7 +90,7 @@ router.post("/dashboard/question/:roomId",auth,(req,res)=>{
         meeting.questions.push(req.body);
         await meeting.save();
     })
-    res.redirect("/teacher/dashboard/"+req.params.roomId);
+    res.redirect("/teacher/dashboard/meeting/"+req.params.roomId);
 });
 
 router.get("/dashboard/question/delete/:ques/:roomId",auth,async(req,res)=>{
@@ -99,7 +99,7 @@ router.get("/dashboard/question/delete/:ques/:roomId",auth,async(req,res)=>{
     meeting.questions.splice(index,1);
     await meeting.save();
   });
-  res.redirect("/teacher/dashboard/"+req.params.roomId);
+  res.redirect("/teacher/dashboard/meeting/"+req.params.roomId);
 });
 
 router.post("/dashboard/:roomId",auth,async (req,res)=>{
@@ -147,14 +147,14 @@ router.post("/dashboard/:roomId",auth,async (req,res)=>{
        } 
      
    });
-   res.redirect("/teacher/dashboard/"+req.params.roomId);
+   res.redirect("/teacher/dashboard/meeting/"+req.params.roomId);
 });
 
 
 router.get("/dashboard/meeting/sendmail/:roomid/:email",auth,(req,res)=>{
     Meeting.findOne({roomId:req.params.roomid},(err,meeting)=>{
         if(err){
-            res.redirect("/teacher/dashboard/"+req.params.roomid);
+            res.redirect("/teacher/dashboard/meeting/"+req.params.roomid);
         }else if(req.params.email == meeting.email){
             meeting.students.forEach((stud)=>{
                 var mailOptions ={
@@ -171,7 +171,7 @@ router.get("/dashboard/meeting/sendmail/:roomid/:email",auth,(req,res)=>{
                     }
                 });
             });
-            res.redirect("/teacher/dashboard/"+req.params.roomid);
+            res.redirect("/teacher/dashboard/meeting/"+req.params.roomid);
         }
     });
 });
@@ -228,9 +228,10 @@ router.post("/discussion/add",auth,(req,res)=>{
         }
     });
 })
-
+ 
 
 router.get("/dashboard/enter/discussion",auth,(req,res)=>{
+    console.log("madar");
     Discussion.findOne({roomId:req.query.room},async (err,discussion)=>{
         Student.find({},async (err,students)=>{
           res.render("discussiondetails",{currentUser:req.user,
@@ -243,12 +244,29 @@ router.get("/dashboard/enter/discussion",auth,(req,res)=>{
 });
 
 
+router.get("/dashboard/enter/discussion/classroom/:roomid",(req,res)=>{
+  Discussion.findOne({roomId:req.params.roomid},(err,discussion)=>{
+    res.render("mainclassroom",{currentUser:req.user,clientType:req.session.client,discussion:discussion})
+  });
+});
+
+
+
 router.post("/dashboard/discussion/:roomId",auth,async(req,res)=>{
     Discussion.findOne({roomId:req.params.roomId},async (err,discussion)=>{
         try{
          if(Array.isArray(req.body.main)){
-             discussion.students=await discussion.students.concat(req.body.main);
+            //  discussion.students=await discussion.students.concat(req.body.main);
+            //  await discussion.save();
+             req.body.main.forEach((stud)=>{
+               let x={
+                   email:stud,
+                   present:false
+               }
+               discussion.students.push(x);
+             });
              await discussion.save();
+
              req.body.main.forEach(student => {
                  var mailOptions ={
                      from:'joshilav18032002@gmail.com',
@@ -266,7 +284,11 @@ router.post("/dashboard/discussion/:roomId",auth,async(req,res)=>{
              });
          }
          else{
-             await discussion.students.push(req.body.main);
+             let y={
+                 email:req.body.main,
+                 present:false
+             }
+             await discussion.students.push(y);
              await discussion.save();
              var mailOptions ={
                  from:'joshilav18032002@gmail.com',

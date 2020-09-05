@@ -268,7 +268,7 @@ router.get("/dashboard/discussion/enter",auth,async(req,res)=>{
         if(err){
             res.redirect("/student/dashboard");
         }
-        if(discussion.students.indexOf(req.query.user)===-1){
+        if(discussion.students.findIndex(x=>x.email === req.query.user)===-1){
             // Issue number 1
             res.redirect("/student/dashboard");
         }else{
@@ -278,6 +278,18 @@ router.get("/dashboard/discussion/enter",auth,async(req,res)=>{
     }); 
 });
 
+router.get("/dashboard/discussion/enter/classroom",async(req,res)=>{
+    Discussion.findOne({roomId:req.query.room},(err,discussion)=>{
+        if(err){
+            throw Error(err);
+        }
+        if(discussion.students.findIndex(x=>x.email === req.query.email)===-1){
+         res.redirect('/student/dashboard/discussion/enter?room'+req.params.room+'&user='+req.params.email);
+        }else{
+            res.render("studentmainclassroom",{currentUser:req.user,clientType:req.session.client,discussion:discussion})
+        }
+    }) 
+})
 
 
 module.exports = router;

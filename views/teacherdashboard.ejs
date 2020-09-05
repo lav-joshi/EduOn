@@ -183,8 +183,7 @@
     <div>
         Scheduled time : <%=moment(meeting.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
         Room id : <%=meeting.roomId%><br>
-        <a href="/teacher/dashboard/<%=meeting.roomId%>">Click for settings</a>
-    </div>
+        <a href="/teacher/dashboard/meeting/<%=meeting.roomId%>">Click for settings</a></div>
   <%})%>
 </div>
 
