@@ -66,7 +66,7 @@
       >
       <ul class="right hide-on-med-and-down">
         <li><a href="#">Home</a></li>
-        <li><a href="#">About</a></li>
+        <li><a  class="dshadd" href=''>Dashboard</a></li>
         <li>
           <%if(!currentUser){%>
           <a style="color: black" href="/auth/google">Sign Up/Login with G+</a>
@@ -80,7 +80,7 @@
 
   <ul class="sidenav" id="mobile-demo">
     <li><a href="#">Home</a></li>
-    <li><a href="#">About</a></li>
+    <li><a class="dshadd" href="#">Dashboard</a></li>
     <li>
       <%if(!currentUser){%>
       <a style="color: black" href="/auth/google">Sign Up/Login with G+</a>
@@ -89,6 +89,14 @@
       <%}%>
     </li>
   </ul>
+  <script>
+    var ctype = `<%= clientType %>`;
+    var dhref = `/${ctype}/dashboard`
+    if(ctype == 'admin') dhref = '/superuser/dashboard';
+    document.querySelectorAll('.dshadd').forEach(link => {
+      link.href = dhref;
+    })
+  </script>
   <script>
     window.addEventListener('load', () => {
       var preloader = document.querySelector('.preloader');

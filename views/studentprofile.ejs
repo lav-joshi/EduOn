@@ -87,10 +87,12 @@
         ><i class="fas fa-desktop"></i><span>Dashboard</span></a
       >
       <a href="#attendance-detail"><i class="far fa-check-circle"></i><span>Attendance</span></a>
-      <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
+      <a class="" href="#"><i class="fas fa-info-circle"></i><span>Home</span></a>
       <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>`;
     teacherNav.innerHTML = navLinks;
   });
+  document.querySelectorAll('.hme').forEach(link => link.href = location.hostname);
+
   function showTime() {
     var i = 0;
     document.querySelectorAll('#dd p').forEach((d) => {

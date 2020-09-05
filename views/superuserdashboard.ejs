@@ -355,10 +355,11 @@
   <a href="#" onclick="addStudent()"
     ><i class="fas fa-user-graduate"></i><span>Add Student</span></a
   >
-  <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
+  <a class='hme' href="#"><i class="fas fa-info-circle"></i><span>Home</span></a>
   <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>`;
     teacherNav.innerHTML = navLinks;
   });
+  document.querySelectorAll('.hme').forEach(link => link.href = location.hostname);
   function showTime(){
       var i = 0;
     document.querySelectorAll("#dd p").forEach(d => {

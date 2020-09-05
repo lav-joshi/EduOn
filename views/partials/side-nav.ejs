@@ -208,6 +208,7 @@
           document.querySelector('.side-nav-content').style.pointerEvents =
             'none';
           document.querySelector('.mobile-sidebar').style.display = 'inline';
+          document.querySelector('.chat-cont').style.display = 'none';
           mob.style.transform = 'translateX(0%)';
 
           navFlag = 1;
@@ -224,6 +225,7 @@
           document.querySelector('.side-nav-content').style.overflow = '';
           document.querySelector('.side-nav-content').style.height =
             'fit-content';
+          document.querySelector('.chat-cont').style.display = 'block';
           document.querySelector('.mobile-sidebar').style.display = 'none';
 
           navFlag = 0;
@@ -242,6 +244,7 @@
           document.querySelector('.side-nav-content').style.overflow = '';
           document.querySelector('.side-nav-content').style.height =
             'fit-content';
+          document.querySelector('.chat-cont').style.display = 'block';
           document.querySelector('.mobile-sidebar').style.display = 'none';
 
           navFlag = 0;

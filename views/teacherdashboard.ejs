@@ -202,9 +202,10 @@
       <a href="#" onclick="test()"
         ><i class="far fa-file-alt"></i><span>New Test</span></a
       >
-      <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
+      <a class="hme" href="#"><i class="fas fa-info-circle"></i><span>Home</span></a>
       <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>`;
     teacherNav.innerHTML = navLinks;});
+  document.querySelectorAll('.hme').forEach(link => link.href = location.hostname);
     function showTime(){
       var i = 0;
     document.querySelectorAll("#dd p").forEach(d => {

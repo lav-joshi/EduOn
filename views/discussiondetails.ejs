@@ -4,6 +4,11 @@
         <p></p>
         <p></p>
       </div>
+    <div class="chat-cont text-right">
+      <a class="waves-effect waves-light btn modal-trigger btn-floating" href="#chat-teacher">      <i class="fas fa-comments"></i>
+      </a><p>Chat</p>
+    </div>
+  
     <div class="stud-row">
         <div class="row">
           <div class="col s12 m7">
@@ -28,53 +33,56 @@
           </div>
         </div>
       </div>
-    <div class="container">
-        <div class="jumbotron">
-            <div>Room Id : <%=discussion.roomId%></div>
-            <div> Scheduled time : <%=moment(discussion.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%></div><br><br>
-            <form action="/teacher/discussion/updatetiming/<%=discussion.roomId%>/<%=currentUser.email%>" method="POST" >
-                <label>Edit Scheduled Time</label>
-                <input type="datetime-local" value="<%=moment(discussion.scheduledTime).format('YYYY-MM-DD')%>T<%=moment(discussion.scheduledTime).format('hh:mm')%>" name="editscheduledtime">
-                <button>Change</button>
-            </form>
-            <br/>
-            <a href="/teacher/dashboard/enter/discussion/classroom/<%=discussion.roomId%>?email=<%=currentUser.email%>&room=<%=discussion.roomId%>"><h6>Enter Main Class Room</h6></a>
-            <h3>Allowed students</h3><br>
-            <% discussion.students.forEach(function(stud){%>
-               <%=stud.email%>
-               <%students.forEach(function(student){%>
-                    <%if(student.email===stud.email){%>
-                        <div><%=student.name%></div>
-                    <%}%>
-               <%})%>
-            <%})%>
-            <br><br>
-            
-            <p>Allow student to participate from below</p>
+    <div class="seperator mt-5 "></div>
+
+    <div id="allow" class="container">
+        <div class="jumbotron white">
+            <div class="row">
+              <div class="col s12 m5">
+                <h4 class="theme-heading text-center">Allowed students</h4>
+                <div class="card-panel white-text" style="background-color: #58a193; font-size: medium;">
+                  <% discussion.students.forEach(function(stud){%>
+                    <%students.forEach(function(student){%>
+                         <%if(student.email===stud.email){%>
+                             <div class="card-content mb-2"> Name : <%=student.name%>     ,     Mail : <%=student.email%></div>
+                         <%}%>
+                    <%})%>
+                 <%})%>
+                </div>
+              </div>
+            </div>
             <form action="/teacher/dashboard/discussion/<%=discussion.roomId%>" method="POST">
-                <%students.forEach(function(student){%>
+              <div class="row">
+                <div class="col s12 m5">
+                  <h4 class="theme-heading text-center">Allow Students to participate</h4>
+                  <div class="card-panel" style="background-color: #58a193; font-size: medium;">
+                  <%students.forEach(function(student){%>
                     <%if(discussion.students.findIndex(x=>x.email === student.email)===-1){%>
-                        <input type="checkbox" style="opacity:1;pointer-events:auto;position: relative;"  value="<%=student.email%>" name=main>
-                        <div>
-                            <%=student.name%>
-                        </div>
-                        <div>
-                            <%=student.email%>
-                        </div>
-                    <%}%>
-                <%})%>
-                <input type="submit">
+                              <span class="white-text mb-2">
+                                  <input type="checkbox" style="opacity:1;pointer-events:auto;position: relative;"  value="<%=student.email%>" name=main>
+                             Student :<%=student.name%>     ,     Mail: <%=student.email%>
+                              </span>
+                        <%}%>
+                    <%})%>
+                  </div>
+                </div>
+              </div>
+              <div class="text-center">
+              <input class="btn btn-primary" type="submit">
+              </div>
             </form>
         </div>
     </div>
-    <div class="container">
+    <div class="seperator mt-5 "></div>
+
+    <div id="upload-t" class="container mt-5">
         <div class="row">
-          <div class="col-md-6 m-auto">
-              <h1 class="text-center display-4 my-4">Upload Notes or Pre-requisites for Class</h1>
+          <div class="col-md-6 card m-auto">
+              <h1 class="text-center display-4 my-4">Pre-requisites / Notes</h1>
                   <form action="/teacher/dashboard/adddoc/toroom" method="POST" enctype="multipart/form-data">
                       <input type="text" name="roomid" id="roomid" value="<%=discussion.roomId%>" hidden>
                       <input type="text" name="email" id="email" value="<%=discussion.email%>" hidden>
-                      <input type="text" name="filename" id="filename" placeholder="File name" required>
+                      <input type="text" name="filename" id="filename" placeholder="Name the file" required>
                       <div class="file-field input-field">
                         <div class="btn grey">
                           <span>Browse File</span>
@@ -92,8 +100,10 @@
         </div>
     </div>
     
-    <div class="container">
-        <h4>Uploaded Ones</h4>
+    <div class="container mt-5">
+        <div class="card">
+          <span class="card-content text-center">
+            <div class="card-title mt-1">Uploaded</div>
         <% if(discussion.files.length!==0){ %>
             <% discussion.files.forEach(function(file) { %>
               <div class="card card-body mb-3">
@@ -112,18 +122,24 @@
                 <% } else { %>
                   <p>No files to show</p>
                   <% } %>
+                </span>
+        </div>
     </div>
-    
-    <div class="container">
-    <h4>Important Points and Notes</h4> 
-        <div>
-            <div id="sidebar" class="chat__sidebar">
-    
-            </div>
-    
+
+    <div class="seperator mt-5 "></div>
+
+    <div id="chat-teacher" class="T-chat modal">
+      <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+      </div>
+      <div class="modal-content">
+        <h4 class="text-center">Chat</h4>
+        <p style="height: 100%;">
+          <div id="sidebar" class="chat__sidebar"> </div>
+  
             <div>
                 <div id="messages"> 
-                 <%texts.forEach((per)=>{%>
+                <%texts.forEach((per)=>{%>
                     <div>
                         <%=per.username%><%=moment(per.createdAt).format('D-M-YYYY h:mm a')%>
                         <br/>
@@ -135,15 +151,31 @@
                     <form id="message-form">
                         <input type="hidden" id="roomId" value="<%=discussion.roomId%>" name="roomId" type="text">
                         <input type="hidden" id="username" value="<%=currentUser.name%>" name="username" type="text">
-    
+  
                         <input name="message" id="ip" type="text" placeholder="Message" required autocomplete="off">
-                        <button id="but">Send</button>
+                        <button class="btn" id="but">Send</button>
                     </form>
                 </div>
             </div>
         </div>
+      </p>
     </div>
 </div>
+<script>
+  var teacherNav = document.querySelectorAll('#teacher-nav');
+  teacherNav.forEach((teacherNav) => {
+  teacherNav.innerHTML = '';
+  const navLinks = `<a id="dshbrd" href="http://localhost:3000/teacher/dashboard" onclick="dashboard()"
+        ><i class="fas fa-desktop"></i><span>Dashboard</span></a>
+        <a href="#allow"> <i class="far fa-check-circle"></i><span>Allow</span></a>
+      <a class="modal-trigger" href="#chat-teacher"><i class="fas fa-comments"></i><span>Chat</span>
+    </a>
+      <a href="#upload-t"><i class="fas fa-upload"></i><span>Upload</span></a>
+      <a class='hme' href=''><i class="fas fa-info-circle"></i><span>Home</span></a>
+      <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>`;
+    teacherNav.innerHTML = navLinks;});
+  document.querySelectorAll('.hme').forEach(link => link.href = location.hostname);
+</script>
 <script>
     function showTime() {
       var i = 0;
@@ -158,17 +190,8 @@
       });
     }
     setInterval(showTime, 1);
-  </script>
-<script>
-    var teacherNav = document.querySelectorAll('teacher-nav');
-    teacherNav.forEach((teacherNav) => {
-    teacherNav.innerHTML = '';
-    const navLinks = `<a id="dshbrd" href="http://localhost:3000/teacher/dashboard" onclick="dashboard()"
-          ><i class="fas fa-desktop"></i><span>Dashboard</span></a
-        >
-        <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
-        <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>`;
-      teacherNav.innerHTML = navLinks;});
+    var chatT = document.querySelectorAll('.T-chat');
+     M.Modal.init(chatT, {});
   </script>
 <script id="message-template" type="text/html">
     <div>
@@ -180,17 +203,6 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
-<script>
-    var teacherNav = document.querySelectorAll('#teacher-nav');
-    teacherNav.forEach((teacherNav) => {
-    teacherNav.innerHTML = '';
-    const navLinks = `<a id="dshbrd" href="http://localhost:3000/teacher/dashboard/"
-          ><i class="fas fa-desktop"></i><span>Dashboard</span></a
-        >
-        <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
-        <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>`;
-      teacherNav.innerHTML = navLinks;});
-  </script>
 <script>
     const socket=io();
     const $messageForm=document.querySelector("#message-form");

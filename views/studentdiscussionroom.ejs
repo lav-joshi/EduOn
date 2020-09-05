@@ -164,9 +164,10 @@
       ><i class="fas fa-desktop"></i><span>Dashboard</span></a
     >
     <a href="/student/profile/myprofile?email=<%=currentUser.email%>"><i class="fas fa-user"></i><span>My Profile</span></a>
-    <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>`;
+    <a class="hme" href="#"><i class="fas fa-info-circle"></i><span>Home</span></a>`;
     teacherNav.innerHTML = navLinks;
   });
+  document.querySelectorAll('.hme').forEach(link => link.href = location.hostname);
 </script>
 
 
