@@ -1,6 +1,8 @@
 <%- include('partials/side-nav'); -%>
 <div class="side-nav-content p-3">
-  <div id='dd' class="scheduled mb-3" style="justify-content: space-between;"><p></p><div class="theme-heading" style="padding-top: 0%;">Welcome</div><p></p></div>
+  <div id='dd' class="scheduled mb-3" style="justify-content: space-between;">
+    <p></p><div class="theme-heading top-welcome" style="padding-top: 0%;">Welcome</div>
+    <p></p></div>
 
   <%errors.forEach((err)=>{%>
     <p><%=err%></p>
@@ -201,8 +203,11 @@
                     <b>Scheduled Time:- </b><%=moment(x.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
                     <b>Students Invited</b>
                     <select style="display: block;">
+                      <option disabled selected class="present p-1">
+                        Invited Students
+                      </option>
                      <%x.students.forEach((y)=>{%>
-                       <%=y.email%>
+                       <option><%=y.email%></option>
                       <%})%>
                      </select>
                     <div class="seperator mt-3 mb-3"></div>
@@ -231,7 +236,7 @@
                   <b>Scheduled Time:- </b><%=moment(x.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
                   <b>Students Invited</b>
                   <select style="display: block;">
-                    <option class="present p-1">
+                    <option disabled selected class="present p-1">
                       All Students
                     </option>
                      <%x.students.forEach((y)=>{%>
@@ -284,8 +289,9 @@
                     <b>Scheduled Time:- </b><%=moment(x.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
                     <b>Students Invited</b>
                     <select style="display: block;">
+                      <option disabled selected >Invited Students</option>
                      <%x.students.forEach((y)=>{%>
-                       <%=y.email%>
+                       <option><%=y%></option>
                       <%})%>
                      </select>
                     <div class="seperator mt-3 mb-3"></div>
@@ -312,9 +318,10 @@
                     <b>Scheduled Time:- </b><%=moment(x.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
                     <b>Students Invited</b>
                     <select style="display: block;">
-                     <%x.students.forEach((y)=>{%>
-                      <option><%=y%></option>
-                      <%})%>
+                      <option disabled selected >All Students</option>
+                      <%x.students.forEach((y)=>{%>
+                        <option><%=y%></option>
+                       <%})%>
                      </select>
                     <div class="seperator mt-3 mb-3"></div>
                  <%})%>

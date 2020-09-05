@@ -359,6 +359,9 @@ label #sidebar_btn:hover {
   .sidebar {
     display: none;
   }
+  .top-welcome{
+    display: none;
+  }
   #check {
     display: none;
   }
@@ -402,5 +405,10 @@ label #sidebar_btn:hover {
 
     transform: translateY(50%);
     right: 0%;
+  }
+}
+@media screen and (max-width: 400px) {
+  .search-container {
+    width: 45%;
   }
 }

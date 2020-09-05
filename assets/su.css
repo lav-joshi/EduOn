@@ -18,6 +18,7 @@
   align-items: center;
   border-radius: 50%;
 }
+
 .chat-cont{
   position: fixed;
   right: 2%;
@@ -41,11 +42,13 @@ input:focus {
 }
 #svg-teacher {
   position: relative;
-  padding: 2rem;
   max-width: 60vw;
   min-height: 30vmin;
   left: 50%;
   transform: translateX(-50%);
+}
+.svg-T{
+  min-height: fit-content;
 }
 #blueBalls path:nth-child(1) {
   animation: fadeballs 1.5s linear alternate infinite;
@@ -232,6 +235,7 @@ input:focus {
   height: 100% !important;
 }
 @media screen and (max-width: 1280px) {
+  
   .sche-dash {
     min-width: 90%;
     font-size: small;
@@ -244,6 +248,10 @@ input:focus {
   }
 }
 @media screen and (max-width: 750px) {
+  .svg-T{
+    margin-top: -20%;
+    margin-bottom: -15%;
+  }
   body {
     font-size: smaller;
   }
@@ -258,5 +266,17 @@ input:focus {
   .sche-dash {
     min-width: 90%;
     font-size: smaller;
+  }
+}
+@media screen and (max-width: 590px){
+  .svg-T{
+    margin-top: -35%;
+    margin-bottom: -25%;
+  }
+}
+@media screen and (max-width: 430px){
+  .svg-T{
+    margin-top: -230px;
+    margin-bottom: -200px;
   }
 }

@@ -20,8 +20,8 @@ router.use(bodyParser.urlencoded({ extended: true }));
 const transporter = nodemailer.createTransport({
     service:'gmail', 
     auth:{
-        user:'joshilav18032002@gmail.com',
-        pass:'wefgrtry'
+        user:'eduon.portal@gmail.com',
+        pass:'lav1234@'
     }  
 });
 
@@ -570,7 +570,7 @@ router.get("/arrangecounsell/:id",auth,(req,res)=>{
 
         var mailOptions ={
 
-                    from:'joshilav18032002@gmail.com',
+                    from:'eduon.portal@gmail.com',
                     to:req.user.email,
                     subject:"Regarding your Counselling Session",
                     html:"Your Counselling session has been scheduled at "+moment(counsell.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')+" with " + counsell.name+".<br>"+"<h4>Counsellor Details<h4> <b>Email:-</b>"+counsell.email+"<br><b>Contact Number:-</b>"+counsell.phoneNumber
@@ -586,7 +586,7 @@ router.get("/arrangecounsell/:id",auth,(req,res)=>{
 
         var mailOptions2 ={
 
-                from:'joshilav18032002@gmail.com',
+                from:'eduon.portal@gmail.com',
                 to:counsell.email,
                 subject:"Regarding your Counselling Session",
                 html:"Your are requested to provide guidance that has been scheduled at "+moment(counsell.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')+" with " + req.user.name+".<br>"+"<h4>Student Details<h4> <b>Email:-</b>"+req.user.email
