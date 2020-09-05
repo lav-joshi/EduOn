@@ -355,7 +355,7 @@ router.get("/dashboard/discussion/enter",auth,async(req,res)=>{
             res.redirect("/student/dashboard?f=0");
         }
         if(discussion.students.findIndex(x=>x.email === req.query.user)===-1){
-            res.redirect("/student/dashboard?f=0;");
+            res.redirect("/student/dashboard?f=0");
         }else{
             let errors=[];
             if(req.query.v==0){

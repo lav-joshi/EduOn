@@ -99,7 +99,7 @@ router.post("/meeting/add",auth,(req,res)=>{
         if(err){
             res.redirect("/teacher/dashboard");
         }else{
-            res.redirect("/teacher/dashboard");
+            res.redirect("/teacher/dashboard/meeting/"+req.body.meeting.roomId);
         }
 
     });
@@ -300,7 +300,7 @@ router.post("/discussion/add",auth,(req,res)=>{
         if(err){
             res.redirect("/teacher/dashboard");
         }else{
-            res.redirect("/teacher/dashboard");
+            res.redirect("/teacher/dashboard/enter/discussion?room="+ req.body.discussion.roomId +"&user="+req.body.discussion.email);
         }
     });
     

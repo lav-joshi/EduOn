@@ -150,6 +150,8 @@
           <div class="col s12 m5">
             <h4 class="theme-heading text-center">Allow Students to participate</h4>
             <div class="card-panel" style="background-color: #58a193; font-size: medium;">
+              <input type="checkbox" id="all" style="opacity: 1; pointer-events: auto; position: relative">
+                    Select All
               <%students.forEach(function(student){%>
                 <%if(meeting.students.indexOf(student.email)===-1){%>
                   <div class="card-content mb-2">
@@ -158,6 +160,7 @@
                   style="opacity: 1; pointer-events: auto; position: relative"
                   value="<%=student.email%>"
                   name="main"
+                  class="al"
                 />
                  Name : <%=student.name%>     ,     Mail : <%=student.email%></div>
 
