@@ -1,7 +1,13 @@
-<html>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
   <head>
-    <title>Education Portal</title>
-    <!-- CSS only -->
+    <meta charset="utf-8" />
+    <title>EduOn</title>
+    <link rel="stylesheet" href="/side-nav.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+    />
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
@@ -50,51 +56,39 @@
       <%- include('../../assets/svg/eduon-logo.svg') %>
     </div>
   </head>
-
-  <div class="bg-images">
-    <!-- <div class="shade"><%- include('../../assets/svg/main-bg.svg') %></div> -->
-    <div class="logo-cont">
-      <div class="logo">
+  <body>
+    <input type="checkbox" id="check" />
+    <header class="side-nav-header">
+      <div class="s-n-logo white-text">
         EduOn
+        <label for="check">
+          <span class="material-icons" id="sidebar_btn">
+            menu
+          </span>
+        </label>
       </div>
-      <div class="logo-caption">
-        join and Learn
+      <div class="right_area">
+        <a href="/auth/logout" class="logout_btn">Logout</a>
       </div>
+    </header>
+    <div class="sidebar">
+      <center>
+        <i class="material-icons" style="font-size: 40px;">account_circle</i>
+        <h5><%=currentUser.name%></h5>
+      </center>
+      <a href="#"><i class="fas fa-desktop"></i><span>Dashboard</span></a>
+      <a href="#"><i class="fas fa-th"></i><span>Forms</span></a>
+      <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
+      <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>
     </div>
-  </div>
-  <nav>
-    <ul class="nav-links">
-      <div class="m-3">
-        EduOn
-      </div>
-      <li class="active"><a href="#">Home</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Contact</a></li>
-      <li><a href="#room">Room</a></li>
-      <div>
-        <%if(!currentUser){%>
-        <a style="color: black;" href="/auth/google">Sign Up/Login with G+</a>
-        <%}else{%>
-        <a style="color: black;" href="/auth/logout">LogOut</a>
-        <%}%>
-      </div>
-    </ul>
-  </nav>
 
-  <div class="log-sign">
-    <%if(!currentUser){%>
-    <a href="/auth/google">Sign Up/Login with G+</a>
-    <%}else{%>
-    <i class="material-icons">account_circle</i> <%=currentUser.name%>&nbsp;
-    <a href="/auth/logout">LogOut</a>
-    <%}%>
-  </div>
-  <script>
-    window.addEventListener('load', () => {
-      var preloader = document.querySelector('.preloader');
-      setTimeout(() => {
-        preloader.classList.add('preload-finish');
-      }, 1000);
-    });
-  </script>
+    <script>
+      window.addEventListener('load', () => {
+        var preloader = document.querySelector('.preloader');
+        setTimeout(() => {
+          preloader.classList.add('preload-finish');
+        }, 1000);
+      });
+    </script>
+  </body>
 </html>

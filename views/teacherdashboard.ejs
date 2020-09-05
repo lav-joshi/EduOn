@@ -1,100 +1,96 @@
-<%- include('partials/header'); -%>
-<div class="container">
-    <div class="jumbotron">
-        <h3>Hello <%=currentUser.name%></h3>
-    </div>
+<%- include('partials/side-nav'); -%>
+  
+<div class="side-nav-content p-5" >
+
+<div class="aBtns p-3 mb-5 mt-5">
+  <a
+    class="waves-effect waves-light btn white-text"
+    style="background-color: #3b6978 !important;"
+    href="#aT"
+    >New Discussion</a
+  ><a
+    class="waves-effect waves-light btn"
+    style="background-color: #0e9aa7 !important;"
+    href="#aS"
+    >New Test</a
+  >
 </div>
-<div>
-  <h2>Schedule Test</h2>
-    <form action="/teacher/meeting/add" method="POST">
-        <div>
-            <label>Name:</label><br />
+
+<%- include('../assets/svg/teacher.svg') %>
+
+
+<div class="card-container" id="aT" >
+  <div class="each-card text-center" >
+    <div class="col s12 m6">
+      <div class="card" style="background-color: #3b6978 !important;">
+        <div class="card-content white-text">
+          <h2>Schedule a Discussion</h2>
+          <div class="frm-icn"  style="background-color: #3b6978 !important;"><div style="width: 60%;">  <%- include('../assets/svg/school.svg') %>
+          </div> </div>
+          <form action="/teacher/discussion/add" method="POST">
+            <div class="form-group white-text">
+              <div class="input-field col s6">
+                <input
+                    type="text"
+                    name="discussion[admin]"
+                    value="<%=currentUser.name%>"
+                    class="white-text"
+                    style="border-color: white;"
+                    readonly
+                />
+                
+                <label
+                  for="last_name"
+                  class="white-text"
+                  style="pointer-events: none;"
+                  >Name:</label
+                >
+              </div>
+              <div class="input-field col s6">
+                <input
+                  type="text"
+                  name="discussion[email]"
+                  value="<%=currentUser.email%>"
+                  class="white-text"
+                  style="border-color: white;"
+                  readonly
+                />
+                <label
+                  for="last_name"
+                  class="white-text"
+                  style="pointer-events: none;"
+                  >Email:</label
+                >
+              </div>
+              <div class="input-field col s6">
                 <input
                 type="text"
-                name="meeting[admin]"
-                value="<%=currentUser.name%>"
-                readonly
-            />
+                name="discussion[roomId]"
+                placeholder="Create you personalised Room for discussion" 
+                class="validator white-text"
+                style="border-color: white;"
+                required
+                />
+              <label class="white-text" style="pointer-events: none;">RoomId</label><br />
+              </div>
+              <label for="meeting" class="white-text" style="font-size: 1.4rem;">Date and Time</label>
+
+              <div class="input-field col s6">
+                <input type="datetime-local" id="birthdaytime" class="validator white-text" style="border-color: white;" name="discussion[scheduledTime]" required>
+                </div>
+              <button
+              type="submit"
+                class="btn btn-primary white darken-1"
+                style="color: #07031a;"
+              >
+                Submit!
+              </button>
+            </div>
+          </form>
         </div>
-        <div class="form-group">
-            <label>Email:</label><br />
-            <input
-              type="text"
-              name="meeting[email]"
-              value="<%=currentUser.email%>"
-              readonly
-            />
-        </div>
-        <div class="form-group">
-            <label>Create you personalised Room for Test</label><br />
-            <input
-              type="text"
-              name="meeting[roomId]"
-              placeholder="RoomId"
-            />
-        </div>
-        <div class="form-group">
-          <label for="meeting">Schedule a Test</label>
-          <input type="datetime-local" id="birthdaytime" name="meeting[scheduledTime]">
-        </div>
-
-        <div class="form-group">
-          <input type="submit">
-        </div>
-    </form>
-</div>
-<div>
-    <h2>Your Scheduled Tests</h2>
-    <%meetings.forEach(function(meeting){%>
-      <div>
-          Scheduled time : <%=moment(meeting.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
-          Room id : <%=meeting.roomId%><br>
-          <a href="/teacher/dashboard/<%=meeting.roomId%>">Click for settings</a>
       </div>
-    <%})%>
-</div>
-
-
-
-<div>
-  <h2>Schedule Discussion</h2>
-  <form action="/teacher/discussion/add" method="POST">
-      <div>
-          <label>Name:</label><br />
-              <input
-              type="text"
-              name="discussion[admin]"
-              value="<%=currentUser.name%>"
-              readonly
-          />
-      </div>
-      <div class="form-group">
-          <label>Email:</label><br />
-          <input
-            type="text"
-            name="discussion[email]"
-            value="<%=currentUser.email%>"
-            readonly
-          />
-      </div>
-      <div class="form-group">
-          <label>Create you personalised Room for Discussion</label><br />
-          <input
-            type="text"
-            name="discussion[roomId]"
-            placeholder="RoomId"
-          />
-      </div>
-      <div class="form-group">
-        <label for="meeting">Schedule a Discussion</label>
-        <input type="datetime-local" id="birthdaytime" name="discussion[scheduledTime]">
-      </div>
-
-      <div class="form-group">
-        <input type="submit">
-      </div>
-  </form>
-
+    </div>
+  </div>
 </div>
 
 <div>
@@ -108,9 +104,107 @@
   <%})%>
 </div>
 
+<div class="card-container" id="aS">
+  <div class="each-card text-center" >
+    <div class="col s12 m6">
+      <div class="card" style="background-color: #3b3838 !important;">
+        <div class="card-content white-text">
+          <h2>Schedule a Test</h2>
+          <div class="frm-icn"  style="background-color: #3b3838 !important;"><div style="width: 60%;" >  <%- include('../assets/svg/exam.svg') %></div> </div>
+          <form action="/teacher/meeting/add" method="POST">
+            <div class="form-group white-text">
+              <div class="input-field col s6">
+                <input
+                    type="text"
+                    name="meeting[admin]"
+                    value="<%=currentUser.name%>"
+                    class="white-text"
+                        style="border-color: white;"
+                    readonly
+                />
+                
+                <label
+                  for="last_name"
+                  class="white-text"
+                  style="pointer-events: none;"
+                  >Name:</label
+                >
+              </div>
+              <div class="input-field col s6">
+                <input
+                  type="text"
+                  name="meeting[email]"
+                  value="<%=currentUser.email%>"
+                  class="white-text"
+                        style="border-color: white;"
+                  readonly
+                />
+                <label
+                  for="last_name"
+                  class="white-text"
+                  style="pointer-events: none;"
+                  >Email:</label
+                >
+              </div>
+              <div class="input-field col s6">
+                <input
+                type="text"
+                name="meeting[roomId]"
+                placeholder="Create you personalised Room for Test" 
+                class="validator white-text"
+                      style="border-color: white;"
+                      required
+                />
+              <label class="white-text" style="pointer-events: none;">RoomId</label><br />
+              </div>
+              <label for="meeting" class="white-text" style="font-size: 1.4rem;">Date and Time</label>
 
+              <div class="input-field col s6">
+                <input type="datetime-local" id="birthdaytime" class="validator white-text" style="border-color: white;" name="meeting[scheduledTime]" required>
+                </div>
+              <button
+                class="btn btn-primary white darken-1"
+                style="color: #07031a;"
+              >
+                Submit!
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div>
+  <h2>Your Scheduled Tests</h2>
+  <%meetings.forEach(function(meeting){%>
+    <div>
+        Scheduled time : <%=moment(meeting.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
+        Room id : <%=meeting.roomId%><br>
+        <a href="/teacher/dashboard/<%=meeting.roomId%>">Click for settings</a>
+    </div>
+  <%})%>
+</div>
 
 <div>
 
 </div>
+</div>
+
+<script>
+  function dateFunction(e){
+    var date = e.target.value;
+    console.log(date)
+}
+function submitForm(e){
+    var date = e.target;
+    console.log(date);
+}
+function timeFunction(e){
+    var time = e.target.value;
+    console.log(time)
+}
+</script>
 <%- include('partials/footer'); -%>
