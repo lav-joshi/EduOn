@@ -3,9 +3,9 @@ const mongoose = require("mongoose");
 const TeacherSchema = new mongoose.Schema({
     accessToken: [String],
     name: {
-    type: String,
-    trim: true,
-    required: true
+        type: String,
+        trim: true,
+        required: true
     },
     email: {
         type: String,

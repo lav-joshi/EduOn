@@ -1,130 +1,280 @@
-<%- include('partials/header'); -%>
-<div class="svg-SU mb-5 p-5">
-  <h3>WELCOME!</h3>
-  <div class="aBtns p-3 mb-5">
-    <a
-      class="waves-effect waves-light btn white-text"
-      style="background-color: #0e9aa7 !important;"
-      href="#aT"
-      >Add Teachers</a
-    ><a
-      class="waves-effect waves-light btn"
-      style="background-color: #ffcb74 !important;"
-      href="#aS"
-      >Add students</a
-    >
-  </div>
-
-  <%- include('../assets/svg/superUsergrant.svg'); -%>
-</div>
-<div class="card-container">
-  <div class="each-card text-center" id="aT">
-    <div class="col s12 m6">
-      <div class="card" style="background-color: #0e9aa7 !important;">
-        <div class="card-content white-text">
-          <h2>Add Teachers</h2>
-          <div class="frm-icn"><i class="fas fa-chalkboard-teacher"></i></div>
-          <form action="/superuser/teacher/add" method="POST">
-            <div class="form-group white-text">
-              <div class="input-field col s6">
-                <input
-                  id="last_name"
-                  type="text"
-                  class="validate white-text"
-                  style="border-color: white;"
-                  name="main[name]"
-                  required
-                />
-                <label
-                  for="last_name"
-                  class="white-text"
-                  style="pointer-events: none;"
-                  >Name:</label
-                >
-              </div>
-              <div class="input-field col s6">
-                <input
-                  id="last_name"
-                  type="text"
-                  class="validate white-text"
-                  style="border-color: white;"
-                  name="main[email]"
-                  required
-                />
-                <label
-                  for="last_name"
-                  class="white-text"
-                  style="pointer-events: none;"
-                  >Email:</label
-                >
-              </div>
-              <button
-                class="btn btn-primary white darken-1"
-                style="color: #07031a;"
-              >
-                Submit!
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
+<%- include('partials/side-nav'); -%>
+<div class="side-nav-content">
+  <section class="dashboard">
+    <div class="svg-SU mb-5 p-5">
+      <h3>WELCOME!</h3>
+      <%- include('../assets/svg/superUsergrant.svg'); -%>
     </div>
-  </div>
-  <div class="each-card text-center" id="aS">
-    <div class="col s12 m6">
-      <div class="card" style="background-color: #ffcb74 !important;">
-        <div class="card-content white-text">
-          <h2>Add Students</h2>
-          <div class="frm-icn" style="background-color: #ffcb74;">
-            <i class="fas fa-user-graduate"></i>
+  </section>
+  <section class="addTeacher">
+    <div class="card-container">
+      <div class="each-card text-center" id="aT">
+        <div class="col s12 m6">
+          <div class="card" style="background-color: #3b3838 !important;">
+            <div class="card-content white-text">
+              <h2>Add Teachers</h2>
+              <div
+                class="frm-icn"
+                style="background-color: #3b3838 !important;"
+              >
+                <i class="fas fa-chalkboard-teacher"></i>
+              </div>
+              <form action="/superuser/teacher/add" method="POST">
+                <div class="form-group white-text">
+                  <div class="input-field col s6">
+                    <input
+                      id="last_name"
+                      type="text"
+                      class="validate white-text"
+                      style="border-color: white;"
+                      name="main[name]"
+                      required
+                    />
+                    <label
+                      for="last_name"
+                      class="white-text"
+                      style="pointer-events: none;"
+                      >Name:</label
+                    >
+                  </div>
+                  <div class="input-field col s6">
+                    <input
+                      id="last_name"
+                      type="text"
+                      class="validate white-text"
+                      style="border-color: white;"
+                      name="main[email]"
+                      required
+                    />
+                    <label
+                      for="last_name"
+                      class="white-text"
+                      style="pointer-events: none;"
+                      >Email:</label
+                    >
+                  </div>
+                  <button
+                    class="btn btn-primary white darken-1"
+                    style="color: #07031a;"
+                  >
+                    Submit!
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
-          <form action="/superuser/student/add" method="POST">
-            <div class="form-group white-text">
-              <div class="input-field col s6">
-                <input
-                  id="last_name"
-                  type="text"
-                  class="validate white-text"
-                  style="border-color: white;"
-                  name="main[name]"
-                  required
-                />
-                <label
-                  for="last_name"
-                  class="white-text"
-                  style="pointer-events: none;"
-                  >Name:</label
-                >
-              </div>
-              <div class="input-field col s6">
-                <input
-                  id="last_name"
-                  type="text"
-                  class="validate white-text"
-                  style="border-color: white;"
-                  name="main[email]"
-                  required
-                />
-                <label
-                  for="last_name"
-                  class="white-text"
-                  style="pointer-events: none;"
-                  >Email:</label
-                >
-              </div>
-              <button
-                class="btn btn-primary white darken-1"
-                style="color: #07031a;"
-              >
-                Submit!
-              </button>
-            </div>
-          </form>
         </div>
       </div>
     </div>
+  </section>
+  <section class="addStudent">
+    <div class="card-container">
+      <div class="each-card text-center" id="aS">
+        <div class="col s12 m6">
+          <div class="card" style="background-color: #3b6978 !important;">
+            <div class="card-content white-text">
+              <h2>Add Students</h2>
+              <div class="frm-icn" style="background-color: #3b6978;">
+                <i class="fas fa-user-graduate"></i>
+              </div>
+              <form action="/superuser/student/add" method="POST">
+                <div class="form-group white-text">
+                  <div class="input-field col s6">
+                    <input
+                      id="last_name"
+                      type="text"
+                      class="validate white-text"
+                      style="border-color: white;"
+                      name="mains[name]"
+                      required
+                    />
+                    <label
+                      for="last_name"
+                      class="white-text"
+                      style="pointer-events: none;"
+                      >Name:</label
+                    >
+                  </div>
+                  <div class="input-field col s6">
+                    <input
+                      id="last_name"
+                      type="text"
+                      class="validate white-text"
+                      style="border-color: white;"
+                      name="mains[email]"
+                      required
+                    />
+                    <label
+                      for="last_name"
+                      class="white-text"
+                      style="pointer-events: none;"
+                      >Email:</label
+                    >
+                  </div>
+                  <button
+                    class="btn btn-primary white darken-1"
+                    style="color: #07031a;"
+                  >
+                    Submit!
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+
+<div class="container">
+  <div class="jumbotron">
+    <h4>All Teachers</h4>
+    <%teachers.forEach((x)=>{%>
+       <b>Name:</b><%=x.name%><br>
+       <b>Email:</b><%=x.email%><br>
+       <b><a href="/superuser/teacher/remove/<%=x.id%>">Delete</a></b><br><br><br>
+    <%})%>
   </div>
 </div>
+
+<div class="container">
+  <div class="jumbotron">
+    <h4>All Students</h4>
+    <%students.forEach((x)=>{%>
+       <b>Name:</b><%=x.name%><br>
+       <b>Email:</b><%=x.email%><br>
+       <b><a href="/superuser/student/remove/<%=x.id%>">Delete</a></b><br><br><br>
+    <%})%>
+  </div>
+</div>
+
+
+<div class="container">
+  <div class="jumbotron">
+    <h4>Add Counsellors</h4>
+    <form action="/superuser/counsell/add" method="POST">
+      <div class="input-field col s6">
+        <input
+          type="text"
+          name="counsell[name]"
+          required
+        />
+        <label
+          for="name"
+          style="pointer-events: none;"
+          >Name:</label
+        >
+      </div>
+      
+      <div class="input-field col s6">
+        <input
+          type="text"
+          name="counsell[phoneNumber]"
+          required
+        />
+        <label
+          for="phoneNumber"
+          style="pointer-events: none;"
+          >Phone Number</label
+        >
+      </div> 
+      
+      <div class="input-field col s6">
+        <input
+          type="email"
+          name="counsell[email]"
+          required
+        />
+        <label
+          for="email"
+          style="pointer-events: none;"
+          >Email:</label
+        >
+      </div> 
+      
+      <div class="input-field col s6">
+        <input
+          type="datetime-local"
+          name="counsell[scheduledTime]"
+          required
+        />
+        <label
+          for="scheduledTime"
+          style="pointer-events: none;"
+          >Scheduled Time</label
+        >
+      </div> 
+      
+      <div class="input-field col s6">
+        <input
+          type="text"
+          name="counsell[description]"
+          required
+        />
+        <label
+          for="description"
+          style="pointer-events: none;"
+          >Description</label
+        >
+      </div>
+      <button>Add</button>
+    </form>
+  </div>
+</div>
+
+
+<div class="container">
+  <div class="jumbotron">
+    <h4>Scheduled Counselling Discussions</h4>
+    <%scheduledcounsells.forEach((x)=>{%>
+         <b>Name:- </b><%=x.name%><br>
+         <b>Email:- </b><%=x.email%><br>
+         <b>Phone Number- </b><%=x.phoneNumber%><br>
+         <b>Scheduled Time:- </b><%=moment(x.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
+         <b>Description:- </b><%=x.description%><br>
+         <b>Student:- </b><%=x.student%><br>
+         <b>Student Email:-</b><%=x.studentemail%><br>
+         <b><a href="/superuser/counsell/remove/<%=x.id%>">Delete</a></b><br><br><br>
+    <%})%>
+  </div>
+</div>
+
+<div class="container">
+  <div class="jumbotron">
+    <h4>Past Counselling Sessions</h4>
+    <%pastcounsells.forEach((x)=>{%>
+         <b>Name:- </b><%=x.name%><br>
+         <b>Email:- </b><%=x.email%><br>
+         <b>Phone Number- </b><%=x.phoneNumber%><br>
+         <b>Scheduled Time:- </b><%=moment(x.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
+         <b>Description:- </b><%=x.description%><br>
+         <b>Student:- </b><%=x.student%><br>
+         <b>Student Email:-</b><%=x.studentemail%><br><br><br>
+    <%})%>
+  </div>
+</div>
+
+
+<script>
+  var teacherNav = document.querySelectorAll('#admin-nav');
+  teacherNav.forEach((teacherNav) => {
+    teacherNav.innerHTML = '';
+    const navLinks = `<a id="dshbrd" href="http://localhost:3000/superuser/dashboard"
+    ><i class="fas fa-desktop"></i><span>Dashboard</span></a
+  >
+  <a href="#" onclick="addTeacher()"
+    ><i class="fas fa-chalkboard-teacher"></i><span>Add Teacher</span></a
+  >
+  <a href="#" onclick="addStudent()"
+    ><i class="fas fa-user-graduate"></i><span>Add Student</span></a
+  >
+  <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
+  <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>`;
+    teacherNav.innerHTML = navLinks;
+  });
+</script>
 
 <%- include('partials/footer'); -%>
-
