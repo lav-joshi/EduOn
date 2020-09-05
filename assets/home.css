@@ -14,37 +14,23 @@ nav{
     top: 0%;
 }
 .main-container{
-    height: fit-content;
+    height: 70vw;
+}
+.main-container .container{
+    width: 50%;
+    position: absolute;
+    top: 50%;
+    left: 40%;
+    transform: translate(-50%,-50%);
 }
 .mainBg{
-    position: relative;
+    position: absolute;
     width: 100%;
     top: -5px;
     float: right;
     z-index: -1;
 }
-.mainBg-mob{
-    display: none;
-    position: relative;
-    z-index: -1;
-}
-.main-abt{
-    font-size: 1.4rem;
-}
-.theme-home{
-    color: #47CEA4;
-    font-size: 3rem;
-}
 nav{
     position: fixed !important;
     z-index: 100;
-}
-@media screen and (max-width : 650px){
-    .mainBg{
-        display: none;
-    }
-    .mainBg-mob{
-        display: block;
-        width: 100vw;
-    }
 }

@@ -1,49 +1,49 @@
 <%- include('partials/header'); -%>
+<link rel="stylesheet" href="/maintestroom.css">
+
+<div class="background"></div>
 <div class="container">
-    <div id='dd' class="scheduled mb-3" style="justify-content: space-between;"><p></p><p></p></div>
 
     <div class="jumbotron">
         <p id="length" hidden><%=length%></p>
+        <p id="scheduledTime" hidden><%=meeting.scheduledTime%></p>
         <div id="container">
             
-            <div id="repl"><%=repl%></div>
-            <%if(repl!="Test Over . LeaderBoard will be generated after all participants will finish the test"){%>
-                <div id="quiz">
-                    <div>
-                        <p>Question <span id="runningquestion"><%=runningquestion%></span></p> 
-                        <div id="question"><%=question1.question%></div>
-                    </div>
+            <h5><div id="repl" class="Head"><%=repl%></div></h5>
+            <%if(repl!="You had finished the test . LeaderBoard will be generated after all participants will finish the test"){%>
+                <div id="timer">
+                    <div>Time Left: </div><div id="secs"><%=times%></div>
+                </div>
+                <div id="quiz" class="quiz-back">
+                        <div id="questionhead">
+                            Question <span id="runningquestion"><%=runningquestion%></span>/<span><%=length%></span>: <span id="question"><%=question1.question%></span>
+                        </div>
+                        <!-- <div id="question">
+                            Question <span id="runningquestion"><%=runningquestion%></span>: <%=question1.question%>
+                        </div> -->
                     <div id="options">
                         <form>
-                            <input type="radio" id="A" name="one" value="<%=question1.option1%>" style="position: relative;opacity:1;pointer-events: auto;">
-                            <label id="AA"><%=question1.option1%></label><br>
-                            <input type="radio" id="B" name="one" value="<%=question1.option2%>" style="position: relative;opacity:1;pointer-events: auto;">
-                            <label id="BB"><%=question1.option2%></label><br>
-                            <input type="radio" id="C" name="one" value="<%=question1.option3%>" style="position: relative;opacity:1;pointer-events: auto;">
-                            <label id="CC"><%=question1.option3%></label><br>
-                            <input type="radio" id="D" name="one" value="<%=question1.option4%>" style="position: relative;opacity:1;pointer-events: auto;">
-                            <label id="DD"><%=question1.option4%></label>
+                            <div class="forms"><input type="radio" id="A" name="one" value="<%=question1.option1%>" style="position: relative;opacity:1;pointer-events: auto;">
+                            <label id="AA"><%=question1.option1%></label></div>
+                            <div class="forms"><input type="radio" id="B" name="one" value="<%=question1.option2%>" style="position: relative;opacity:1;pointer-events: auto;">
+                            <label id="BB"><%=question1.option2%></label></div>
+                            <div class="forms"><input type="radio" id="C" name="one" value="<%=question1.option3%>" style="position: relative;opacity:1;pointer-events: auto;">
+                            <label id="CC"><%=question1.option3%></label></div>
+                            <div class="forms"><input type="radio" id="D" name="one" value="<%=question1.option4%>" style="position: relative;opacity:1;pointer-events: auto;">
+                            <label id="DD"><%=question1.option4%></label></div>
                         </form>
                     </div>
                 </div>
+                <span id="bottomtext">Select the correct option and wait for the next question as the timer resets.</span>
+            <%}else{%>
+                
             <%}%>
-            
         </div>
     </div>
 </div>
 
 <script>
-  function showTime(){
-      var i = 0;
-    document.querySelectorAll("#dd p").forEach(d => {
-      if( i === 0){
-        d.textContent="Date: "+moment(Date.now()).format('Do-MM-YYYY');
-        i = 1
-      }
-      else {d.textContent="Time: "+ moment(Date.now()).format('hh.mm.ss a');i=0;}
-    });
-    }
-    setInterval(showTime,1);
+
     const start = document.getElementById("start");
     const quiz = document.getElementById("quiz");
     const question = document.getElementById("question");
@@ -62,11 +62,32 @@
     const time = document.getElementById("time");
     const repl=document.getElementById("repl");
     const currentQuestion = document.getElementById("runningquestion");
+    const secs = document.getElementById("secs");
+    const timer = document.getElementById("timer")
+    const quesTime=20000;
 
-    const questionTime=50000;
+    // const timer1 = ()=>{
+    //     if(document.getElementById("secs").textContent>=1){
+    //         document.getElementById("secs").textContent=document.getElementById("secs").textContent-1;
+    //     } 
+    // }
+  
+    function st(counter){
+        if(counter >= 1){
+            setTimeout(function(){
+            counter--;
+            secs.textContent=counter +'s';
+            st(counter);
+            }, 1000);
+        }
+    }
 
-    const main=()=>{
-         
+    st(quesTime/1000);
+    // loop();
+
+    const main=async ()=>{
+        
+
         if(document.getElementById('A').checked){
             fetch(`/student/dashboard/updatemarks/<%=meeting.roomId%>/<%=currentUser.email%>/`+question.textContent+`/`+optionAA.textContent)
             .then((response)=>{
@@ -104,33 +125,37 @@
         
 
         if(Number(currentQuestion.textContent)<Number(length.textContent)){
-            currentQuestion.textContent++;
+            let ctr=Number(currentQuestion.textContent)+1;
+            console.log("Hi:",currentQuestion.textContent);
             //Updating Question Number
-            fetch(`/student/dashboard/updatequestionnumber/<%=meeting.roomId%>/<%=currentUser.email%>/${currentQuestion.textContent}`)
+            await fetch(`/student/dashboard/updatequestionnumber/<%=meeting.roomId%>/<%=currentUser.email%>/${ctr}`)
             .then(response=>{
-             
+                currentQuestion.textContent++;
             });
             //Updating Question DOM
-            fetch(`/student/dashboard/getquestion/<%=meeting.roomId%>/<%=currentUser.email%>/${currentQuestion.textContent}`).then(response=>{
+            await fetch(`/student/dashboard/getquestion/<%=meeting.roomId%>/<%=currentUser.email%>/${currentQuestion.textContent}`).then(response=>{
                 response.json().then((data)=>{
-                        console.log(data);
                         question.innerHTML = data.questionname
                         optionAA.innerHTML = data.optionA;
                         optionBB.innerHTML = data.optionB;
                         optionCC.innerHTML = data.optionC;
                         optionDD.innerHTML = data.optionD;
+                        st(quesTime/1000);
                 });
             });
         }else{
             repl.innerHTML="Test Over . LeaderBoard will be generated once all the participants finish the test";
             quiz.style.display="none";
-        }
-        
-      
-}
+            timer.style.display="none";
+            document.getElementById('bottomtext').style.display ="none";
+        }      
+    }
+    setInterval(main,quesTime);
 
-    setInterval(main,5000);  
+</script>
 
+<script>
+    
 </script>
 
 <%- include('partials/footer'); -%>

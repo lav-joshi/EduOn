@@ -20,7 +20,6 @@
   <div class="main">
     <div class="main__left">
       <div class="main__videos">
-        <div id="video-screen"></div>
         <div id="video-grid"></div>
       </div>
       <div class="main__controls">
@@ -67,7 +66,7 @@
   const socket = io("/");
 
   const videoGrid = document.getElementById("video-grid");
-  const videoScreen = document.getElementById("video-screen");
+  const videoScreen = document.getElementById("video-grid");
   const myVideo = document.createElement("video");
   const myScreen = document.createElement("video");
   myVideo.muted = true;
@@ -175,6 +174,7 @@
     video.addEventListener("loadedmetadata", () => {
       video.play();
     });
+    video.style.transform = "scaleX(-1);"
     videoGrid.append(video);
   };
 

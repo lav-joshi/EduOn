@@ -26,11 +26,10 @@ body {
 #video-screen {
   margin: auto;
 }
-video {
+video{
   flex-grow: 0.58;
   margin: 5px;
   width: 30%;
-  transform: scaleX(-1);
   /* height: 300px; */
   background: #343434;
 

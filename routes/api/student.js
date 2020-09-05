@@ -12,7 +12,7 @@ const { route } = require("./teacher");
 const nodemailer=require("nodemailer");
 const moment = require("moment");
 const router = express.Router();
-
+const quesTime = 20000;
 router.use(bodyParser.urlencoded({ extended: true }));
 
 //Setting up Tranporter
@@ -83,7 +83,7 @@ router.get("/dashboard/test/enter",auth,async (req,res)=>{
             const errors=[];
 
             if(req.query.f==0){
-               errors.push("You can not enter room unless test starts or Either you are late by five minutes and you cannot enter test now.");
+               errors.push("You may enter the Room within 5 minutes after Scheduled Time only");
             }
 
             res.render("studenttestroom",{currentUser:req.user,clientType:req.session.client,meeting:meeting,errors:errors});
@@ -133,23 +133,32 @@ router.get("/dashboard/entertestroom/:roomId",auth,async(req,res)=>{
             meeting.intestdetails.push(obj);
             await meeting.save();
             let question1=obj.ques[0];
-            res.render("maintestroom",{currentUser:req.user,clientType:req.session.client,meeting:meeting,length:meeting.questions.length,runningquestion:1,question1:question1,repl:"Test is gpoing on"});
+            res.render("maintestroom",{currentUser:req.user,clientType:req.session.client,meeting:meeting,length:meeting.questions.length,runningquestion:1,question1:question1,repl:"Test is going on",times:21});
         }else{ 
             let x,y,repl="Test is going on ";
-            meeting.intestdetails.forEach((obj,index)=>{
+            await meeting.intestdetails.forEach(async (obj,index)=>{
                  if(obj.email===req.user.email){
-                   obj.ques.forEach((q,i)=>{
+                   await obj.ques.forEach((q,i)=>{
                        if(i===obj.currentQuestion-1){
-                           y=obj.ques[i];
-                           x=i+1;
+                          
+                         if(i==obj.ques.length-1){
+                            y=obj.ques[i];
+                            x=i;
+                         }else{
+                            y=obj.ques[i+1];
+                            x=i+1;
+                         }  
                        }
-                       if(obj.visited[i]==1){
-                          repl="Test Over . LeaderBoard will be generated after all participants will finish the test";
+                       console.log("hi");
+                       console.log(x);
+                       if(obj.visited[x]==1){
+                          repl="You had finished the test . LeaderBoard will be generated after all participants will finish the test";
                        }
                    });
                 }
             });
-            res.render("maintestroom",{currentUser:req.user,clientType:req.session.client,meeting:meeting,length:meeting.questions.length,runningquestion:x,question1:y,repl:repl});
+            console.log(repl);
+            res.render("maintestroom",{currentUser:req.user,clientType:req.session.client,meeting:meeting,length:meeting.questions.length,runningquestion:x,question1:y,repl:repl,times:21});
         }
    });
 
@@ -160,8 +169,8 @@ router.get("/dashboard/getquestion/:roomid/:email/:num",auth,(req,res)=>{
 
    Meeting.findOne({roomId:req.params.roomid},(err,meeting)=>{
       if(err){
-          throw Error(err);
-      }else if(((new Date()).getTime() < meeting.scheduledTime.getTime()) || ((new Date()).getTime()>(meeting.scheduledTime.getTime()+meeting.questions.length*120000+300000)) ){
+          throw Error(err); 
+      }else if(((new Date()).getTime() < meeting.scheduledTime.getTime()) || ((new Date()).getTime()>(meeting.scheduledTime.getTime()+meeting.questions.length*quesTime+300000)) ){
          res.redirect("/student/dashboard");
       }
       else if(meeting.students.indexOf(req.params.email)!==-1){
@@ -189,7 +198,7 @@ router.get("/dashboard/getquestion/:roomid/:email/:num",auth,(req,res)=>{
            })
          }
         
-        res.send({questionname:q.question,optionA:q.option1,optionB:q.option2,optionC:q.option3,optionD:q.option4})
+        res.send({questionname:q.question,optionA:q.option1,optionB:q.option2,optionC:q.option3,optionD:q.option4,times:21})
            
         }else{
             res.redirect("/student/dashboard");
@@ -463,91 +472,91 @@ router.get("/profile/friend",auth,(req,res)=>{
  });
 
 
-router.get("/profile/myprofile",auth,(req,res)=>{
+ router.get("/profile/myprofile",auth,(req,res)=>{
    
-   Student.findOne({email:req.query.email},(err,student)=>{
-       if(student){
-
-        Discussion.find({},async(err,discussions)=>{
-            Meeting.find({},async(err,meetings)=>{
-
-                if(err){
-                    throw Error(err);
-                }
-
-                let attendance=[],graph=[];
-
-                let c=0;
-                    await discussions.forEach(async (discussion)=>{
-                        let y=discussion.students.findIndex(x => x.email == req.query.email);
-                        if(y!==-1){
-                            attendance.push(discussion);
-                            if(discussion.students[y].present === true){
-                                c=c+1;
-                            }
-                        }
-                    });
-                
-                    await meetings.forEach(async (meeting)=>{
-                        let y = meeting.students.indexOf(req.query.email);
-                        if(y!==-1){
-                            graph.push(meeting);
-                        }
-                    });
-                    
-                let test=[];
-
-                await graph.forEach(async(g)=>{
-                    let x={
-                        scheduledTime:g.scheduledTime,
-                        roomId:g.roomId,
-                        totalquestions:g.questions.length,
-                    }
-                    let y= g.intestdetails.findIndex(z=> z.email == req.query.email);
-                    let count =0;
-                    await g.intestdetails[y].correct.forEach((ee)=>{
-                        if(ee==1){
-                            count++;
-                        }
-                    });
-                    x.correct = count;
-                    x.percentage = (count/(x.totalquestions)*(1.0))*100;
-                    test.push(x);
-                });
-                
-
-                let present=[];
-                await attendance.forEach((at)=>{
-                    let x={
-                        scheduledTime:at.scheduledTime,
-                        roomId:at.roomId,
-                    }
-                    let y=at.students.findIndex(z => z.email ==req.query.email);
-                    if(at.students[y].present ==true){
-                        x.present=true;
-                    }else{
-                        x.present=false;
-                    }
-                    present.push(x);
-                });
-                
-                let totalpercentagepresent= (c/(attendance.length)*(1.0))*100;
-
-                res.render("studentprofile",{
-                        currentUser:req.user,
-                        clientType:req.session.client,
-                        present:present,
-                        test:test,
-                        totalpercentagepresentinclass:totalpercentagepresent});
-            });
-        });
-
-     }else{
-         res.redirect("/student/dashboard?f=2");
-     }
-   });
-   
-});
+    Student.findOne({email:req.query.email},(err,student)=>{
+        if(student){
+ 
+         Discussion.find({},async(err,discussions)=>{
+             Meeting.find({},async(err,meetings)=>{
+ 
+                 if(err){
+                     throw Error(err);
+                 }
+ 
+                 let attendance=[],graph=[];
+ 
+                 let c=0;
+                     await discussions.forEach(async (discussion)=>{
+                         let y=discussion.students.findIndex(x => x.email == req.query.email);
+                         if(y!==-1){
+                             attendance.push(discussion);
+                             if(discussion.students[y].present === true){
+                                 c=c+1;
+                             }
+                         }
+                     });
+                 
+                     await meetings.forEach(async (meeting)=>{
+                         let y = meeting.students.indexOf(req.query.email);
+                         if(y!==-1){
+                             graph.push(meeting);
+                         }
+                     });
+                     
+                 let test=[];
+ 
+                 await graph.forEach(async(g)=>{
+                     let x={
+                         scheduledTime:g.scheduledTime,
+                         roomId:g.roomId,
+                         totalquestions:g.questions.length,
+                     }
+                     let y= g.intestdetails.findIndex(z=> z.email == req.query.email);
+                     let count =0;
+                     await g.intestdetails[y].correct.forEach((ee)=>{
+                         if(ee==1){
+                             count++;
+                         }
+                     });
+                     x.correct = count;
+                     x.percentage = (count/(x.totalquestions)*(1.0))*100;
+                     test.push(x);
+                 });
+                 
+ 
+                 let present=[];
+                 await attendance.forEach((at)=>{
+                     let x={
+                         scheduledTime:at.scheduledTime,
+                         roomId:at.roomId,
+                     }
+                     let y=at.students.findIndex(z => z.email ==req.query.email);
+                     if(at.students[y].present ==true){
+                         x.present=true;
+                     }else{
+                         x.present=false;
+                     }
+                     present.push(x);
+                 });
+                 
+                 let totalpercentagepresent= (c/(attendance.length)*(1.0))*100;
+  
+                 res.render("studentprofile",{
+                         currentUser:req.user,
+                         clientType:req.session.client,
+                         present:present,
+                         test:test,
+                         totalpercentagepresentinclass:totalpercentagepresent});
+             });
+         });
+ 
+      }else{
+          res.redirect("/student/dashboard?f=2");
+      }
+    });
+    
+ });
 
 // Counselling 
 
