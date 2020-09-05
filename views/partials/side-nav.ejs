@@ -129,15 +129,11 @@
     </div>
     <script>
       var zxx = 0;
-      function discussion() {
-        var x = document.querySelectorAll('section');
-        for (i = 0; i < x.length; i++) {
-          if (x[i].className == 'discussion') x[i].style.display = 'block';
-          else x[i].style.display = 'none';
-        }
-        mobNavHam();
-        // $(".navbar-toggler").trigger("click");
-      }
+      window.addEventListener('resize' , () => {
+        if (window.screen.width < '750') {
+        zxx = 1;
+      } 
+      })
       function dashboard() {
         var x = document.querySelectorAll('section');
         for (i = 0; i < x.length; i++) {
@@ -146,9 +142,45 @@
         }
         if (zxx !== 0) {
           mobNavHam();
-          // $(".navbar-toggler").trigger("click");
         }
+        try {
+          document.querySelector('.allDetails').style.display = 'block';
+        } catch (error) {
+          
+        }
+      }
+      window.onload = function () {
+        dashboard();
+        if (window.screen.width < '750') {
         zxx = 1;
+        console.log(zxx);
+      } 
+      };
+      function discussion() {
+        var x = document.querySelectorAll('section');
+        for (i = 0; i < x.length; i++) {
+          if (x[i].className == 'discussion') x[i].style.display = 'block';
+          else x[i].style.display = 'none';
+        }
+        if (zxx !== 0) {
+          mobNavHam();
+        }
+        try {
+          document.querySelector('.allDetails').style.display = 'none';
+        } catch (error) {
+          
+        }
+      }
+      function counselling() {
+        var x = document.querySelectorAll('section');
+        for (i = 0; i < x.length; i++) {
+          if (x[i].className == 'counselling') x[i].style.display = 'block';
+          else x[i].style.display = 'none';
+        }
+        if (zxx !== 0) {
+          mobNavHam();
+        }
+        document.querySelector('.allDetails').style.display = 'none';
       }
       function test() {
         var x = document.querySelectorAll('section');
@@ -156,8 +188,14 @@
           if (x[i].className == 'test') x[i].style.display = 'block';
           else x[i].style.display = 'none';
         }
-        mobNavHam();
-        // $(".navbar-toggler").trigger("click");
+        if (zxx !== 0) {
+          mobNavHam();
+        }
+        try {
+          document.querySelector('.allDetails').style.display = 'none';
+        } catch (error) {
+          
+        }
       }
       function addTeacher() {
         var x = document.querySelectorAll('section');
@@ -165,8 +203,14 @@
           if (x[i].className == 'addTeacher') x[i].style.display = 'block';
           else x[i].style.display = 'none';
         }
-        mobNavHam();
-        // $(".navbar-toggler").trigger("click");
+        if (zxx !== 0) {
+          mobNavHam();
+        }
+        try {
+          document.querySelector('.allDetails').style.display = 'block';
+        } catch (error) {
+          
+        }
       }
       function addStudent() {
         var x = document.querySelectorAll('section');
@@ -174,12 +218,15 @@
           if (x[i].className == 'addStudent') x[i].style.display = 'block';
           else x[i].style.display = 'none';
         }
-        mobNavHam();
-        // $(".navbar-toggler").trigger("click");
+        if (zxx !== 0) {
+          mobNavHam();
+        }
+        try {
+          document.querySelector('.allDetails').style.display = 'block';
+        } catch (error) {
+          
+        }
       }
-      window.onload = function () {
-        dashboard();
-      };
       window.addEventListener('load', () => {
         var preloader = document.querySelector('.preloader');
         setTimeout(() => {
@@ -208,10 +255,15 @@
           document.querySelector('.side-nav-content').style.pointerEvents =
             'none';
           document.querySelector('.mobile-sidebar').style.display = 'inline';
-          document.querySelector('.chat-cont').style.display = 'none';
+          document.querySelector('.mob-sidebar').style.display = 'inline';
           mob.style.transform = 'translateX(0%)';
+          navFlag = 1; try {
+              
+              document.querySelector('.chat-cont').style.display = 'none';
+                } catch (error) {
+                  
+                }
 
-          navFlag = 1;
         } else {
           mob.style.transform = 'translateX(100%)';
           var spans = document.querySelectorAll('.navbar-toggler span');
@@ -222,13 +274,19 @@
           document.querySelector('.shade-layer').style.opacity = '0';
           document.querySelector('.side-nav-content').style.pointerEvents =
             'all';
-          document.querySelector('.side-nav-content').style.overflow = '';
+          document.querySelector('.side-nav-content').style.overflow = 'auto';
           document.querySelector('.side-nav-content').style.height =
             'fit-content';
-          document.querySelector('.chat-cont').style.display = 'block';
-          document.querySelector('.mobile-sidebar').style.display = 'none';
+            document.querySelector('.mobile-sidebar').style.display = 'none';
+          document.querySelector('.mob-sidebar').style.display = 'none';
 
-          navFlag = 0;
+            navFlag = 0;
+            try {
+              
+              document.querySelector('.chat-cont').style.display = 'block';
+                } catch (error) {
+                  
+                }
         }
         if(hamClose === 0){
             $(".navbar-toggler").trigger("click");
@@ -241,15 +299,22 @@
           document.querySelector('.shade-layer').style.opacity = '0';
           document.querySelector('.side-nav-content').style.pointerEvents =
             'all';
-          document.querySelector('.side-nav-content').style.overflow = '';
+          document.querySelector('.side-nav-content').style.overflow = 'auto';
           document.querySelector('.side-nav-content').style.height =
             'fit-content';
-          document.querySelector('.chat-cont').style.display = 'block';
-          document.querySelector('.mobile-sidebar').style.display = 'none';
+            document.querySelector('.mobile-sidebar').style.display = 'none';
+          document.querySelector('.mob-sidebar').style.display = 'none';
 
-          navFlag = 0;
+            navFlag = 0;
+            try {
+              
+          document.querySelector('.chat-cont').style.display = 'block';
+            } catch (error) {
+              
+            }
         }else{
-          hamClose = 0;
+
+        hamClose = 0;
         }
       };
     </script>

@@ -181,6 +181,25 @@ input:focus {
 .card-title {
   text-transform: capitalize;
 }
+#message-form{
+  position: absolute;
+  bottom: 0%;
+  display: flex;
+  flex-direction: row;
+  width: 100% ;
+  padding-top: .5rem;
+  margin-left: -2%;
+  border-top: 1px solid #e3e3e3;
+  background-color: #fafafa;
+} #ip{
+  width: 90%;
+  padding-left: .3rem;
+}
+#messages div span{
+  font-weight: bold;
+  font-size: 108%;
+  text-transform: capitalize;
+}
 #addQuestion{
   background: #fff;
   padding: 22px;

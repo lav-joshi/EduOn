@@ -96,6 +96,9 @@
     document.querySelectorAll('.dshadd').forEach(link => {
       link.href = dhref;
     })
+    if(ctype === '') document.querySelectorAll('.dshadd').forEach(link => {
+      link.style.display = 'none';
+    })
   </script>
   <script>
     window.addEventListener('load', () => {

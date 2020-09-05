@@ -2,76 +2,99 @@
 
 <div class="side-nav-content p-3">
     <div id='dd' class="scheduled mb-3" style="justify-content: space-between;"><p></p><p></p></div>
+    <p id="email" hidden><%=currentUser.email%></p>
+    <div class="chat-cont text-right">
+        <a class="waves-effect waves-light btn modal-trigger btn-floating" href="#chat-student">      <i class="fas fa-comments"></i>
+        </a><p>Chat</p>
+      </div>
 
-<div class="container">
-    <div class="jumbotron">
-        Welcome <%=currentUser.name%> 
-        <p id="email" hidden><%=currentUser.email%></p>
-        <h5 >Organized by <%=discussion.admin%></h5>
-        <h5>Room Id:-</h5>
-        <p id="room"><%=discussion.roomId%></p>
-        <h5>Scheduled Time:</h5><%=moment(discussion.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%>
-        <a href="/student/dashboard/discussion/enter/classroom?room=<%=discussion.roomId%>&email=<%=currentUser.email%>"><h6>Enter Classroom</h6></a>
-
-        <%errors.forEach((err)=>{%>
-            <%=err%>
-        <%})%>
-    </div>
-</div>
-<div class="container">
-    <h4>Important Resources</h4>
-    <% if(discussion.files.length!==0){ %>
-        <% discussion.files.forEach(function(file) { %>
-          <div class="card card-body mb-3">
-            <h5><%= file.filename %></h5>
-            <%if( file.contentType === 'image/jpeg' || file.contentType === 'image/png'){%>
-                <img src="/teacher/dashboard/getfile/file/<%= file.filename %>" style="height:200px;width:40%;"alt="">
-            <%}else if(file.contentType === "application/pdf" || file.contentType === "application/pdf"){%>
-                <img src="" style="height:200px;width:40%;"alt="Any pdf logo">                
-            <%}%>
-            <a href="/teacher/dashboard/getfile/file/<%= file.filename %>" download><button class="btn"><i class="fa fa-download"></i> Download</button></a>
-          </div>
-          <% }) %>
-            <% } else { %>
-              <p>No files to show</p>
-              <% } %>
-</div>
-<div class="container">
-    <h4>Important Points and Notes</h4> 
-        <div>
-            <div id="sidebar" class="chat__sidebar">
-    
+    <div class="stud-row">
+        <div class="row">
+          <div class="col s12 m7">
+            <div class="card" style="width: 70%;">
+              <div class="card-title text-center p-3 blue-grey lighten-5">Discussion Room</div>
+          <h4 class="text-center" >Organized by <%=discussion.admin%></h4>
+              <div class="card-image p-3" style="height: 40vh; overflow: hidden;" >
+                <img src="/images/discussion.svg" style="height: 100%;">
+              </div>
+                <div class="card-content">
+                    <div style="font-size: larger;">Room Id :  <span id="room"><%=discussion.roomId%></span></div>
+                    <div style="font-size: larger;"> Time : <%=moment(discussion.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%></div>
+                    <%errors.forEach((err)=>{%>
+                        <%=err%>
+                    <%})%>
+              </div>
+              <div class="card-action text-center">
+                <a class="btn btn-primary black darken-1" href="/student/dashboard/discussion/enter/classroom?room=<%=discussion.roomId%>&email=<%=currentUser.email%>" >Enter Class</a>
+              </div>
             </div>
-    
+          </div>
+        </div>
+      </div>
+    <div class="seperator mt-5 "></div>
+
+
+    <div id="upload-t" class="container mt-5">
+        <div class="card">
+          <span class="card-content text-center">
+            <div class="card-title mt-1">Notes / Prerequisites</div>
+        <% if(discussion.files.length!==0){ %>
+            <% discussion.files.forEach(function(file) { %>
+              <div class="card card-body mb-3">
+                <h5><%= file.filename %></h5>
+                <%if( file.contentType === 'image/jpeg' || file.contentType === 'image/png'){%>
+                    <img src="/teacher/dashboard/getfile/file/<%= file.filename %>" style="height:200px;width:40%;"alt="">
+                <%}else if(file.contentType === "application/pdf" || file.contentType === "application/pdf"){%>
+                    <img src="" style="height:200px;width:40%;"alt="Any pdf logo">                
+                <%}%>
+                <a href="/teacher/dashboard/getfile/file/<%= file.filename %>" download><button class="btn"><i class="fa fa-download"></i> Download</button></a>
+              </div>
+              <% }) %>
+                <% } else { %>
+                  <p>No files to show</p>
+                  <% } %>
+                </span>
+        </div>
+    </div>
+    <div class="seperator mt-5 "></div>
+
+    <div id="chat-student" class="T-chat modal">
+      <div class="modal-footer">
+        <h4 class="theme-heading text-center" style="margin: auto;" >Chat</h4>
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat"><i class="fas fa-times red-text"></i></a>
+      </div>
+      <div class="modal-content">
+        <div style="height: 100%; margin-bottom: 0rem !important;">
+          <div id="sidebar" class="chat__sidebar"> </div>
+  
             <div>
                 <div id="messages"> 
-                    <%texts.forEach((per)=>{%>
-                      <div>
-                          <%=per.username%><%=moment(per.createdAt).format('D-M-YYYY h:mm a')%>
-                          <br/>
-                          <%=per.message%>
-                      </div>
-                    <%})%>
+                <%texts.forEach((per)=>{%>
+                    <div>
+                        <span><%=per.username%></span> <%=moment(per.createdAt).format('h:mm a')%>
+                        <p><%=per.message%></p>
+                    </div>
+                  <%})%>
                 </div>
-    
                 <div>
                     <form id="message-form">
                         <input type="hidden" id="roomId" value="<%=discussion.roomId%>" name="roomId" type="text">
                         <input type="hidden" id="username" value="<%=currentUser.name%>" name="username" type="text">
-
+  
                         <input name="message" id="ip" type="text" placeholder="Message" required autocomplete="off">
-                        <button id="but">Send</button>
+                        <button class="btn" id="but">Send</button>
                     </form>
                 </div>
-                
             </div>
         </div>
     </div>
+    </div>
+</div>
 <script id="message-template" type="text/html">
     <div>
-        {{username}}  {{createdAt}}
+        <span>{{username}}</span>  {{createdAt}}
         <br/>
-        {{message}}
+        <p>{{message}}</p>
     </div>
 </script>
 </div>
@@ -80,6 +103,20 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
 
 <script>
+    var teacherNav = document.querySelectorAll('#student-nav');
+  teacherNav.forEach((teacherNav) => {
+    teacherNav.innerHTML = '';
+    const navLinks = `<a id="dshbrd" href="http://localhost:3000/student/dashboard/" 
+      ><i class="fas fa-desktop"></i><span>Dashboard</span></a
+    >
+    <a href="/student/profile/myprofile?email=<%=currentUser.email%>"><i class="fas fa-user"></i><span>My Profile</span></a>
+    <a class="modal-trigger" href="#chat-student"><i class="fas fa-comments"></i><span>Chat</span>
+    </a>
+      <a href="#upload-t"><i class="fas fa-file-alt"></i><span>Notes</span></a>
+    <a class="hme" href="#"><i class="fas fa-info-circle"></i><span>Home</span></a>`;
+    teacherNav.innerHTML = navLinks;
+  });
+  document.querySelectorAll('.hme').forEach(link => link.href = location.hostname);
     function showTime() {
     var i = 0;
     document.querySelectorAll('#dd p').forEach((d) => {
@@ -118,7 +155,7 @@
             message:msg.message,
             username:msg.username,
             roomId : msg.roomId,
-            createdAt:moment(msg.createdAt).format('D-M-YYYY h:mm a')
+            createdAt:moment(msg.createdAt).format('h:mm a')
         });
         $messages.insertAdjacentHTML('beforeend',html);
     });
@@ -156,18 +193,7 @@
         console.log("ch");
         location.href="http://localhost:3000/student/dashboard/discussion/enter?room="+rm.textContent+"&user="+email.textContent+"&v=1"
         } else {
-    }
-    var teacherNav = document.querySelectorAll('#student-nav');
-  teacherNav.forEach((teacherNav) => {
-    teacherNav.innerHTML = '';
-    const navLinks = `<a id="dshbrd" href="http://localhost:3000/student/dashboard/" 
-      ><i class="fas fa-desktop"></i><span>Dashboard</span></a
-    >
-    <a href="/student/profile/myprofile?email=<%=currentUser.email%>"><i class="fas fa-user"></i><span>My Profile</span></a>
-    <a class="hme" href="#"><i class="fas fa-info-circle"></i><span>Home</span></a>`;
-    teacherNav.innerHTML = navLinks;
-  });
-  document.querySelectorAll('.hme').forEach(link => link.href = location.hostname);
+        }
 </script>
 
 

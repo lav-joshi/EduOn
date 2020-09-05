@@ -2,11 +2,49 @@
 <div class="side-nav-content p-3">
   <div id='dd' class="scheduled mb-3" style="justify-content: space-between;"><p></p><div class="theme-heading" style="padding-top: 0%;">Welcome</div><p></p></div>
 
+<div class="container mb-5 mt-5 allDetails">
+  <h4 class="theme-heading text-center mb-5">Details of Staff and Students</h4>
+  <div class="scheduled">
+    <a class="waves-effect waves-light btn modal-trigger btn-primary btn" href="#allTeachers">All Teachers</a>
+    <div id="allTeachers" class="modal">
+      <div class="modal-footer">
+        <h4 class="theme-heading text-center" style="margin: auto;" >All Teachers</h4>
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat"><i class="fas fa-times red-text"></i></a>
+      </div>
+      <div class="modal-content">
+        <%teachers.forEach((x)=>{%>
+          <div class="scheduled mb-3">
+            <p style="width: 45%;"><b>Name:</b><%=x.name%></p>
+            <p style="width: 45%;"><b>Email:</b><%=x.email%></p>
+            <b><a class="red-text" href="/superuser/teacher/remove/<%=x.id%>">Remove</a></b>
+          </div>
+       <%})%>
+      </div>
+    </div>
+    <a class="waves-effect waves-light btn modal-trigger btn-primary btn" href="#allStudents">All Students</a>
+    <div id="allStudents" class="modal">
+      <div class="modal-footer">
+        <h4 class="theme-heading text-center" style="margin: auto;" >All Students</h4>
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat"><i class="fas fa-times red-text"></i></a>
+      </div>
+      <div class="modal-content">
+        <%students.forEach((x)=>{%>
+          <div class="scheduled mb-3">
+            <p style="width: 45%;"><b>Name:</b><%=x.name%></p>
+            <p style="width: 45%;"><b>Email:</b><%=x.email%></p>
+            <b><a class="red-text" href="/superuser/student/remove/<%=x.id%>">Remove</a></b>
+          </div>
+       <%})%>
+      </div>
+    </div>
+    </div>
+    <div class="seperator mt-5 "></div> 
+</div>
   <section class="dashboard">
-    <div class="svg-SU mb-5 p-5">
-      <h3>WELCOME!</h3>
+    <div class="svg-SU">
       <%- include('../assets/svg/superUsergrant.svg'); -%>
     </div>
+
   </section>
   <section class="addTeacher">
     <div class="card-container">
@@ -68,6 +106,8 @@
         </div>
       </div>
     </div>
+    <div class="seperator mt-5 "></div>
+<div class="container mb-5 mt-5">
   </section>
   <section class="addStudent">
     <div class="card-container">
@@ -126,217 +166,203 @@
         </div>
       </div>
     </div>
+    <div class="seperator mt-5 "></div>
   </section>
 
 
-<div class="container">
-  <div class="jumbotron">
-    <h4>All Teachers</h4>
-    <%teachers.forEach((x)=>{%>
-       <b>Name:</b><%=x.name%><br>
-       <b>Email:</b><%=x.email%><br>
-       <b><a href="/superuser/teacher/remove/<%=x.id%>">Delete</a></b><br><br><br>
-    <%})%>
-  </div>
-</div>
 
-<div class="container">
-  <div class="jumbotron">
-    <h4>All Students</h4>
-    <%students.forEach((x)=>{%>
-       <b>Name:</b><%=x.name%><br>
-       <b>Email:</b><%=x.email%><br>
-       <b><a href="/superuser/student/remove/<%=x.id%>">Delete</a></b><br><br><br>
-    <%})%>
-  </div>
-</div>
-
-<div class="container">
-  <div class="jumbotron">
-    <h4>Scheduled Discussions</h4>
-    <%scheduleddiscussions.forEach((x)=>{%>
-       <b>Admin:- </b><%=x.name%><br>
-       <b>Email:- </b><%=x.email%><br>
-       <b>Room Id:- </b><%=x.roomId%><br>
-       <b>Scheduled Time:- </b><%=moment(x.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
-       <b>Students Invited</b>
-       <select style="display: block;">
-        <%x.students.forEach((y)=>{%>
-          <%=y.email%>
-         <%})%>
-        </select><br/><br/><br/>
-    <%})%>
-  </div>
-</div>
-
-<div class="container">
-  <div class="jumbotron">
-    <h4>Past Discussions</h4>
-    <%pastdiscussions.forEach((x)=>{%>
-       <b>Admin:- </b><%=x.admin%><br>
-       <b>Email:- </b><%=x.email%><br>
-       <b>Room Id:- </b><%=x.roomId%><br>
-       <b>Scheduled Time:- </b><%=moment(x.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
-       <b>Students Invited</b>
-       <select style="display: block;">
+<section class="discussion">
+  <div class="container">
+    <div class="jumbotron">
+      <h4>Scheduled Discussions</h4>
+      <%scheduleddiscussions.forEach((x)=>{%>
+         <b>Admin:- </b><%=x.name%><br>
+         <b>Email:- </b><%=x.email%><br>
+         <b>Room Id:- </b><%=x.roomId%><br>
+         <b>Scheduled Time:- </b><%=moment(x.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
+         <b>Students Invited</b>
+         <select style="display: block;">
           <%x.students.forEach((y)=>{%>
-              <%if(y.present==true){%>
-                <option class="present">
-                  <%=y.email%>
-                </option>
-              <%}else if(y.present == false){%>
-                <option class="absent">
-                  <%=y.email%>
-                </option>
-              <%}%>
+            <%=y.email%>
+           <%})%>
+          </select><br/><br/><br/>
+      <%})%>
+    </div>
+  </div>
+  
+  <div class="container">
+    <div class="jumbotron">
+      <h4>Past Discussions</h4>
+      <%pastdiscussions.forEach((x)=>{%>
+         <b>Admin:- </b><%=x.admin%><br>
+         <b>Email:- </b><%=x.email%><br>
+         <b>Room Id:- </b><%=x.roomId%><br>
+         <b>Scheduled Time:- </b><%=moment(x.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
+         <b>Students Invited</b>
+         <select style="display: block;">
+            <%x.students.forEach((y)=>{%>
+                <%if(y.present==true){%>
+                  <option class="present">
+                    <%=y.email%>
+                  </option>
+                <%}else if(y.present == false){%>
+                  <option class="absent">
+                    <%=y.email%>
+                  </option>
+                <%}%>
+            <%})%>
+          </select> <br/><br/><br/>      
+      <%})%>
+    </div>
+  </div>
+</section>
+
+
+<section class="test">
+  <div class="container">
+    <div class="jumbotron">
+      <h4>Scheduled Tests</h4>
+      <%scheduledtests.forEach((x)=>{%>
+         <b>Admin:- </b><%=x.admin%><br>
+         <b>Email:- </b><%=x.email%><br>
+         <b>Room Id:- </b><%=x.roomId%><br>
+         <b>Scheduled Time:- </b><%=moment(x.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
+         <b>Students Invited</b>
+         <select style="display: block;">
+          <% x.students.forEach((y)=>{%>
+             <option><%=y%></option>
           <%})%>
-        </select> <br/><br/><br/>      
-    <%})%>
+        </select><br><br><br>
+      <%})%>
+    </div>
   </div>
-</div>
-
-
-<div class="container">
-  <div class="jumbotron">
-    <h4>Scheduled Tests</h4>
-    <%scheduledtests.forEach((x)=>{%>
-       <b>Admin:- </b><%=x.admin%><br>
-       <b>Email:- </b><%=x.email%><br>
-       <b>Room Id:- </b><%=x.roomId%><br>
-       <b>Scheduled Time:- </b><%=moment(x.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
-       <b>Students Invited</b>
-       <select style="display: block;">
-        <% x.students.forEach((y)=>{%>
-           <option><%=y%></option>
-        <%})%>
-      </select><br><br><br>
-    <%})%>
-  </div>
-</div>
-
-<div class="container">
-  <div class="jumbotron">
-    <h4>PastTests</h4>
-    <%pasttests.forEach((x)=>{%>
-       <b>Admin:- </b><%=x.admin%><br>
-       <b>Email:- </b><%=x.email%><br>
-       <b>Room Id:- </b><%=x.roomId%><br>
-       <b>Scheduled Time:- </b><%=moment(x.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
-       <b>Students Invited</b>
-       <select style="display: block;">
-        <%x.students.forEach((y)=>{%>
-          <option><%=y%></option>
-        <%})%>
-      </select><br><br><br>
-    <%})%>
-  </div>
-</div>
-
-
-<div class="container">
-  <div class="jumbotron">
-    <h4>Add Counsellors</h4>
-    <form action="/superuser/counsell/add" method="POST">
-      <div class="input-field col s6">
-        <input
-          type="text"
-          name="counsell[name]"
-          required
-        />
-        <label
-          for="name"
-          style="pointer-events: none;"
-          >Name:</label
-        >
-      </div>
-      
-      <div class="input-field col s6">
-        <input
-          type="text"
-          name="counsell[phoneNumber]"
-          required
-        />
-        <label
-          for="phoneNumber"
-          style="pointer-events: none;"
-          >Phone Number</label
-        >
-      </div> 
-      
-      <div class="input-field col s6">
-        <input
-          type="email"
-          name="counsell[email]"
-          required
-        />
-        <label
-          for="email"
-          style="pointer-events: none;"
-          >Email:</label
-        >
-      </div> 
-      
-      <div class="input-field col s6">
-        <input
-          type="datetime-local"
-          name="counsell[scheduledTime]"
-          required
-        />
-        <label
-          for="scheduledTime"
-          style="pointer-events: none;"
-          >Scheduled Time</label
-        >
-      </div> 
-      
-      <div class="input-field col s6">
-        <input
-          type="text"
-          name="counsell[description]"
-          required
-        />
-        <label
-          for="description"
-          style="pointer-events: none;"
-          >Description</label
-        >
-      </div>
-      <button>Add</button>
-    </form>
-  </div>
-</div>
-
-
-<div class="container">
-  <div class="jumbotron">
-    <h4>Scheduled Counselling Discussions</h4>
-    <%scheduledcounsells.forEach((x)=>{%>
-         <b>Name:- </b><%=x.name%><br>
+  
+  <div class="container">
+    <div class="jumbotron">
+      <h4>PastTests</h4>
+      <%pasttests.forEach((x)=>{%>
+         <b>Admin:- </b><%=x.admin%><br>
          <b>Email:- </b><%=x.email%><br>
-         <b>Phone Number- </b><%=x.phoneNumber%><br>
+         <b>Room Id:- </b><%=x.roomId%><br>
          <b>Scheduled Time:- </b><%=moment(x.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
-         <b>Description:- </b><%=x.description%><br>
-         <b>Student:- </b><%=x.studentname%><br>
-         <b>Student Email:-</b><%=x.studentemail%><br>
-         <b><a href="/superuser/counsell/remove/<%=x.id%>">Delete</a></b><br><br><br>
-    <%})%>
+         <b>Students Invited</b>
+         <select style="display: block;">
+          <%x.students.forEach((y)=>{%>
+            <option><%=y%></option>
+          <%})%>
+        </select><br><br><br>
+      <%})%>
+    </div>
   </div>
-</div>
+  
+</section>
 
-<div class="container">
-  <div class="jumbotron">
-    <h4>Past Counselling Sessions</h4>
-    <%pastcounsells.forEach((x)=>{%>
-         <b>Name:- </b><%=x.name%><br>
-         <b>Email:- </b><%=x.email%><br>
-         <b>Phone Number- </b><%=x.phoneNumber%><br>
-         <b>Scheduled Time:- </b><%=moment(x.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
-         <b>Description:- </b><%=x.description%><br>
-         <b>Student:- </b><%=x.student%><br>
-         <b>Student Email:-</b><%=x.studentemail%><br><br><br>
-    <%})%>
+<section class="counselling">
+  <div class="container">
+    <div class="jumbotron">
+      <h4>Add Counsellors</h4>
+      <form action="/superuser/counsell/add" method="POST">
+        <div class="input-field col s6">
+          <input
+            type="text"
+            name="counsell[name]"
+            required
+          />
+          <label
+            for="name"
+            style="pointer-events: none;"
+            >Name:</label
+          >
+        </div>
+        
+        <div class="input-field col s6">
+          <input
+            type="text"
+            name="counsell[phoneNumber]"
+            required
+          />
+          <label
+            for="phoneNumber"
+            style="pointer-events: none;"
+            >Phone Number</label
+          >
+        </div> 
+        
+        <div class="input-field col s6">
+          <input
+            type="email"
+            name="counsell[email]"
+            required
+          />
+          <label
+            for="email"
+            style="pointer-events: none;"
+            >Email:</label
+          >
+        </div> 
+        
+        <div class="input-field col s6">
+          <input
+            type="datetime-local"
+            name="counsell[scheduledTime]"
+            required
+          />
+          <label
+            for="scheduledTime"
+            style="pointer-events: none;"
+            >Scheduled Time</label
+          >
+        </div> 
+        
+        <div class="input-field col s6">
+          <input
+            type="text"
+            name="counsell[description]"
+            required
+          />
+          <label
+            for="description"
+            style="pointer-events: none;"
+            >Description</label
+          >
+        </div>
+        <button>Add</button>
+      </form>
+    </div>
   </div>
-</div>
+  
+  
+  <div class="container">
+    <div class="jumbotron">
+      <h4>Scheduled Counselling Discussions</h4>
+      <%scheduledcounsells.forEach((x)=>{%>
+           <b>Name:- </b><%=x.name%><br>
+           <b>Email:- </b><%=x.email%><br>
+           <b>Phone Number- </b><%=x.phoneNumber%><br>
+           <b>Scheduled Time:- </b><%=moment(x.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
+           <b>Description:- </b><%=x.description%><br>
+           <b>Student:- </b><%=x.studentname%><br>
+           <b>Student Email:-</b><%=x.studentemail%><br>
+           <b><a href="/superuser/counsell/remove/<%=x.id%>">Delete</a></b><br><br><br>
+      <%})%>
+    </div>
+  </div>
+  
+  <div class="container">
+    <div class="jumbotron">
+      <h4>Past Counselling Sessions</h4>
+      <%pastcounsells.forEach((x)=>{%>
+           <b>Name:- </b><%=x.name%><br>
+           <b>Email:- </b><%=x.email%><br>
+           <b>Phone Number- </b><%=x.phoneNumber%><br>
+           <b>Scheduled Time:- </b><%=moment(x.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
+           <b>Description:- </b><%=x.description%><br>
+           <b>Student:- </b><%=x.student%><br>
+           <b>Student Email:-</b><%=x.studentemail%><br><br><br>
+      <%})%>
+    </div>
+  </div>
+</section>
 </div>
 
 
@@ -346,7 +372,7 @@
   var teacherNav = document.querySelectorAll('#admin-nav');
   teacherNav.forEach((teacherNav) => {
     teacherNav.innerHTML = '';
-    const navLinks = `<a id="dshbrd" href="http://localhost:3000/superuser/dashboard"
+    const navLinks = `<a id="dshbrd" href="#" onclick="dashboard()"
     ><i class="fas fa-desktop"></i><span>Dashboard</span></a
   >
   <a href="#" onclick="addTeacher()"
@@ -355,6 +381,15 @@
   <a href="#" onclick="addStudent()"
     ><i class="fas fa-user-graduate"></i><span>Add Student</span></a
   >
+  <a href="#" onclick="discussion()"
+        ><i class="fas fa-th"></i><span>Discussions</span></a
+      >
+  <a href="#" onclick="test()"
+    ><i class="far fa-file-alt"></i><span>Tests</span></a
+  >
+  <a href="#" onclick="counselling()"
+        ><i class="far fa-handshake"></i><span>Counselling</span></a
+      >
   <a class='hme' href="#"><i class="fas fa-info-circle"></i><span>Home</span></a>
   <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>`;
     teacherNav.innerHTML = navLinks;
@@ -371,6 +406,8 @@
     });
     }
     setInterval(showTime,1);
+    var popup = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(popup);
 </script>
 
 <%- include('partials/footer'); -%>

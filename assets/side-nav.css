@@ -175,6 +175,11 @@ label #sidebar_btn:hover {
   position: relative;
   top: 70px;
   transition: 0.5s ease;
+  overflow: auto;
+  
+}
+.modal-content{
+  height: calc(100% - 56px) !important;
 }
 
 #check:checked ~ .side-nav-content {
@@ -324,6 +329,7 @@ label #sidebar_btn:hover {
   transform: translateX(100%);
   top: 0;
   transition: .5s ease-in-out;
+  overflow-y: scroll;
 }
 .navbar-toggler {
   display: none;
