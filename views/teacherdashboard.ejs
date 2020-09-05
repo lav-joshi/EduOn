@@ -1,7 +1,13 @@
 <%- include('partials/side-nav'); -%>
   
-<div class="side-nav-content p-5" >
 
+<div class="side-nav-content p-5" >
+  <div class="container">
+    <h5>Search details of any students</h5>
+    <form action="/teacher/profile" method="GET">
+      <input type="text" name="email" placeholder="Enter email to search student">
+    </form>
+  </div>
 <!-- <div class="aBtns p-3 mb-5 mt-5">
   <a
     class="waves-effect waves-light btn white-text"
