@@ -1,5 +1,6 @@
-<%- include('partials/header'); -%>
+<%- include('partials/side-nav'); -%>
   
+<div class="side-nav-content p-5" >
 
 <!-- <div class="aBtns p-3 mb-5 mt-5">
   <a
@@ -35,7 +36,7 @@
                     name="discussion[admin]"
                     value="<%=currentUser.name%>"
                     class="white-text"
-                        style="border-color: white;"
+                    style="border-color: white;"
                     readonly
                 />
                 
@@ -52,7 +53,7 @@
                   name="discussion[email]"
                   value="<%=currentUser.email%>"
                   class="white-text"
-                        style="border-color: white;"
+                  style="border-color: white;"
                   readonly
                 />
                 <label
@@ -68,8 +69,8 @@
                 name="discussion[roomId]"
                 placeholder="Create you personalised Room for discussion" 
                 class="validator white-text"
-                      style="border-color: white;"
-                      required
+                style="border-color: white;"
+                required
                 />
               <label class="white-text" style="pointer-events: none;">RoomId</label><br />
               </div>
@@ -96,6 +97,9 @@
 </section>
 
 <section class="dashboard">
+  <div>
+    <%- include('../assets/svg/teacher.svg') -%>
+  </div>
 <div class="scheduled">
   <div>
     <h2>Scheduled Discussions</h2>
@@ -125,10 +129,10 @@
 <div class="card-container" id="aS">
   <div class="each-card text-center" >
     <div class="col s12 m6">
-      <div class="card" style="background-color: #0e9aa7 !important;">
+      <div class="card" style="background-color: #3b3838 !important;">
         <div class="card-content white-text">
           <h2>Schedule a Test</h2>
-          <div class="frm-icn"><div style="width: 60%;">  <%- include('../assets/svg/exam.svg') %></div> </div>
+          <div class="frm-icn"  style="background-color: #3b3838 !important;"><div style="width: 60%;" >  <%- include('../assets/svg/exam.svg') %></div> </div>
           <form action="/teacher/meeting/add" method="POST">
             <div class="form-group white-text">
               <div class="input-field col s6">
@@ -201,9 +205,26 @@
     <div>
         Scheduled time : <%=moment(meeting.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
         Room id : <%=meeting.roomId%><br>
-        <a href="/teacher/dashboard/meeting/<%=meeting.roomId%>">Click for settings</a></div>
+        <a href="/teacher/dashboard/meeting/<%=meeting.roomId%>">Click for settings</a>
+    </div>
   <%})%>
 </div>
 
 </div>
+</div>
+
+<script>
+  function dateFunction(e){
+    var date = e.target.value;
+    console.log(date)
+}
+function submitForm(e){
+    var date = e.target;
+    console.log(date);
+}
+function timeFunction(e){
+    var time = e.target.value;
+    console.log(time)
+}
+</script>
 <%- include('partials/footer'); -%>

@@ -88,7 +88,6 @@ body {
   text-decoration: none;
   padding-left: 40px;
   box-sizing: border-box;
-
 }
 
 .sidebar a:hover {
@@ -142,7 +141,7 @@ label #sidebar_btn:hover {
   left: -170px;
   transition: 0.5s;
 }
-#check:checked ~ .side-nav-header .s-n-logo  {
+#check:checked ~ .side-nav-header .s-n-logo {
   left: -170px;
   transition: 0.5s;
 }
@@ -173,8 +172,5 @@ label #sidebar_btn:hover {
 }
 
 #check {
-  display: none;
-}
-#T-db , #SU-db{
   display: none;
 }

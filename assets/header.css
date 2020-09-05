@@ -1,4 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Quantico&display=swap');
+html {
+  scroll-behavior: smooth;
+}
 * {
   margin: 0;
   box-sizing: border-box;
@@ -73,23 +76,26 @@ body {
   color: #f3264b !important;
 }
 .bg-images {
-  background-image: url(./images/pexels-andrea-piacquadio-3768126.jpg);
+  background-image: url(./svg/main-bg.svg);
   position: relative;
-  background-attachment: fixed;
-  width: 100%;
+  /* background-attachment: fixed; */
+  width: 100vw;
   height: 75vh;
-  background-size: cover;
+  background-size: 100vw;
   background-origin: content-box;
-  background-position-y: 15%;
+  /* background-position-y: 15%; */
   z-index: -2;
 }
 .shade {
   position: absolute;
-  width: 100%;
+  width: 100vw;
   height: 75vh;
   background: #323232;
   opacity: 0.7;
   z-index: -1;
+}
+#main-bg{
+  width: 100%;
 }
 .logo-cont {
   width: 100%;

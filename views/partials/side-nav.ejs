@@ -52,6 +52,7 @@
 
     <link rel="stylesheet" href="/header.css" />
     <link rel="stylesheet" href="/su.css" />
+    <link rel="stylesheet" media="screen and (min-width:420px)" href="/mobile.css" />
     <div class="preloader">
       <%- include('../../assets/svg/eduon-logo.svg') %>
     </div>
@@ -76,29 +77,28 @@
         <i class="material-icons" style="font-size: 40px;">account_circle</i>
         <h5><%=currentUser.name%></h5>
       </center>
-      <a href="#" onclick="dashboard()"
+      <a id="dshbrd" href="#" onclick="dashboard()"
         ><i class="fas fa-desktop"></i><span>Dashboard</span></a
       >
-      <div id="T-db">
-        <a href="#" onclick="discussion()"
-          ><i class="fas fa-th"></i><span>New Discussion</span></a
-        >
-        <a href="#" onclick="test()"
-          ><i class="far fa-file-alt"></i><span>New Test</span></a
-        >
-        <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
-        <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>
-      </div>
-      <div id="SU-db">
-        <a href="#" onclick="addTeacher()"
-          ><i class="fas fa-chalkboard-teacher"></i><span>Add Teacher</span></a
-        >
-        <a href="#" onclick="addStudent()"
-          ><i class="fas fa-user-graduate"></i><span>Add Student</span></a
-        >
-        <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
-        <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>
-      </div>
+      <% if( clientType === 'teacher') { %>
+      <a href="#" onclick="discussion()"
+        ><i class="fas fa-th"></i><span>New Discussion</span></a
+      >
+      <a href="#" onclick="test()"
+        ><i class="far fa-file-alt"></i><span>New Test</span></a
+      >
+      <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
+      <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>
+      <% } else if (clientType = 'admin'){ %>
+      <a href="#" onclick="addTeacher()"
+        ><i class="fas fa-chalkboard-teacher"></i><span>Add Teacher</span></a
+      >
+      <a href="#" onclick="addStudent()"
+        ><i class="fas fa-user-graduate"></i><span>Add Student</span></a
+      >
+      <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
+      <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>
+      <% } else{ %> <% } %>
     </div>
 
     <script>
@@ -146,16 +146,7 @@
           preloader.classList.add('preload-finish');
         }, 1000);
       });
-    </script>
-    <script>
-      var loc = window.location.pathname;
-      var tDb = document.getElementById('T-db');
-      var suDb = document.getElementById('SU-db');
-      if (loc === '/teacher/dashboard') {
-        tDb.style.display = 'block';
-      } else if (loc === '/superuser/dashboard') {
-        suDb.style.display = 'block';
-      }
+      
     </script>
   </body>
 </html>

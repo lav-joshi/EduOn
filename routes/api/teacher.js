@@ -97,6 +97,7 @@ router.post("/meeting/updatetiming/:roomid",auth,(req,res)=>{
         res.redirect("/teacher/dashboard/meeting/"+req.params.roomid);
       }
     });
+
 });
 
 router.get("/dashboard/delete/student/:roomid/:email",auth,async (req,res)=>{
@@ -299,14 +300,6 @@ router.post("/discussion/updatetiming/:roomid/:email",auth,(req,res)=>{
 });
 
 router.get("/dashboard/enter/discussion/classroom/:roomid",auth,(req,res)=>{
-  Discussion.findOne({roomId:req.params.roomid},(err,discussion)=>{
-    res.render("mainclassroom",{currentUser:req.user,clientType:req.session.client,discussion:discussion})
-  });
-});
-
-
-
-router.get("/dashboard/enter/discussion/classroom/:roomid",(req,res)=>{
   Discussion.findOne({roomId:req.params.roomid},(err,discussion)=>{
     res.render("mainclassroom",{currentUser:req.user,clientType:req.session.client,discussion:discussion})
   });

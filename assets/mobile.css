@@ -1,0 +1,12 @@
+.sidebar {
+    position: fixed;
+    transform-origin: bottom;
+    left: 250%;
+    bottom: 100px;
+  transform: rotate(270deg);
+}
+#check:checked ~ .side-nav-content {
+  }
+.side-nav-content{
+    margin-left: 0px;
+}
