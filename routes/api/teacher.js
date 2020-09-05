@@ -220,10 +220,20 @@ router.get("/dashboard/meeting/sendmail/:roomid/:email",auth,(req,res)=>{
     });
 });
 
-router.get("/dashboard/leaderboard/:roomid",auth,(req,res)=>{
+router.get("/dashboard/leaderboard/:roomid",auth,async(req,res)=>{
+  Student.find({},(err,users)=>{
+
     Meeting.findOne({roomId:req.params.roomid},async(err,meeting)=>{
         let students=meeting.students;
         let totalmarks=[];
+        let names=[];
+        await students.forEach(async(z)=>{
+           await users.forEach((user)=>{
+             if(z==user.email){
+               names.push(user.name);
+             }
+           });
+        });
         for(var i=0;i<students.length;i++){
           totalmarks.push(0);
         }
@@ -249,8 +259,9 @@ router.get("/dashboard/leaderboard/:roomid",auth,(req,res)=>{
          });
        
 
-       res.send({students:students,totalmarks:totalmarks,arr:arr});
+       res.send({students:students,totalmarks:totalmarks,arr:arr,names:names});
    });
+  });
 })
 
 

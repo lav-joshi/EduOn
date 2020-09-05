@@ -181,8 +181,8 @@
     leaderBoard.textContent = 'LeaderBoard will be generated after Test overs';
     console.log('Moin leaderboard ui banayega');
   }
-      if (window.location.pathname === `/teacher/dashboard/`+'<%= meeting.roomId %>') {
-        document.getElementById('dshbrd').href = `../dashboard/`;
+      if (window.location.pathname === `/teacher/dashboard/meeting/`+'<%= meeting.roomId %>') {
+        document.getElementById('dshbrd').href = `../`;
       } else document.getElementById('dshbrd').href = `#`;
 </script>
 

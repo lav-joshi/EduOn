@@ -224,10 +224,20 @@ router.get("/dashboard/updatemarks/:roomid/:email/:questionname/:answer",auth,(r
 });
 
 router.get("/dashboard/leaderboard/:roomid",auth,async(req,res)=>{
-    console.log("body fuck");
+    Student.find({},(err,users)=>{
     Meeting.findOne({roomId:req.params.roomid},async(err,meeting)=>{
          let students=meeting.students;
          let totalmarks=[];
+
+         let names=[];
+         await students.forEach(async(z)=>{
+            await users.forEach((user)=>{
+              if(z==user.email){
+                names.push(user.name);
+              }
+            });
+         });
+
          for(var i=0;i<students.length;i++){
            totalmarks.push(0);
          }
@@ -253,8 +263,9 @@ router.get("/dashboard/leaderboard/:roomid",auth,async(req,res)=>{
           });
         
 
-        res.send({students:students,totalmarks:totalmarks,arr:arr});
+        res.send({students:students,totalmarks:totalmarks,arr:arr,names:names});
     });
+  });
 });
 
 ///////////////////////////////////////////////

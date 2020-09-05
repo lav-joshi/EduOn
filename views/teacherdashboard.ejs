@@ -2,25 +2,6 @@
   
 
 <div class="side-nav-content p-5" >
-  <div class="container">
-    <h5>Search details of any students</h5>
-    <form action="/teacher/profile" method="GET">
-      <input type="text" name="email" placeholder="Enter email to search student">
-    </form>
-  </div>
-<!-- <div class="aBtns p-3 mb-5 mt-5">
-  <a
-    class="waves-effect waves-light btn white-text"
-    style="background-color: #3b6978 !important;"
-    href="#aT"
-    >New Discussion</a
-  ><a
-    class="waves-effect waves-light btn"
-    style="background-color: #0e9aa7 !important;"
-    href="#aS"
-    >New Test</a
-  >
-</div> -->
 
 
 <div class="content">
@@ -107,24 +88,24 @@
     <%- include('../assets/svg/teacher.svg') -%>
   </div>
 <div class="scheduled">
-  <div>
-    <h2>Scheduled Discussions</h2>
+  <div class="sche-dash m-3">
+    <h2 class="text-center">Scheduled Discussions</h2>
     <%discussions.forEach(function(discussion){%>
       <div>
-          Scheduled time : <%=moment(discussion.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
-          Room id : <%=discussion.roomId%><br>
-          <a href="/teacher/dashboard/enter/discussion?room=<%=discussion.roomId%>&user=<%=currentUser.email%>">Click for settings</a>
+        <span>Scheduled time :</span>  <%=moment(discussion.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
+        <span>Room id :</span>  <%=discussion.roomId%><br>
+          <a class="waves-effect waves-light btn text-center " href="/teacher/dashboard/enter/discussion?room=<%=discussion.roomId%>&user=<%=currentUser.email%>"><i class="fas fa-pencil-alt"></i>Edit</a>
       </div>
     <%})%>
   </div>
   
-  <div>
-    <h2>Scheduled Tests</h2>
+  <div class="sche-dash m-3">
+    <h2 class="text-center">Scheduled Tests</h2>
     <%meetings.forEach(function(meeting){%>
       <div>
-          Scheduled time : <%=moment(meeting.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
-          Room id : <%=meeting.roomId%><br>
-          <a href="/teacher/dashboard/<%=meeting.roomId%>">Click for settings</a>
+          <span>Scheduled time :</span>  <%=moment(meeting.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
+          <span>Room id :</span>  <%=meeting.roomId%><br>
+           <a class="waves-effect waves-light btn text-center " alt="edit" href="/teacher/dashboard/meeting/<%=meeting.roomId%>"><i class="fas fa-pencil-alt" ></i>Edit</a>
       </div>
     <%})%>
   </div>
@@ -204,17 +185,6 @@
   </div>
 </section>
 
-
-<div>
-  <h2>Your Scheduled Tests</h2>
-  <%meetings.forEach(function(meeting){%>
-    <div>
-        Scheduled time : <%=moment(meeting.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
-        Room id : <%=meeting.roomId%><br>
-        <a href="/teacher/dashboard/meeting/<%=meeting.roomId%>">Click for settings</a>
-    </div>
-  <%})%>
-</div>
 
 </div>
 </div>

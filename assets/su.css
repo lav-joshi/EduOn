@@ -68,3 +68,36 @@ input:focus {
     opacity: 0;
   }
 }
+.sche-dash{
+  background-color: #F2F4FA;
+  padding: .5rem;
+  padding: 1rem;
+  min-width: 700px;
+  border-radius: 15px;
+}
+.sche-dash h2 , .sche-dash div{
+  margin: auto;
+  background-color: #fff;
+  margin-bottom: 9px;
+  padding:.5rem;
+  border-radius: 10px;
+}
+.sche-dash div span{
+  font-size: larger;
+  font-weight: 400;
+}
+.sche-dash div a i{
+  font-size: 1rem;
+  margin-right: 3px;
+}
+.sche-dash h2{
+  padding: 1rem;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  color: #0e9aa7;
+}
+.scheduled{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}

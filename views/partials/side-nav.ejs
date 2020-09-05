@@ -68,6 +68,12 @@
           </span>
         </label>
       </div>
+      <div class="search-container">
+        <i class="fas fa-search white-text"></i>
+        <form action="/teacher/profile" method="GET">
+          <input type="text" name="email" placeholder="Enter email to search student">
+        </form>
+      </div>
       <div class="right_area">
         <a href="/auth/logout" class="logout_btn">Logout</a>
       </div>
@@ -77,23 +83,23 @@
         <i class="material-icons" style="font-size: 40px;">account_circle</i>
         <h5><%=currentUser.name%></h5>
       </center>
-      <a id="dshbrd" href="#" onclick="dashboard()"
+      <a id="dshbrd" href="#" onclick="dashboard(event)"
         ><i class="fas fa-desktop"></i><span>Dashboard</span></a
       >
       <% if( clientType === 'teacher') { %>
-      <a href="#" onclick="discussion()"
+      <a href="#" onclick="discussion(event)"
         ><i class="fas fa-th"></i><span>New Discussion</span></a
       >
-      <a href="#" onclick="test()"
+      <a href="#" onclick="test(event)"
         ><i class="far fa-file-alt"></i><span>New Test</span></a
       >
       <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
       <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>
       <% } else if (clientType = 'admin'){ %>
-      <a href="#" onclick="addTeacher()"
+      <a href="#" onclick="addTeacher(event)"
         ><i class="fas fa-chalkboard-teacher"></i><span>Add Teacher</span></a
       >
-      <a href="#" onclick="addStudent()"
+      <a href="#" onclick="addStudent(event)"
         ><i class="fas fa-user-graduate"></i><span>Add Student</span></a
       >
       <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
@@ -102,35 +108,40 @@
     </div>
 
     <script>
-      function discussion() {
+      function discussion(e) {
+        e.target.classList.toggle('active');
         var x = document.querySelectorAll('section');
         for (i = 0; i < x.length; i++) {
           if (x[i].className == 'discussion') x[i].style.display = 'block';
           else x[i].style.display = 'none';
         }
       }
-      function dashboard() {
+      function dashboard(e) {
+        e.target.classList.toggle('active');
         var x = document.querySelectorAll('section');
         for (i = 0; i < x.length; i++) {
           if (x[i].className == 'dashboard') x[i].style.display = 'block';
           else x[i].style.display = 'none';
         }
       }
-      function test() {
+      function test(e) {
+        e.target.classList.toggle('active');
         var x = document.querySelectorAll('section');
         for (i = 0; i < x.length; i++) {
           if (x[i].className == 'test') x[i].style.display = 'block';
           else x[i].style.display = 'none';
         }
       }
-      function addTeacher() {
+      function addTeacher(e) {
+        e.target.classList.toggle('active');
         var x = document.querySelectorAll('section');
         for (i = 0; i < x.length; i++) {
           if (x[i].className == 'addTeacher') x[i].style.display = 'block';
           else x[i].style.display = 'none';
         }
       }
-      function addStudent() {
+      function addStudent(e) {
+        e.target.classList.toggle('active');
         var x = document.querySelectorAll('section');
         for (i = 0; i < x.length; i++) {
           if (x[i].className == 'addStudent') x[i].style.display = 'block';

@@ -6,73 +6,20 @@
       <%- include('../assets/svg/superUsergrant.svg'); -%>
     </div>
   </section>
-<section class="addTeacher">
-  <div class="card-container">
-    <div class="each-card text-center" id="aT">
-      <div class="col s12 m6">
-        <div class="card" style="background-color: #3b3838 !important;">
-          <div class="card-content white-text">
-            <h2>Add Teachers</h2>
-            <div class="frm-icn" style="background-color: #3b3838 !important;"><i class="fas fa-chalkboard-teacher"></i></div>
-            <form action="/superuser/teacher/add" method="POST">
-              <div class="form-group white-text">
-                <div class="input-field col s6">
-                  <input
-                    id="last_name"
-                    type="text"
-                    class="validate white-text"
-                    style="border-color: white;"
-                    name="main[name]"
-                    required
-                  />
-                  <label
-                    for="last_name"
-                    class="white-text"
-                    style="pointer-events: none;"
-                    >Name:</label
-                  >
-                </div>
-                <div class="input-field col s6">
-                  <input
-                    id="last_name"
-                    type="text"
-                    class="validate white-text"
-                    style="border-color: white;"
-                    name="main[email]"
-                    required
-                  />
-                  <label
-                    for="last_name"
-                    class="white-text"
-                    style="pointer-events: none;"
-                    >Email:</label
-                  >
-                </div>
-                <button
-                  class="btn btn-primary white darken-1"
-                  style="color: #07031a;"
-                >
-                  Submit!
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-  <section class="addStudent">
+  <section class="addTeacher">
     <div class="card-container">
-      <div class="each-card text-center" id="aS">
+      <div class="each-card text-center" id="aT">
         <div class="col s12 m6">
-          <div class="card" style="background-color: #3b6978 !important;">
+          <div class="card" style="background-color: #3b3838 !important;">
             <div class="card-content white-text">
-              <h2>Add Students</h2>
-              <div class="frm-icn" style="background-color: #3b6978;">
-                <i class="fas fa-user-graduate"></i>
+              <h2>Add Teachers</h2>
+              <div
+                class="frm-icn"
+                style="background-color: #3b3838 !important;"
+              >
+                <i class="fas fa-chalkboard-teacher"></i>
               </div>
-              <form action="/superuser/student/add" method="POST">
+              <form action="/superuser/teacher/add" method="POST">
                 <div class="form-group white-text">
                   <div class="input-field col s6">
                     <input
@@ -120,7 +67,64 @@
       </div>
     </div>
   </section>
+  <section class="addStudent">
+    <div class="card-container">
+      <div class="each-card text-center" id="aS">
+        <div class="col s12 m6">
+          <div class="card" style="background-color: #3b6978 !important;">
+            <div class="card-content white-text">
+              <h2>Add Students</h2>
+              <div class="frm-icn" style="background-color: #3b6978;">
+                <i class="fas fa-user-graduate"></i>
+              </div>
+              <form action="/superuser/student/add" method="POST">
+                <div class="form-group white-text">
+                  <div class="input-field col s6">
+                    <input
+                      id="last_name"
+                      type="text"
+                      class="validate white-text"
+                      style="border-color: white;"
+                      name="mains[name]"
+                      required
+                    />
+                    <label
+                      for="last_name"
+                      class="white-text"
+                      style="pointer-events: none;"
+                      >Name:</label
+                    >
+                  </div>
+                  <div class="input-field col s6">
+                    <input
+                      id="last_name"
+                      type="text"
+                      class="validate white-text"
+                      style="border-color: white;"
+                      name="mains[email]"
+                      required
+                    />
+                    <label
+                      for="last_name"
+                      class="white-text"
+                      style="pointer-events: none;"
+                      >Email:</label
+                    >
+                  </div>
+                  <button
+                    class="btn btn-primary white darken-1"
+                    style="color: #07031a;"
+                  >
+                    Submit!
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
 
 <%- include('partials/footer'); -%>
-

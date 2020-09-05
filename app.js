@@ -146,5 +146,5 @@ peerApp.use('/peerjs', ExpressPeerServer(peerServer, options));
 server.listen(PORT,()=>{
     console.log("Server Started ");
 });
-peerServer.listen(peerPort)
+// peerServer.listen(peerPort)
  
