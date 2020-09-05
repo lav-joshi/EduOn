@@ -1,34 +1,5 @@
-<%- include('partials/side-nav'); -%>
-<link rel="stylesheet" href="/leaderBoard.css">
-<div class="side-nav-content p-3">
-  <div class="stud-row">
-    <div class="row">
-      <div class="col s12 m7">
-        <div class="card" style="width: 70%;">
-          <div class="card-title text-center p-3 blue-grey lighten-5">Test Room</div>
-          <h4 class="text-center" >Organized by <%=meeting.admin%></h4>
-
-          <div class="card-image p-3" style="height: 30vh; overflow: hidden;" >
-            <img src="/images/test.svg" style="height: 100%;">
-          </div>
-          <form action="/student/dashboard/test/enter" method="GET">
-            <input type="text" required hidden value="1" name="f" />
-            <div class="card-content">
-              <div class="scheduled">
-                <div>
-                  <h4>Test at:</h4><%=moment(meeting.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%>
-                </div>
-              </div>
-          </div>
-          <div class="card-action text-center">
-            <a class="btn btn-primary black darken-1" href="/student/dashboard/entertestroom/<%=meeting.roomId%>">Start Test</a>
-          </div>
-        </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="container">
+<%- include('partials/header'); -%>
+<div class="container">
     <div class="jumbotron">
         Welcome <%=currentUser.name%> 
         <h2 id="admin">Organized by <%=meeting.admin%></h2>
@@ -47,20 +18,19 @@
         <h2 id="end"></h2>        
     </div>
 
-    <div class="leader-back">
-        <div class="leader-header">LeaderBoard</div>
-        <div id="leaderboard"></div>
+    <div id="leaderboard">
+
     </div>
 
 </div>
 
-</div>
 <script>
+
     if (window.performance) {
        
     }
     if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
-    location.href="http://localhost:3000/student/dashboard/test/enter?room=<%= meeting.roomId %>&f=1"
+    location.href="http://localhost:3000/student/dashboard/test/enter?room=mi&f=1"
     } else {
     }
 
@@ -68,16 +38,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
 
 <script>
-   var teacherNav = document.querySelectorAll('#student-nav');
-  teacherNav.forEach((teacherNav) => {
-    teacherNav.innerHTML = '';
-    const navLinks = `<a id="dshbrd" href="http://localhost:3000/student/dashboard/" 
-      ><i class="fas fa-desktop"></i><span>Dashboard</span></a
-    >
-    <a href="/student/profile/myprofile?email=<%=currentUser.email%>"><i class="fas fa-user"></i><span>My Profile</span></a>
-    <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>`;
-    teacherNav.innerHTML = navLinks;
-  });
 
     function showTime(){
     document.querySelector("#dd").textContent=moment(Date.now()).format('MMMM Do YYYY, h:mm:ss a');
@@ -123,29 +83,15 @@
 
    if((new Date()).getTime()>=new Date(document.querySelector("#fuck").textContent).getTime()+Number(length.textContent)*120000+300000 ){
       fetch(`/student/dashboard/leaderboard/<%=meeting.roomId%>`)
-      .then((response) => {
-        response.json().then((data) => {
-          const leaderBoard = document.getElementById('leaderboard');
-
-          var list = document.createElement("ol");
-          for(let i=0; i<data.names.length;i++){
-            item = document.createElement("li");
-            item.className = "leader-li";
-            item.innerHTML = `<div class="hname">${(i+1)}. ${data.names[i]} :</div><div class="list_num">${data.totalmarks[i]}</div>`;
-            list.appendChild(item);
-          }
-          leaderBoard.appendChild(list);
-          console.log(data);
-        });
-      }
-    );
-  } else {
-    const leaderBoard = document.getElementById('leaderboard');
-    let item = document.createElement("div");
-    item.className = "hname text-center";
-    item.textContent = 'LeaderBoard will be generated once the Test is Finished.';
-    leaderBoard.appendChild(item);
-  }
+      .then((response)=>{
+        response.json().then((data)=>{
+            console.log("Leader Moin banayega from data");
+            console.log(data);
+          });
+        })
+   }else{
+       leaderBoard.textContent = "LeaderBoard will be generated after Test overs";
+   }
 </script>
 
 <%- include('partials/footer'); -%>

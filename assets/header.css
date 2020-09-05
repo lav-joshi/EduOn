@@ -188,7 +188,7 @@ nav {
   justify-content: center;
 }
 #super-user-svg {
-  width: 80%;
+  width: 80vmin;
 }
 #plant {
   transform-origin: bottom;

@@ -5,11 +5,9 @@ const socketio = require("socket.io");
 const keys = require("./config/keys");
 const cookieParser = require("cookie-parser");
 const cookieSession = require("cookie-session");
-const bodyParser = require("body-parser");
-const methodOverride = require('method-override');
 require("./db/mongoose");
 const student = require("./routes/api/student");
-const teacher = require("./routes/api/teacher"); 
+const teacher = require("./routes/api/teacher");
 const superuser = require("./routes/api/superuser");
 const authRoutes = require("./routes/api/auth");
 const passport = require("passport");
@@ -23,8 +21,6 @@ const io = socketio(server);
 
 app.use(express.json());
 app.set("view engine", "ejs");
-app.use(bodyParser.json());
-app.use(methodOverride('_method'));
 app.use(express.static("./assets"));
 app.use(
     cookieSession({
@@ -56,13 +52,13 @@ io.on('connection',(socket)=>{
     console.log("New Web Socket Connection");
     
     socket.on('join',({useremail,room},callback)=>{
-      console.log("uuu"); 
+      console.log("uuu");
       socket.join(room);   
       Discussion.findOne({roomId:room},async (err,discussion)=>{
         discussion.socketids.push(socket.id);
         await discussion.save();  
-      }); 
-    }); 
+      });
+    });
 
     socket.on('sendMessage',(msg,callback)=>{
       msg.createdAt=new Date().getTime();
@@ -75,7 +71,7 @@ io.on('connection',(socket)=>{
           discussion.socketids.forEach((id)=>{
             io.to(id).emit('message',msg);
           });
-        }); 
+        });
       callback();
     });
 
@@ -87,64 +83,14 @@ io.on('connection',(socket)=>{
             discussion.socketids.splice(pos,1);
             await discussion.save();
             console.log("dd");
-          }  
+          }
         });
       });
       console.log("Disconnected");
     });
-    
-    socket.on('join-room',(roomId,userId)=>{
-        socket.join(roomId);
-        socket.to(roomId).broadcast.emit("user-connected",userId);
 
-        socket.on('message',message=>{
-    
-            Discussion.findOne({roomId:message.room},async (err,discussion)=>{
-              let y= discussion.students.findIndex(x=>x.email === message.msg);
-              if(discussion.email === message.user){
-                io.to(roomId).emit('createMessage',{
-                  user:discussion.admin,
-                  msg:message.msg
-                });
-              }else if(y===-1){
-                Student.findOne({email:message.user},(err,stud)=>{
-                  io.to(roomId).emit('createMessage',{
-                    user:stud.name,
-                    msg:message.msg
-                  });
-                });
-              }else{
-                discussion.students[y].present=true;
-                await discussion.save();
-                Student.findOne({email:message.user},(err,stud)=>{
-                  io.to(roomId).emit('createMessage',{
-                    user:stud.name,
-                    msg:message.msg
-                  });
-                });
-              }
-            });
-        });
-    });  
 });
-
-
-var ExpressPeerServer = require('peer').ExpressPeerServer;
-var peerExpress = require('express');
-const Student = require("./models/Student");
-var peerApp = peerExpress();
-var peerServer = require('http').Server(peerApp);
-var options = { debug: true }
-var peerPort = 443;
-
-peerApp.use('/peerjs', ExpressPeerServer(peerServer, options));
-
- 
-
-
 
 server.listen(PORT,()=>{
     console.log("Server Started ");
 });
-// peerServer.listen(peerPort)
- 
