@@ -18,7 +18,7 @@ router.get("/dashboard",auth,(req,res)=>{
 
     let errors=[];
     if(req.query.f==0){
-        errors.push("You are not allowed to enter test room or room does not exist");
+        errors.push("You are not allowed to enter test/discussion room or room does not exist");
     }
     res.render("studentdashboard",{currentUser:req.user,clientType:req.session.client,errors:errors});
 });  
@@ -265,15 +265,17 @@ router.get("/dashboard/leaderboard/:roomid",auth,async(req,res)=>{
 
 router.get("/dashboard/discussion/enter",auth,async(req,res)=>{
     Discussion.findOne({roomId:req.query.room},async (err,discussion)=>{
-        if(err){
-            res.redirect("/student/dashboard");
+        if(err || !discussion){
+            res.redirect("/student/dashboard?f=0");
         }
         if(discussion.students.findIndex(x=>x.email === req.query.user)===-1){
-            // Issue number 1
-            res.redirect("/student/dashboard");
+            res.redirect("/student/dashboard?f=0;");
         }else{
-            // res.redirect("/student/dashboard/dicussion/:"+req.query.room);
-            res.render("studentdiscussionroom",{currentUser:req.user,clientType:req.session.client,discussion:discussion,texts:discussion.texts});
+            let errors=[];
+            if(req.query.v==0){
+              errors.push("Class has not started yet . Come at Scheduled Time");
+            }
+            res.render("studentdiscussionroom",{currentUser:req.user,clientType:req.session.client,discussion:discussion,texts:discussion.texts,errors:errors});
         }
     }); 
 });
@@ -284,8 +286,11 @@ router.get("/dashboard/discussion/enter/classroom",async(req,res)=>{
             throw Error(err);
         }
         if(discussion.students.findIndex(x=>x.email === req.query.email)===-1){
-         res.redirect('/student/dashboard/discussion/enter?room'+req.params.room+'&user='+req.params.email);
-        }else{
+         res.redirect('/student/dashboard/discussion/enter?room'+req.params.room+'&user='+req.params.email+"&v=0");
+        }else if((new Date()).getTime() < discussion.scheduledTime.getTime()){
+            console.log("Class has not started yet . Come at Scheduled Time");
+            res.redirect("/student/dashboard/discussion/enter?room="+req.query.room+"&user="+req.query.email+"&v=0")
+        }else {
             res.render("studentmainclassroom",{currentUser:req.user,clientType:req.session.client,discussion:discussion})
         }
     }) 

@@ -30,6 +30,7 @@
         <h5>Enter Room Id for Scheduled Discussion</h5>
         <div>
             <form action="/student/dashboard/discussion/enter" method="GET">
+                <input type="hidden" name="v" value="1">
                 <input type="hidden" name="user" value="<%=currentUser.email%>">
                 <input type="text" required placeholder="Enter roomid to Join" name="room">
                 <input type="submit">

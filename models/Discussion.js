@@ -27,6 +27,7 @@ const DiscussionSchema = new mongoose.Schema({
             type:Boolean
         }
     }],
+    files:[]
 },
 { timestamps: true });
 module.exports = mongoose.model("discussion", DiscussionSchema);

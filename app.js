@@ -5,9 +5,11 @@ const socketio = require("socket.io");
 const keys = require("./config/keys");
 const cookieParser = require("cookie-parser");
 const cookieSession = require("cookie-session");
+const bodyParser = require("body-parser");
+const methodOverride = require('method-override');
 require("./db/mongoose");
 const student = require("./routes/api/student");
-const teacher = require("./routes/api/teacher");
+const teacher = require("./routes/api/teacher"); 
 const superuser = require("./routes/api/superuser");
 const authRoutes = require("./routes/api/auth");
 const passport = require("passport");
@@ -21,6 +23,8 @@ const io = socketio(server);
 
 app.use(express.json());
 app.set("view engine", "ejs");
+app.use(bodyParser.json());
+app.use(methodOverride('_method'));
 app.use(express.static("./assets"));
 app.use(
     cookieSession({

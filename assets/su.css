@@ -32,10 +32,11 @@ input:focus {
   opacity: 1 !important;
 
 }
-#svg-teacher{
+#svg-teacher {
   position: relative;
   padding: 2rem;
   max-width: 60%;
+  height: fit-content;
   left: 50%;
   transform: translateX(-50%);
 }
