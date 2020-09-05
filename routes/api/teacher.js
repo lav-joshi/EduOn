@@ -116,7 +116,7 @@ router.get("/dashboard/delete/student/:roomid/:email",auth,async (req,res)=>{
 })
 
 router.get("/dashboard/meeting/:roomId",auth,(req,res)=>{ ///////////////////////////////////
-    console.log("fuck hard");
+    console.log("Meeting Entered");
     Meeting.findOne({roomId:req.params.roomId},async(err,meeting)=>{
       Student.find({},async(err,students)=>{
         res.render("meetingdetails",{currentUser:req.user,

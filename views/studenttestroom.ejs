@@ -15,8 +15,8 @@
           <form action="/student/dashboard/test/enter" method="GET">
             <input type="text" required hidden value="1" name="f" />
             <div class="card-content">
-              <p id="fuck" hidden><%=meeting.scheduledTime%></p>
-        <p id="length" hidden><%=meeting.questions.length%></p>
+              <p id="timePass" hidden><%=meeting.scheduledTime%></p>
+              <p id="length" hidden><%=meeting.questions.length%></p>
               <div class="scheduled">
                 <div>
                   <h4>Test Time:</h4><%=moment(meeting.scheduledTime).format('Do-MM-YYYY, h:mm:ss a')%>
@@ -44,11 +44,16 @@
       </div>
     </div>
   </div>
-  <div class="container">
-    <div class="leader-back">
-        <div class="leader-header">LeaderBoard</div>
-        <div id="leaderboard"></div>
+  <div class="stud-row">
+    <div class="row">
+      <div class="col s12 m7">
+        <div class="leader-back">
+            <div class="leader-header">LeaderBoard</div>
+            <div id="leaderboard"></div>
+        </div>
+      </div>
     </div>
+  </div>
 
 </div>
 
@@ -91,7 +96,7 @@
     setInterval(showTime,1);
 
     // The data/time we want to countdown to
-    var countDownDate = new Date(document.querySelector("#fuck").textContent).getTime();
+    var countDownDate = new Date(document.querySelector("#timePass").textContent).getTime();
 
     // Run myfunc every second
     var myfunc = setInterval(function() {
@@ -130,7 +135,7 @@
    const leaderBoard = document.getElementById("leaderboard");
    const length = document.getElementById("length");
 
-   if((new Date()).getTime()>=new Date(document.querySelector("#fuck").textContent).getTime()+Number(length.textContent)*120000+300000 ){
+   if((new Date()).getTime()>=new Date(document.querySelector("#timePass").textContent).getTime()+Number(length.textContent)*120000+300000 ){
       fetch(`/student/dashboard/leaderboard/<%=meeting.roomId%>`)
       .then((response) => {
         response.json().then((data) => {
