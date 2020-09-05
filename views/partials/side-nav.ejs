@@ -4,14 +4,18 @@
     <meta charset="utf-8" />
     <title>EduOn</title>
     <link rel="stylesheet" href="/side-nav.css" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=7" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
     />
     <link
       rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
       crossorigin="anonymous"
     />
     <link
@@ -52,16 +56,16 @@
 
     <link rel="stylesheet" href="/header.css" />
     <link rel="stylesheet" href="/su.css" />
-    <link rel="stylesheet" media="screen and (min-width:420px)" href="/mobile.css" />
     <div class="preloader">
       <%- include('../../assets/svg/eduon-logo.svg') %>
     </div>
   </head>
   <body>
+    <div class="shade-layer"></div>
     <input type="checkbox" id="check" />
     <header class="side-nav-header">
-      <div class="s-n-logo white-text">
-        EduOn
+      <div class="white-text s-n-logo">
+        <div>EduOn</div>
         <label for="check">
           <span class="material-icons" id="sidebar_btn">
             menu
@@ -70,9 +74,15 @@
       </div>
       <div class="search-container">
         <i class="fas fa-search white-text"></i>
-        <form action="/teacher/profile" method="GET">
-          <input type="text" name="email" placeholder="Enter email to search student">
+        <% if(clientType === 'student'){ %>
+        <form action="/student/profile/friend" method="GET">
+          <input type="email" placeholder="Search Friend" name="email" />
         </form>
+        <% } else { %>
+        <form action="/teacher/profile" method="GET">
+          <input type="email" name="email" placeholder="Search student" />
+        </form>
+        <% } %>
       </div>
       <div class="right_area">
         <a href="/auth/logout" class="logout_btn">Logout</a>
@@ -83,65 +93,69 @@
         <i class="material-icons" style="font-size: 40px;">account_circle</i>
         <h5><%=currentUser.name%></h5>
       </center>
-      <a id="dshbrd" href="#" onclick="dashboard(event)"
-        ><i class="fas fa-desktop"></i><span>Dashboard</span></a
-      >
       <% if( clientType === 'teacher') { %>
-      <a href="#" onclick="discussion(event)"
-        ><i class="fas fa-th"></i><span>New Discussion</span></a
-      >
-      <a href="#" onclick="test(event)"
-        ><i class="far fa-file-alt"></i><span>New Test</span></a
-      >
-      <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
-      <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>
-      <% } else if (clientType = 'admin'){ %>
-      <a href="#" onclick="addTeacher(event)"
-        ><i class="fas fa-chalkboard-teacher"></i><span>Add Teacher</span></a
-      >
-      <a href="#" onclick="addStudent(event)"
-        ><i class="fas fa-user-graduate"></i><span>Add Student</span></a
-      >
-      <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
-      <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>
-      <% } else{ %> <% } %>
-    </div>
+      <div id="teacher-nav"></div>
+      <% } else if (clientType === 'admin'){ %>
+      <div id="admin-nav"></div>
 
+      <% } else{ %>
+      <div id="student-nav"></div>
+      <% } %>
+    </div>
+    <div class="mobile-sidebar">
+      <button class="navbar-toggler first-button" type="button">
+        <div class="animated-icon1">
+          <span></span><span></span><span></span>
+        </div>
+      </button>
+      <div class="mob-sidebar">
+        <center style="margin-left: -50px;">
+          <i class="material-icons" style="font-size: 40px;">account_circle</i>
+          <h5><%=currentUser.name%></h5>
+        </center>
+        <% if( clientType === 'teacher') { %>
+        <div id="teacher-nav"></div>
+        <% } else if (clientType === 'admin'){ %>
+        <div id="admin-nav"></div>
+
+        <% } else{ %>
+        <div id="student-nav"></div>
+        <% } %>
+        <a href="/auth/logout"
+          ><i class="fas fa-sign-out-alt"></i><span>Logout</span></a
+        >
+      </div>
+    </div>
     <script>
-      function discussion(e) {
-        e.target.classList.toggle('active');
+      function discussion() {
         var x = document.querySelectorAll('section');
         for (i = 0; i < x.length; i++) {
           if (x[i].className == 'discussion') x[i].style.display = 'block';
           else x[i].style.display = 'none';
         }
       }
-      function dashboard(e) {
-        e.target.classList.toggle('active');
+      function dashboard() {
         var x = document.querySelectorAll('section');
         for (i = 0; i < x.length; i++) {
           if (x[i].className == 'dashboard') x[i].style.display = 'block';
           else x[i].style.display = 'none';
         }
       }
-      function test(e) {
-        e.target.classList.toggle('active');
+      function test() {
         var x = document.querySelectorAll('section');
         for (i = 0; i < x.length; i++) {
           if (x[i].className == 'test') x[i].style.display = 'block';
           else x[i].style.display = 'none';
         }
       }
-      function addTeacher(e) {
-        e.target.classList.toggle('active');
+      function addTeacher() {
         var x = document.querySelectorAll('section');
         for (i = 0; i < x.length; i++) {
           if (x[i].className == 'addTeacher') x[i].style.display = 'block';
           else x[i].style.display = 'none';
         }
       }
-      function addStudent(e) {
-        e.target.classList.toggle('active');
+      function addStudent() {
         var x = document.querySelectorAll('section');
         for (i = 0; i < x.length; i++) {
           if (x[i].className == 'addStudent') x[i].style.display = 'block';
@@ -155,9 +169,39 @@
         var preloader = document.querySelector('.preloader');
         setTimeout(() => {
           preloader.classList.add('preload-finish');
-        }, 1000);
+        });
       });
-      
+      var navToggler = document.querySelector('.navbar-toggler');
+      var navFlag = 0;
+      navToggler.addEventListener('click', () => {
+        var mob = document.querySelector('.mob-sidebar');
+        if (navFlag === 0) {
+          mob.style.transform = 'translateX(0%)';
+          var spans = document.querySelectorAll('.navbar-toggler span');
+          spans.forEach((span) => {
+            span.style.background = '#fff';
+          });
+          document.querySelector('.shade-layer').style.opacity = '0.7';
+          document.querySelector('.shade-layer').style.pointerEvents = 'all';
+          navFlag = 1;
+        } else {
+          mob.style.transform = 'translateX(100%)';
+          var spans = document.querySelectorAll('.navbar-toggler span');
+          spans.forEach((span) => {
+            span.style.background = '#58a193';
+          });
+          document.querySelector('.shade-layer').style.pointerEvents = 'none';
+          document.querySelector('.shade-layer').style.opacity = '0';
+          navFlag = 0;
+        }
+      });
+    </script>
+    <script>
+      $(document).ready(function () {
+        $('.first-button').on('click', function () {
+          $('.animated-icon1').toggleClass('open');
+        });
+      });
     </script>
   </body>
 </html>

@@ -127,4 +127,23 @@
   </section>
 </div>
 
+<script>
+  var teacherNav = document.querySelectorAll('#admin-nav');
+  teacherNav.forEach((teacherNav) => {
+    teacherNav.innerHTML = '';
+    const navLinks = `<a id="dshbrd" href="http://localhost:3000/superuser/dashboard"
+    ><i class="fas fa-desktop"></i><span>Dashboard</span></a
+  >
+  <a href="#" onclick="addTeacher()"
+    ><i class="fas fa-chalkboard-teacher"></i><span>Add Teacher</span></a
+  >
+  <a href="#" onclick="addStudent()"
+    ><i class="fas fa-user-graduate"></i><span>Add Student</span></a
+  >
+  <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
+  <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>`;
+    teacherNav.innerHTML = navLinks;
+  });
+</script>
+
 <%- include('partials/footer'); -%>

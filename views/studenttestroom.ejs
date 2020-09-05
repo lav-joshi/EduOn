@@ -1,4 +1,5 @@
 <%- include('partials/header'); -%>
+<link rel="stylesheet" href="/leaderBoard.css">
 <div class="container">
     <div class="jumbotron">
         Welcome <%=currentUser.name%> 
@@ -18,8 +19,9 @@
         <h2 id="end"></h2>        
     </div>
 
-    <div id="leaderboard">
-
+    <div class="leader-back">
+        <div class="leader-header">LeaderBoard</div>
+        <div id="leaderboard"></div>
     </div>
 
 </div>
@@ -83,15 +85,29 @@
 
    if((new Date()).getTime()>=new Date(document.querySelector("#fuck").textContent).getTime()+Number(length.textContent)*120000+300000 ){
       fetch(`/student/dashboard/leaderboard/<%=meeting.roomId%>`)
-      .then((response)=>{
-        response.json().then((data)=>{
-            console.log("Leader Moin banayega from data");
-            console.log(data);
-          });
-        })
-   }else{
-       leaderBoard.textContent = "LeaderBoard will be generated after Test overs";
-   }
+      .then((response) => {
+        response.json().then((data) => {
+          const leaderBoard = document.getElementById('leaderboard');
+
+          var list = document.createElement("ol");
+          for(let i=0; i<data.names.length;i++){
+            item = document.createElement("li");
+            item.className = "leader-li";
+            item.innerHTML = `<div class="hname">${(i+1)}. ${data.names[i]} :</div><div class="list_num">${data.totalmarks[i]}</div>`;
+            list.appendChild(item);
+          }
+          leaderBoard.appendChild(list);
+          console.log(data);
+        });
+      }
+    );
+  } else {
+    const leaderBoard = document.getElementById('leaderboard');
+    let item = document.createElement("div");
+    item.className = "hname text-center";
+    item.textContent = 'LeaderBoard will be generated once the Test is Finished.';
+    leaderBoard.appendChild(item);
+  }
 </script>
 
 <%- include('partials/footer'); -%>

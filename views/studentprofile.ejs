@@ -1,19 +1,25 @@
-<%- include('partials/header'); -%>
+<%- include('partials/side-nav'); -%>
 
-<div class="container">
+<div class="side-nav-content">
+  <div class="container">
     <div class="jumbotron">
-        <h2>My Profile</h2>
-        <%=currentUser.email%>
-        <%=present%>
-        <%=test%>
-        <%totalpercentagepresentinclass%>
+      <h2>My Profile</h2>
+      <%=currentUser.email%> <%=present%> <%=test%>
+      <%totalpercentagepresentinclass%>
     </div>
+  </div>
 </div>
-
-
-
-
-
-
+<script>
+  var teacherNav = document.querySelectorAll('#student-nav');
+  teacherNav.forEach((teacherNav) => {
+    teacherNav.innerHTML = '';
+    const navLinks = `<a id="dshbrd" href="http://localhost:3000/student/dashboard" 
+        ><i class="fas fa-desktop"></i><span>Dashboard</span></a
+      >
+      <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
+      <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>`;
+    teacherNav.innerHTML = navLinks;
+  });
+</script>
 
 <%- include('partials/footer'); -%>

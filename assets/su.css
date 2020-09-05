@@ -101,3 +101,30 @@ input:focus {
   flex-wrap: wrap;
   justify-content: space-around;
 }
+@media screen and (max-width: 1280px){
+  .sche-dash{
+    min-width: 90%;
+    font-size: small;
+  }
+  .sche-dash h2{
+    font-size: 35px;
+  }
+}
+@media screen and (max-width: 750px) {
+  body{
+    font-size: smaller;
+
+  }
+  .sche-dash h2{
+    font-size: 28px;
+  }
+  .sche-dash div a{
+    font-size: 10px !important;
+    padding: 5px !important; 
+    padding-top: 0px !important;
+  }
+  .sche-dash{
+    min-width: 90%;
+    font-size: smaller;
+  }
+}

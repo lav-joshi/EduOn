@@ -1,4 +1,6 @@
 <%- include('partials/side-nav'); -%>
+<link rel="stylesheet" href="/leaderBoard.css" />
+
 <div class="side-nav-content">
   <div class="container">
     <div class="jumbotron">
@@ -152,11 +154,25 @@
 
   <div class="container">
     <div class="jumbotron">
-      <h2>LeaderBoard</h2>
-      <div id="leaderboard"></div>
+      <div class="leader-back">
+        <div class="leader-header">LeaderBoard</div>
+        <div id="leaderboard"></div>
+      </div>
     </div>
   </div>
 </div>
+<script>
+  var teacherNav = document.querySelectorAll('#teacher-nav');
+  teacherNav.forEach((teacherNav) => {
+    teacherNav.innerHTML = '';
+    const navLinks = `<a id="dshbrd" href="http://localhost:3000/teacher/dashboard" onclick="dashboard()"
+        ><i class="fas fa-desktop"></i><span>Dashboard</span></a
+      >
+      <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
+      <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>`;
+    teacherNav.innerHTML = navLinks;
+  });
+</script>
 <script>
   const leaderBoard = document.getElementById('leaderboard');
   const length = document.getElementById('length');
@@ -170,20 +186,30 @@
     fetch(`/teacher/dashboard/leaderboard/<%=meeting.roomId%>`).then(
       (response) => {
         response.json().then((data) => {
-          leaderBoard.textContent =
-            'Yaha pe leaderboard hoga jab test over ho jayega';
-          console.log('Moin leaderboard ui banayega');
+          const leaderBoard = document.getElementById('leaderboard');
+
+          var list = document.createElement('ol');
+          for (let i = 0; i < data.names.length; i++) {
+            item = document.createElement('li');
+            item.className = 'leader-li';
+            item.innerHTML = `<div class="hname">${i + 1}. ${
+              data.names[i]
+            } :</div><div class="list_num">${data.totalmarks[i]}</div>`;
+            list.appendChild(item);
+          }
+          leaderBoard.appendChild(list);
           console.log(data);
         });
       }
     );
   } else {
-    leaderBoard.textContent = 'LeaderBoard will be generated after Test overs';
-    console.log('Moin leaderboard ui banayega');
+    const leaderBoard = document.getElementById('leaderboard');
+    let item = document.createElement('div');
+    item.className = 'hname text-center';
+    item.textContent =
+      'LeaderBoard will be generated once the Test is Finished.';
+    leaderBoard.appendChild(item);
   }
-      if (window.location.pathname === `/teacher/dashboard/meeting/`+'<%= meeting.roomId %>') {
-        document.getElementById('dshbrd').href = `../`;
-      } else document.getElementById('dshbrd').href = `#`;
 </script>
 
 <%- include('partials/footer'); -%>

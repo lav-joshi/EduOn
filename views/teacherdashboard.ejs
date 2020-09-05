@@ -188,7 +188,23 @@
 
 </div>
 </div>
-
+<script>
+  var teacherNav = document.querySelectorAll('#teacher-nav');
+  teacherNav.forEach((teacherNav) => {
+  teacherNav.innerHTML = '';
+  const navLinks = `<a id="dshbrd" href="#" onclick="dashboard()"
+        ><i class="fas fa-desktop"></i><span>Dashboard</span></a
+      >
+      <a href="#" onclick="discussion()"
+        ><i class="fas fa-th"></i><span>New Discussion</span></a
+      >
+      <a href="#" onclick="test()"
+        ><i class="far fa-file-alt"></i><span>New Test</span></a
+      >
+      <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
+      <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>`;
+    teacherNav.innerHTML = navLinks;});
+</script>
 <script>
   function dateFunction(e){
     var date = e.target.value;
@@ -203,4 +219,5 @@ function timeFunction(e){
     console.log(time)
 }
 </script>
+
 <%- include('partials/footer'); -%>
