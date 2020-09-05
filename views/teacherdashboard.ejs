@@ -1,31 +1,19 @@
 <%- include('partials/side-nav'); -%>
   
+
 <div class="side-nav-content p-5" >
 
-<div class="aBtns p-3 mb-5 mt-5">
-  <a
-    class="waves-effect waves-light btn white-text"
-    style="background-color: #3b6978 !important;"
-    href="#aT"
-    >New Discussion</a
-  ><a
-    class="waves-effect waves-light btn"
-    style="background-color: #0e9aa7 !important;"
-    href="#aS"
-    >New Test</a
-  >
-</div>
 
-<%- include('../assets/svg/teacher.svg') %>
+<div class="content">
 
-
+<section class="discussion">
 <div class="card-container" id="aT" >
   <div class="each-card text-center" >
     <div class="col s12 m6">
-      <div class="card" style="background-color: #3b6978 !important;">
+      <div class="card" style="background-color: #3b3838 !important;">
         <div class="card-content white-text">
           <h2>Schedule a Discussion</h2>
-          <div class="frm-icn"  style="background-color: #3b6978 !important;"><div style="width: 60%;">  <%- include('../assets/svg/school.svg') %>
+          <div class="frm-icn"  style="background-color: #3b3838 !important;"><div style="width: 60%;">  <%- include('../assets/svg/school.svg') %>
           </div> </div>
           <form action="/teacher/discussion/add" method="POST">
             <div class="form-group white-text">
@@ -92,18 +80,39 @@
     </div>
   </div>
 </div>
-
-<div>
-  <h2>Your Scheduled Discussions</h2>
-  <%discussions.forEach(function(discussion){%>
-    <div>
-        Scheduled time : <%=moment(discussion.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
-        Room id : <%=discussion.roomId%><br>
-        <a href="/teacher/dashboard/enter/discussion?room=<%=discussion.roomId%>&user=<%=currentUser.email%>">Click for settings</a>
-    </div>
-  <%})%>
 </div>
+</section>
 
+<section class="dashboard">
+  <div>
+    <%- include('../assets/svg/teacher.svg') -%>
+  </div>
+<div class="scheduled">
+  <div class="sche-dash m-3">
+    <h2 class="text-center">Scheduled Discussions</h2>
+    <%discussions.forEach(function(discussion){%>
+      <div>
+        <span>Scheduled time :</span>  <%=moment(discussion.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
+        <span>Room id :</span>  <%=discussion.roomId%><br>
+          <a class="waves-effect waves-light btn text-center " href="/teacher/dashboard/enter/discussion?room=<%=discussion.roomId%>&user=<%=currentUser.email%>"><i class="fas fa-pencil-alt"></i>Edit</a>
+      </div>
+    <%})%>
+  </div>
+  
+  <div class="sche-dash m-3">
+    <h2 class="text-center">Scheduled Tests</h2>
+    <%meetings.forEach(function(meeting){%>
+      <div>
+          <span>Scheduled time :</span>  <%=moment(meeting.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
+          <span>Room id :</span>  <%=meeting.roomId%><br>
+           <a class="waves-effect waves-light btn text-center " alt="edit" href="/teacher/dashboard/meeting/<%=meeting.roomId%>"><i class="fas fa-pencil-alt" ></i>Edit</a>
+      </div>
+    <%})%>
+  </div>
+</div>
+</section>
+
+<section class = "test">
 <div class="card-container" id="aS">
   <div class="each-card text-center" >
     <div class="col s12 m6">
@@ -174,25 +183,28 @@
       </div>
     </div>
   </div>
-</div>
+</section>
 
-
-<div>
-  <h2>Your Scheduled Tests</h2>
-  <%meetings.forEach(function(meeting){%>
-    <div>
-        Scheduled time : <%=moment(meeting.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%><br>
-        Room id : <%=meeting.roomId%><br>
-        <a href="/teacher/dashboard/<%=meeting.roomId%>">Click for settings</a>
-    </div>
-  <%})%>
-</div>
-
-<div>
 
 </div>
 </div>
-
+<script>
+  var teacherNav = document.querySelectorAll('#teacher-nav');
+  teacherNav.forEach((teacherNav) => {
+  teacherNav.innerHTML = '';
+  const navLinks = `<a id="dshbrd" href="#" onclick="dashboard()"
+        ><i class="fas fa-desktop"></i><span>Dashboard</span></a
+      >
+      <a href="#" onclick="discussion()"
+        ><i class="fas fa-th"></i><span>New Discussion</span></a
+      >
+      <a href="#" onclick="test()"
+        ><i class="far fa-file-alt"></i><span>New Test</span></a
+      >
+      <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
+      <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>`;
+    teacherNav.innerHTML = navLinks;});
+</script>
 <script>
   function dateFunction(e){
     var date = e.target.value;
@@ -207,4 +219,5 @@ function timeFunction(e){
     console.log(time)
 }
 </script>
+
 <%- include('partials/footer'); -%>

@@ -1,53 +1,86 @@
-<%- include('partials/header'); -%>
+<%- include('partials/side-nav'); -%>
 
-<div class="container">
-    <div class="jumbotron">
-        <h3>Hello <%=currentUser.name%></h3>
+<div class="side-nav-content">
+  <%errors.forEach((err)=>{%>
+  <p><%=err%></p>
+  <%})%>
+  <div class="stud-row">
+    <div class="row">
+      <div class="col s12 m7">
+        <div class="card" style="width: 70%;">
+          <div class="card-title text-center p-3 blue-grey lighten-5">Test Room</div>
+          <div class="card-image p-3" style="height: 40vh; overflow: hidden;" >
+            <img src="/images/exams.svg" style="height: 100%;">
+          </div>
+          <form action="/student/dashboard/test/enter" method="GET">
+            <input type="text" required hidden value="1" name="f" />
+            <div class="card-content">
+              <h5>Join Scheduled Test</h5>
+  
+            <input
+              type="text"
+              required
+              placeholder="Enter roomid to Join"
+              name="room"
+            />
+          </div>
+          <div class="card-action text-center">
+            <button class="btn btn-primary black darken-1" type="submit" >Enter Test</button>
+          </div>
+        </form>
+        </div>
+      </div>
     </div>
-</div>
-
-
-<%errors.forEach((err)=>{%>
-    <p><%=err%></p>
-<%})%>
-
-<div class="container">
-    <div class="jumbotron">
-        <h5>Enter Room Id for Scheduled Test</h5>
-        <div>
-            <form action="/student/dashboard/test/enter" method="GET">
-                <input type="text" required hidden value="1" name="f">
-                <input type="text" required placeholder="Enter roomid to Join" name="room">
-                <input type="submit">
-            </form>
-        </div>     
+  </div>
+  <div class="stud-row">
+    <div class="row">
+      <div class="col s12 m7">
+        <div class="card" style="width: 70%;">
+          <div class="card-title text-center p-3 blue-grey lighten-5">Discussion Room</div>
+          <div class="card-image p-3" style="height: 40vh; overflow: hidden;" >
+            <img src="/images/discussion.svg" style="height: 100%;">
+          </div>
+          <form action="/student/dashboard/discussion/enter" method="GET">
+            <input type="text" required hidden value="1" name="f" />
+            <div class="card-content">
+              <h5>Join Scheduled Discussion</h5>
+              <input type="hidden" name="v" value="1" />
+            <input type="hidden" name="user" value="<%=currentUser.email%>" />
+            <input
+              type="text"
+              required
+              placeholder="Enter roomid to Join"
+              name="room"
+            />
+          </div>
+          <div class="card-action text-center">
+            <button class="btn btn-primary black darken-1" type="submit" >Enter Class</button>
+          </div>
+        </form>
+        </div>
+      </div>
     </div>
-</div>
-
-
-<div class="container">
-    <div class="jumbotron">
-        <h5>Enter Room Id for Scheduled Discussion</h5>
-        <div>
-            <form action="/student/dashboard/discussion/enter" method="GET">
-                <input type="hidden" name="user" value="<%=currentUser.email%>">
-                <input type="text" required placeholder="Enter roomid to Join" name="room">
-                <input type="submit">
-            </form>
-        </div>     
-    </div>
-</div>
-
+  </div>
 <script>
-    if (window.performance) {
-        
-        }
-        if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
-        location.href="http://localhost:3000/student/dashboard?f=1"
-        } else {
-    }
+  var teacherNav = document.querySelectorAll('#student-nav');
+  teacherNav.forEach((teacherNav) => {
+    teacherNav.innerHTML = '';
+    const navLinks = `<a id="dshbrd" href="#" 
+      ><i class="fas fa-desktop"></i><span>Dashboard</span></a
+    >
+    <a href="/student/profile/myprofile?email=<%=currentUser.email%>"><i class="fas fa-user"></i><span>My Profile</span></a>
+    <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
+    <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>`;
+    teacherNav.innerHTML = navLinks;
+  });
 </script>
-
-
+<script>
+  if (window.performance) {
+  }
+  if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+    location.href = 'http://localhost:3000/student/dashboard?f=1';
+  } else {
+  }
+</script>
 
 <%- include('partials/footer'); -%>

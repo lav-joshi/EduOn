@@ -1,15 +1,42 @@
-<%- include('partials/header'); -%>
+<%- include('partials/side-nav'); -%>
 
+<div class="side-nav-content p-3">
 
 <div class="container">
     <div class="jumbotron">
         Welcome <%=currentUser.name%> 
-        <h5>Organized by <%=discussion.admin%></h5>
-        <h5>Room Id:- <%=discussion.roomId%></h5>
+        <p id="email" hidden><%=currentUser.email%></p>
+        <h5 >Organized by <%=discussion.admin%></h5>
+        <h5>Room Id:-</h5>
+        <p id="room"><%=discussion.roomId%></p>
+        <h5>Scheduled Time:</h5><%=moment(discussion.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%>
+        <a href="/student/dashboard/discussion/enter/classroom?room=<%=discussion.roomId%>&email=<%=currentUser.email%>"><h6>Enter Classroom</h6></a>
+
+        <%errors.forEach((err)=>{%>
+            <%=err%>
+        <%})%>
     </div>
 </div>
 <div class="container">
-    <h4>Chatbox</h4> 
+    <h4>Important Resources</h4>
+    <% if(discussion.files.length!==0){ %>
+        <% discussion.files.forEach(function(file) { %>
+          <div class="card card-body mb-3">
+            <h5><%= file.filename %></h5>
+            <%if( file.contentType === 'image/jpeg' || file.contentType === 'image/png'){%>
+                <img src="/teacher/dashboard/getfile/file/<%= file.filename %>" style="height:200px;width:40%;"alt="">
+            <%}else if(file.contentType === "application/pdf" || file.contentType === "application/pdf"){%>
+                <img src="" style="height:200px;width:40%;"alt="Any pdf logo">                
+            <%}%>
+            <a href="/teacher/dashboard/getfile/file/<%= file.filename %>" download><button class="btn"><i class="fa fa-download"></i> Download</button></a>
+          </div>
+          <% }) %>
+            <% } else { %>
+              <p>No files to show</p>
+              <% } %>
+</div>
+<div class="container">
+    <h4>Important Points and Notes</h4> 
         <div>
             <div id="sidebar" class="chat__sidebar">
     
@@ -46,6 +73,8 @@
         {{message}}
     </div>
 </script>
+</div>
+
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
 
@@ -102,6 +131,30 @@
 });
   
 </script>
+
+<script>
+    const email = document.getElementById("email");
+    const rm = document.getElementById("room");
+    if (window.performance) {
+        
+        }
+        if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+        console.log("ch");
+        location.href="http://localhost:3000/student/dashboard/discussion/enter?room="+rm.textContent+"&user="+email.textContent+"&v=1"
+        } else {
+    }
+    var teacherNav = document.querySelectorAll('#student-nav');
+  teacherNav.forEach((teacherNav) => {
+    teacherNav.innerHTML = '';
+    const navLinks = `<a id="dshbrd" href="http://localhost:3000/student/dashboard/" 
+      ><i class="fas fa-desktop"></i><span>Dashboard</span></a
+    >
+    <a href="/student/profile/myprofile?email=<%=currentUser.email%>"><i class="fas fa-user"></i><span>My Profile</span></a>
+    <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>`;
+    teacherNav.innerHTML = navLinks;
+  });
+</script>
+
 
 
 <%- include('partials/footer'); -%>

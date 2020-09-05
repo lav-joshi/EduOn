@@ -4,14 +4,18 @@
     <meta charset="utf-8" />
     <title>EduOn</title>
     <link rel="stylesheet" href="/side-nav.css" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <!-- <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" /> -->
+    <meta http-equiv="X-UA-Compatible" content="IE=7" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
     />
     <link
       rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
       crossorigin="anonymous"
     />
     <link
@@ -49,6 +53,7 @@
       rel="stylesheet"
     />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 
     <link rel="stylesheet" href="/header.css" />
     <link rel="stylesheet" href="/su.css" />
@@ -57,15 +62,28 @@
     </div>
   </head>
   <body>
+    <div class="shade-layer"></div>
     <input type="checkbox" id="check" />
     <header class="side-nav-header">
-      <div class="s-n-logo white-text">
-        EduOn
+      <div class="white-text s-n-logo">
+        <div>EduOn</div>
         <label for="check">
           <span class="material-icons" id="sidebar_btn">
             menu
           </span>
         </label>
+      </div>
+      <div class="search-container">
+        <i class="fas fa-search white-text"></i>
+        <% if(clientType === 'student'){ %>
+        <form action="/student/profile/friend" method="GET">
+          <input type="email" placeholder="Search Friend" name="email" />
+        </form>
+        <% } else { %>
+        <form action="/teacher/profile" method="GET">
+          <input type="email" name="email" placeholder="Search student" />
+        </form>
+        <% } %>
       </div>
       <div class="right_area">
         <a href="/auth/logout" class="logout_btn">Logout</a>
@@ -76,18 +94,114 @@
         <i class="material-icons" style="font-size: 40px;">account_circle</i>
         <h5><%=currentUser.name%></h5>
       </center>
-      <a href="#"><i class="fas fa-desktop"></i><span>Dashboard</span></a>
-      <a href="#"><i class="fas fa-th"></i><span>Forms</span></a>
-      <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
-      <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>
-    </div>
+      <% if( clientType === 'teacher') { %>
+      <div id="teacher-nav"></div>
+      <% } else if (clientType === 'student'){ %>
+      <div id="student-nav"></div>
 
+      <% } else{ %>
+      <div id="admin-nav"></div>
+      <% } %>
+    </div>
+    <button class="navbar-toggler first-button" type="button">
+      <div class="animated-icon1">
+        <span></span><span></span><span></span>
+      </div>
+    </button>
+    <div class="mobile-sidebar">
+      <div class="mob-sidebar">
+        <center>
+          <i class="material-icons" style="font-size: 40px;">account_circle</i>
+          <h5><%=currentUser.name%></h5>  
+        </center>
+        <% if( clientType === 'teacher') { %>
+        <div id="teacher-nav"></div>
+        <% } else if (clientType === 'student'){ %>
+        <div id="student-nav"></div>
+
+        <% } else{ %>
+        <div id="admin-nav"></div>
+        <% } %>
+        <a href="/auth/logout"
+          ><i class="fas fa-sign-out-alt"></i><span>Logout</span></a
+        >
+      </div>
+    </div>
     <script>
+      function discussion() {
+        var x = document.querySelectorAll('section');
+        for (i = 0; i < x.length; i++) {
+          if (x[i].className == 'discussion') x[i].style.display = 'block';
+          else x[i].style.display = 'none';
+        }
+      }
+      function dashboard() {
+        var x = document.querySelectorAll('section');
+        for (i = 0; i < x.length; i++) {
+          if (x[i].className == 'dashboard') x[i].style.display = 'block';
+          else x[i].style.display = 'none';
+        }
+      }
+      function test() {
+        var x = document.querySelectorAll('section');
+        for (i = 0; i < x.length; i++) {
+          if (x[i].className == 'test') x[i].style.display = 'block';
+          else x[i].style.display = 'none';
+        }
+      }
+      function addTeacher() {
+        var x = document.querySelectorAll('section');
+        for (i = 0; i < x.length; i++) {
+          if (x[i].className == 'addTeacher') x[i].style.display = 'block';
+          else x[i].style.display = 'none';
+        }
+      }
+      function addStudent() {
+        var x = document.querySelectorAll('section');
+        for (i = 0; i < x.length; i++) {
+          if (x[i].className == 'addStudent') x[i].style.display = 'block';
+          else x[i].style.display = 'none';
+        }
+      }
+      window.onload = function () {
+        dashboard();
+      };
       window.addEventListener('load', () => {
         var preloader = document.querySelector('.preloader');
         setTimeout(() => {
           preloader.classList.add('preload-finish');
-        }, 1000);
+        });
+      });
+      var navToggler = document.querySelector('.navbar-toggler');
+      var navFlag = 0;
+      navToggler.addEventListener('click', () => {
+        var mob = document.querySelector('.mob-sidebar');
+        if (navFlag === 0) {
+          mob.style.transform = 'translateX(0%)';
+          var spans = document.querySelectorAll('.navbar-toggler span');
+          spans.forEach((span) => {
+            span.style.background = '#fff';
+          });
+          document.querySelector('.shade-layer').style.opacity = '0.7';
+          document.querySelector('.shade-layer').style.pointerEvents = 'all';
+          navFlag = 1;
+        } else {
+          mob.style.transform = 'translateX(100%)';
+          var spans = document.querySelectorAll('.navbar-toggler span');
+          spans.forEach((span) => {
+            span.style.background = '#58a193';
+          });
+          document.querySelector('.shade-layer').style.pointerEvents = 'none';
+          document.querySelector('.shade-layer').style.opacity = '0';
+          navFlag = 0;
+        }
+      });
+    </script>
+    <script>
+      $(document).ready(function () {
+        $('.first-button').on('click', function () {
+          $('.animated-icon1').toggleClass('open');
+        });
       });
     </script>
   </body>

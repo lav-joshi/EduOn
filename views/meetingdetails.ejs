@@ -1,144 +1,215 @@
-<%- include('partials/header'); -%>
-<div class="container">
-    <div class="jumbotron">
-        <h5>Room Id :</h5> <%=meeting.roomId%>
-        <h5>Scheduled time :</h5>
-        <div>  <%=moment(meeting.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%></div>
-         <br/><br/>
-        <form action="/teacher/meeting/updatetiming/<%=meeting.roomId%>" method="POST" >
-            <label>Edit Scheduled Time</label>
-            <input type="datetime-local" value="<%=moment(meeting.scheduledTime).format('YYYY-MM-DD')%>T<%=moment(meeting.scheduledTime).format('hh:mm')%>" name="editscheduledtime">
-            <button>Change</button>
-        </form>
+<%- include('partials/side-nav'); -%>
+<link rel="stylesheet" href="/leaderBoard.css" />
 
-        <br><br>
-        <p id="fuck" hidden><%=meeting.scheduledTime%></p>
-        <p id="length" hidden><%=meeting.questions.length%></p>
-        <h3>Allowed students</h3><br>
-        <% meeting.students.forEach(function(studentemail){%>
-           <%=studentemail%>
-           <%students.forEach(function(student){%>
-                <%if(student.email===studentemail){%>
-                    <div><%=student.name%></div>
-                    <a href="/teacher/dashboard/delete/student/<%=meeting.roomId%>/<%=studentemail%>">Romove Student</a><br><br>
-                <%}%>
-           <%})%>
-        <%})%>
-        <br><br>
-        
-        <%if(meeting.students.length !== students.length){%>
-            <p>Allow student to participate from below</p>
+<div class="side-nav-content">
+  <div class="container">
+    <div class="jumbotron">
+      <h5>Room Id :</h5>
+      <%=meeting.roomId%>
+      <h5>Scheduled time :</h5>
+      <div>
+        <%=moment(meeting.scheduledTime).format('MMMM Do YYYY, h:mm:ss a')%>
+      </div>
+      <br /><br />
+      <form
+        action="/teacher/meeting/updatetiming/<%=meeting.roomId%>"
+        method="POST"
+      >
+        <label>Edit Scheduled Time</label>
+        <input
+          type="datetime-local"
+          value="<%=moment(meeting.scheduledTime).format('YYYY-MM-DD')%>T<%=moment(meeting.scheduledTime).format('hh:mm')%>"
+          name="editscheduledtime"
+        />
+        <button>Change</button>
+      </form>
+
+      <br /><br />
+      <p id="fuck" hidden><%=meeting.scheduledTime%></p>
+      <p id="length" hidden><%=meeting.questions.length%></p>
+      <h3>Allowed students</h3>
+      <br />
+      <% meeting.students.forEach(function(studentemail){%> <%=studentemail%>
+      <%students.forEach(function(student){%>
+      <%if(student.email===studentemail){%>
+      <div><%=student.name%></div>
+      <a
+        href="/teacher/dashboard/delete/student/<%=meeting.roomId%>/<%=studentemail%>"
+        >Romove Student</a
+      ><br /><br />
+      <%}%> <%})%> <%})%>
+      <br /><br />
+
+      <%if(meeting.students.length !== students.length){%>
+      <p>Allow student to participate from below</p>
+      <%}%>
+      <form action="/teacher/dashboard/<%=meeting.roomId%>" method="POST">
+        <%students.forEach(function(student){%>
+        <%if(meeting.students.indexOf(student.email)===-1){%>
+        <input
+          type="checkbox"
+          style="opacity: 1; pointer-events: auto; position: relative;"
+          value="<%=student.email%>"
+          name="main"
+        />
+        <div>
+          <%=student.name%>
+        </div>
+        <div>
+          <%=student.email%>
+        </div>
+        <%}%> <%})%> <%if(meeting.students.length !== students.length){%>
+        <input type="submit" />
         <%}%>
-        <form action="/teacher/dashboard/<%=meeting.roomId%>" method="POST">
-            <%students.forEach(function(student){%>
-                <%if(meeting.students.indexOf(student.email)===-1){%>
-                    <input type="checkbox" style="opacity:1;pointer-events:auto;position: relative;" value="<%=student.email%>" name=main>
-                    <div>
-                        <%=student.name%>
-                    </div>
-                    <div>
-                        <%=student.email%>
-                    </div>
-                <%}%>
-            <%})%>
-            <%if(meeting.students.length !== students.length){%>
-                <input type="submit">
-            <%}%>
-        </form>
-        <br><br>
-        <a href="/teacher/dashboard/meeting/sendmail/<%=meeting.roomId%>/<%=meeting.email%>">Send Invitation mail to all</a>
+      </form>
+      <br /><br />
+      <a
+        href="/teacher/dashboard/meeting/sendmail/<%=meeting.roomId%>/<%=meeting.email%>"
+        >Send Invitation mail to all</a
+      >
     </div>
-</div>
+  </div>
 
-<div class="container">
+  <div class="container">
     <div class="jumbotron">
-        <h5>Add Question here</h5>
-        <form action="/teacher/dashboard/question/<%=meeting.roomId%>" method="POST">
-            <label>
-                Question:
-                <input type="text" placeholder="Enter Question here" name="question" required>
-            </label><br/>
-            <label>
-                Option 1:
-                <input type="text" placeholder="Option 1" name="option1" required>
-            </label><br/>
-            <label>
-                Option 2:
-                <input type="text" placeholder="Option 2" name="option2" required>
-            </label><br/>
-            <label>
-                Option 3:
-                <input type="text" placeholder="Option 3" name="option3" required>
-            </label><br/>
-            <label>
-                Option 4:
-                <input type="text" placeholder="Option 4" name="option4" required>
-            </label><br/>
-            <label>
-                Answer
-                <input type="text" placeholder="Answer" name="answer">
-            </label><br/>
-            <input type="submit" value="Done">
-        </form>
+      <h5>Add Question here</h5>
+      <form
+        action="/teacher/dashboard/question/<%=meeting.roomId%>"
+        method="POST"
+      >
+        <label>
+          Question:
+          <input
+            type="text"
+            placeholder="Enter Question here"
+            name="question"
+            required
+          /> </label
+        ><br />
+        <label>
+          Option 1:
+          <input
+            type="text"
+            placeholder="Option 1"
+            name="option1"
+            required
+          /> </label
+        ><br />
+        <label>
+          Option 2:
+          <input
+            type="text"
+            placeholder="Option 2"
+            name="option2"
+            required
+          /> </label
+        ><br />
+        <label>
+          Option 3:
+          <input
+            type="text"
+            placeholder="Option 3"
+            name="option3"
+            required
+          /> </label
+        ><br />
+        <label>
+          Option 4:
+          <input
+            type="text"
+            placeholder="Option 4"
+            name="option4"
+            required
+          /> </label
+        ><br />
+        <label>
+          Answer
+          <input type="text" placeholder="Answer" name="answer" /> </label
+        ><br />
+        <input type="submit" value="Done" />
+      </form>
     </div>
-</div>
+  </div>
 
-<div class="container">
+  <div class="container">
     <div class="jumbotron">
-        <h5>Questions that will be given in test</h5>
-        <%questions.forEach((ques)=>{%>
-            <div>
-                <div>
-                    Question: <%=ques.question%><br/>
-                </div>
-                <div>
-                    Option 1: <%=ques.option1%> <br/>
-                </div> 
-                <div>
-                    Option 2: <%=ques.option2%> <br/>
-                </div> 
-                <div>
-                    Option 3: <%=ques.option3%> <br/>
-                </div> 
-                <div>
-                    Option 4: <%=ques.option4%><br/>
-                </div> 
-                <div>
-                    Answer: <%=ques.answer%><br/>
-                </div>
-                <a href="/teacher/dashboard/question/delete/<%=ques.question%>/<%=meeting.roomId%>">Delete</a>
-            </div><br/>
-        <%})%>
+      <h5>Questions that will be given in test</h5>
+      <%questions.forEach((ques)=>{%>
+      <div>
+        <div>Question: <%=ques.question%><br /></div>
+        <div>Option 1: <%=ques.option1%> <br /></div>
+        <div>Option 2: <%=ques.option2%> <br /></div>
+        <div>Option 3: <%=ques.option3%> <br /></div>
+        <div>Option 4: <%=ques.option4%><br /></div>
+        <div>Answer: <%=ques.answer%><br /></div>
+        <a
+          href="/teacher/dashboard/question/delete/<%=ques.question%>/<%=meeting.roomId%>"
+          >Delete</a
+        >
+      </div>
+      <br />
+      <%})%>
     </div>
+  </div>
+
+  <div class="container">
+    <div class="jumbotron">
+      <div class="leader-back">
+        <div class="leader-header">LeaderBoard</div>
+        <div id="leaderboard"></div>
+      </div>
+    </div>
+  </div>
 </div>
-
-<div class="container">
- <div class="jumbotron">
-     <h2>LeaderBoard</h2>
-     <div id="leaderboard">
-        
-     </div>
- </div>
-</div>
-
-
 <script>
-    const leaderBoard = document.getElementById("leaderboard");
-    const length = document.getElementById("length");
+  var teacherNav = document.querySelectorAll('#teacher-nav');
+  teacherNav.forEach((teacherNav) => {
+    teacherNav.innerHTML = '';
+    const navLinks = `<a id="dshbrd" href="http://localhost:3000/teacher/dashboard" onclick="dashboard()"
+        ><i class="fas fa-desktop"></i><span>Dashboard</span></a
+      >
+      <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
+      <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>`;
+    teacherNav.innerHTML = navLinks;
+  });
+</script>
+<script>
+  const leaderBoard = document.getElementById('leaderboard');
+  const length = document.getElementById('length');
 
-    if((new Date()).getTime()>=new Date(document.querySelector("#fuck").textContent).getTime()+Number(length.textContent)*120000+300000 ){
-        fetch(`/teacher/dashboard/leaderboard/<%=meeting.roomId%>`)
-        .then((response)=>{
-        response.json().then((data)=>{
-            leaderBoard.textContent = "Yaha pe leaderboard hoga jab test over ho jayega";
-            console.log("Moin leaderboard ui banayega");
-            console.log(data);
-          });
-        })
-   }else{
-       leaderBoard.textContent = "LeaderBoard will be generated after Test overs";
-       console.log("Moin leaderboard ui banayega");
-   }
+  if (
+    new Date().getTime() >=
+    new Date(document.querySelector('#fuck').textContent).getTime() +
+      Number(length.textContent) * 120000 +
+      300000
+  ) {
+    fetch(`/teacher/dashboard/leaderboard/<%=meeting.roomId%>`).then(
+      (response) => {
+        response.json().then((data) => {
+          const leaderBoard = document.getElementById('leaderboard');
+
+          var list = document.createElement('ol');
+          for (let i = 0; i < data.names.length; i++) {
+            item = document.createElement('li');
+            item.className = 'leader-li';
+            item.innerHTML = `<div class="hname">${i + 1}. ${
+              data.names[i]
+            } :</div><div class="list_num">${data.totalmarks[i]}</div>`;
+            list.appendChild(item);
+          }
+          leaderBoard.appendChild(list);
+          console.log(data);
+        });
+      }
+    );
+  } else {
+    const leaderBoard = document.getElementById('leaderboard');
+    let item = document.createElement('div');
+    item.className = 'hname text-center';
+    item.textContent =
+      'LeaderBoard will be generated once the Test is Finished.';
+    leaderBoard.appendChild(item);
+  }
 </script>
 
 <%- include('partials/footer'); -%>
