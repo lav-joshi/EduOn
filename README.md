@@ -22,5 +22,11 @@ After adding teachers and students you can explore all the functionalities of al
 
 Hope you had setup the project locally . Functionalities are described in the DevFolio Submission.
 
+Find the **super_user** in config file . Feel free to add students and teachers from superuser .
+
+`Presentation Link :- `: [Click here](https://docs.google.com/presentation/d/15WAub5ldWeMs-Hjag1PWxJh1dwYY41rhazj-YsyKDtg/edit?usp=sharing)
+
+`Using PeerJs from this domain :- `: [Click here](https://github.com/harshitg00/peerjs_EduOn)
+
 ## Thank You !!!!
 
