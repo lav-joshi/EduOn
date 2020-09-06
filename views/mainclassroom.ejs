@@ -81,8 +81,8 @@
   const peers = {};
 
   var peer = new Peer(undefined, {
-    path: "/peerjs",
-    host: "/",
+    secure:true,
+    host: "peerjs-eduon.herokuapp.com",
     port: 443,
   });
   const x = Qs.parse(location.search, { ignoreQueryPrefix: true });
