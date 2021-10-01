@@ -155,21 +155,8 @@ io.on('connection',(socket)=>{
 });
 
 
-// var ExpressPeerServer = require('peer').ExpressPeerServer;
-// var peerExpress = require('express');
-// var peerApp = peerExpress();
-// var peerServer = require('http').Server(peerApp);
-// var options = { debug: true }
-// var peerPort = 443;
-
-// peerApp.use('/peerjs', ExpressPeerServer(peerServer, options));
-
- 
-
 
 
 server.listen(PORT,()=>{
     console.log("Server Started ");
 });
-// peerServer.listen(peerPort)
- 
