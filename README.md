@@ -5,7 +5,7 @@ EduOn based on **Node.js**  with custom **SuperUser , Student and Teacher Dashbo
 2. Open terminal and navigate to the folder.
   ### Setting Up Server:
    * Make the folder config inside the new folder and the file **keys.js** inside it.
-   * Use **MongoDB** as the database for this project.
+   * Use **MongoDB** as the database for this project and add the mongoDB connection link in keys.js file.
    * Make file **keys.js** like this: ![key.js](https://user-images.githubusercontent.com/54629424/79287275-e9e38e80-7ee0-11ea-8041-9f8dd3ab330f.png)
 
  #### Enabling Login with Google:
