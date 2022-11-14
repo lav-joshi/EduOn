@@ -106,7 +106,7 @@
     var teacherNav = document.querySelectorAll('#student-nav');
   teacherNav.forEach((teacherNav) => {
     teacherNav.innerHTML = '';
-    const navLinks = `<a id="dshbrd" href="http://localhost:3000/student/dashboard/" 
+    const navLinks = `<a id="dshbrd" href="https://eduon-unifolks.herokuapp.com//student/dashboard/" 
       ><i class="fas fa-desktop"></i><span>Dashboard</span></a
     >
     <a href="/student/profile/myprofile?email=<%=currentUser.email%>"><i class="fas fa-user"></i><span>My Profile</span></a>
@@ -191,7 +191,7 @@
         }
         if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
         console.log("ch");
-        location.href="http://localhost:3000/student/dashboard/discussion/enter?room="+rm.textContent+"&user="+email.textContent+"&v=1"
+        location.href="https://eduon-unifolks.herokuapp.com//student/dashboard/discussion/enter?room="+rm.textContent+"&user="+email.textContent+"&v=1"
         } else {
         }
 </script>
