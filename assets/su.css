@@ -12,7 +12,7 @@
   transform: translate(-50%, -50%);
   width: 100px;
   height: 100px;
-  background: #0e9aa7;
+  background: #023047;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -110,7 +110,7 @@ input:focus {
 .sche-dash h2 {
   padding: 1rem;
   font-family: Georgia, 'Times New Roman', Times, serif;
-  color: #0e9aa7;
+  color: #023047;
 }
 .scheduled {
   display: flex;
@@ -176,7 +176,7 @@ input:focus {
   font-size: larger;
 }
 .theme-heading {
-  color: #58a193;
+  color: #023047;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
     'Lucida Sans Unicode';
   font-size: 30px !important;
@@ -214,7 +214,7 @@ input:focus {
   box-shadow: inset 0 0 1px #505050;
 }
 .card-content select{
-  border: 1px solid #58a193;
+  border: 1px solid #023047;
 }
 .frm div{
   width: 100% !important;

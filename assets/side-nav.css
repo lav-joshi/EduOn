@@ -32,7 +32,7 @@ body {
 
 .logout_btn {
   padding: 10px;
-  background: #58a193;
+  background: #023047;
   text-decoration: none;
   float: right;
   margin-top: -20px;
@@ -55,7 +55,7 @@ body {
 
 .sidebar,
 .mob-sidebar {
-  background: #58a193;
+  background: #023047;
   margin-top: 70px;
   padding-top: 30px;
   position: fixed;
@@ -124,7 +124,7 @@ label #sidebar_btn {
 }
 
 label #sidebar_btn:hover {
-  background-color: #71afaf;
+  background-color: #213F7A;
 }
 .s-n-logo {
   position: absolute;
@@ -132,7 +132,7 @@ label #sidebar_btn:hover {
   width: 250px;
   padding-left: 2rem;
   font-size: 3rem;
-  background: #58a193;
+  background: #023047;
   top: 0;
   left: 0;
   height: 70px;
@@ -291,7 +291,7 @@ label #sidebar_btn:hover {
 }
 
 .animated-icon1 span {
-  background: #58a193;
+  background: #023047;
 }
 
 .animated-icon1 span:nth-child(1) {
@@ -371,7 +371,7 @@ label #sidebar_btn:hover {
   .s-n-logo,
   .s-n-logo div {
     font-size: 2rem;
-    color: #58a193 !important;
+    color: #023047 !important;
     background-color: #f2f4fa;
     width: 100px;
     margin-left: -5px !important;

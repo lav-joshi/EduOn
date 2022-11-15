@@ -16,7 +16,7 @@
 }
 .quiz-back{
   margin-top: 10px;
-  background-color: #58a19285;
+  background-color: #213F7A;
   border-radius: 10px 10px 10px 10px;
   padding-bottom: 10px;
 }
@@ -31,7 +31,7 @@
     margin-top: -7%;
     font-size: 15px;
     font-weight: 600;
-    background-color: #58a193;
+    background-color: #023047;
     color:#fff;
     padding-top: 10px;
     display: flex;
@@ -47,7 +47,7 @@
     font-size:20px;
 }
 #questionhead{
-  background-color: #58a193;
+  background-color: #023047;
   width: 100%;
   height: minmax(70px,auto);
   text-align: left;
